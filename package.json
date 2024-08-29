@@ -1,0 +1,45 @@
+{
+  "name": "binary-translate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "crypto-js": "^4.2.0",
+    "file-saver": "^2.0.5",
+    "flowbite": "^2.5.1",
+    "meta-png": "^1.0.6",
+    "periodicjs.component.selectfx": "^1.0.0",
+    "piexifjs": "^1.0.6",
+    "png-metadata": "latest",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^22.5.1",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2"
+  }
+}
