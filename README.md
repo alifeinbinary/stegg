@@ -2,7 +2,15 @@
 
 This is a front-end React application written in Typescript. It's from the footer of [my website](https://www.alifeinbinary.com), which I have split off as it's own project for those who are enthusiastic to learn how it works.
 
-It was created with Vite, Tailwind, Flowbite, and Font Awesome fonts.
+Basically, this app takes the text input from the textarea field and writes it to the metadata of a newly created PNG file that is generated from the HTML canvas. The image is an 8bit integer array of binary code translated from the entered text. There is a toggle where you can select whether the data should be commited to the metadata as an AES encrypted string or plain text. Once you click Save, the file will be downloaded to your computer at which point you can send the image to a friend. They would be able to decipher the text by dragging the PNG file you sent them into the drop zone and entering the correct passkey, if it's encrypted.  
+
+Nobody asked for this, I just made it for the love of the game some time ago. I had it in the footer of my website for many years as a fun gimmick for fans. This repo is a modernised version of it with encryption, transparent PNGs and a handsome UI.
+
+It was created with [Vite](https://github.com/vitejs/vite), [Tailwind](https://github.com/tailwindlabs/tailwindcss), [Flowbite](https://github.com/themesberg/flowbite), and [Font Awesome](https://github.com/FortAwesome/Font-Awesome) icons.
+
+## Demo
+
+You can play with a [demo](https://alifeinbinary.github.io/binary-translate/) here. 
 
 ## Getting started
 
