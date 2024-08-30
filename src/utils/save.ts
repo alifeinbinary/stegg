@@ -51,9 +51,7 @@ async function createPngWithMetadata(
   encryptionEnabled: boolean,
   password: string
 ) {
-  const croppedCanvas = cropImageFromCanvas(
-    canvas.getContext("2d") as CanvasRenderingContext2D
-  );
+  const croppedCanvas = cropImageFromCanvas(canvas);
   const blob = await getCanvasBlob(croppedCanvas);
   const blobWithMetadata = await addMetadataToPng(
     blob,
@@ -67,39 +65,54 @@ async function createPngWithMetadata(
   );
 }
 
-function cropImageFromCanvas(ctx: CanvasRenderingContext2D) {
-  const canvas = ctx.canvas;
-  let w = canvas.width;
-  let h = canvas.height;
-  const pix = { x: [] as number[], y: [] as number[] };
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height, {
-    colorSpace: "srgb",
-  });
+function cropImageFromCanvas(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Failed to get canvas context");
 
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      const index = (y * w + x) * 4;
-      if (imageData.data[index + 3] > 0) {
-        pix.x.push(x);
-        pix.y.push(y);
+  const width = canvas.width;
+  const height = canvas.height;
+
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const data = imageData.data;
+
+  let top = height,
+    left = width,
+    right = 0,
+    bottom = 0;
+
+  // Loop through each pixel to find the bounding box of non-transparent pixels
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const alpha = data[(y * width + x) * 4 + 3]; // Get alpha value of the pixel
+      if (alpha > 0) {
+        // If the pixel is not fully transparent
+        if (x < left) left = x;
+        if (x > right) right = x;
+        if (y < top) top = y;
+        if (y > bottom) bottom = y;
       }
     }
   }
 
-  pix.x.sort((a, b) => a - b);
-  pix.y.sort((a, b) => a - b);
-  const n = pix.x.length - 1;
+  // Calculate the trimmed width and height
+  const trimmedWidth = right - left + 1;
+  const trimmedHeight = bottom - top + 1;
 
-  w = 1 + pix.x[n] - pix.x[0];
-  h = 1 + pix.y[n] - pix.y[0];
-  const cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
+  // Create a new canvas to store the trimmed content
+  const trimmedCanvas = document.createElement("canvas");
+  trimmedCanvas.width = trimmedWidth;
+  trimmedCanvas.height = trimmedHeight;
+  const trimmedCtx = trimmedCanvas.getContext("2d");
+  if (!trimmedCtx) throw new Error("Failed to get trimmed canvas context");
 
-  canvas.width = w;
-  canvas.height = h;
-  ctx.putImageData(cut, 0, 0);
+  // Draw the trimmed content onto the new canvas
+  trimmedCtx.putImageData(
+    ctx.getImageData(left, top, trimmedWidth, trimmedHeight),
+    0,
+    0
+  );
 
-  const image = canvas;
-  return image;
+  return trimmedCanvas;
 }
 
-export { saveBlob, createPngWithMetadata };
+export { saveBlob, createPngWithMetadata, cropImageFromCanvas };
