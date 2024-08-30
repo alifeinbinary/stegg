@@ -101,10 +101,19 @@ function cropImageFromCanvas(canvas: HTMLCanvasElement) {
   // Create a new canvas to store the trimmed content
   const trimmedCanvas = document.createElement("canvas");
   trimmedCanvas.width = trimmedWidth;
-  trimmedCanvas.height = trimmedHeight;
+  trimmedCanvas.height = trimmedHeight + 50;
   const trimmedCtx = trimmedCanvas.getContext("2d");
   if (!trimmedCtx) throw new Error("Failed to get trimmed canvas context");
 
+  // Draw a watermark onto the trimmed canvas
+  trimmedCtx.font = "100 18px Tahoma";
+  trimmedCtx.fontKerning = "none";
+  trimmedCtx.fillStyle = "#ffeedd";
+  trimmedCtx.fillText(
+    "Decode this image at alifeinbinary.com",
+    trimmedWidth - 345,
+    trimmedHeight + 40
+  );
   // Draw the trimmed content onto the new canvas
   trimmedCtx.putImageData(
     ctx.getImageData(left, top, trimmedWidth, trimmedHeight),
