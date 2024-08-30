@@ -13,15 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
@@ -30,39 +21,27 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-/* button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-} */
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer components {
+  input[type=range] {
+    @apply appearance-none bg-transparent;
   }
-  a:hover {
-    color: #747bff;
+
+  input[type=range]::-webkit-slider-runnable-track {
+    @apply  bg-blue-500/25 rounded-full;
   }
-  button {
-    background-color: #f9f9f9;
+
+  input[type=range]::-moz-range-track {
+    @apply bg-blue-500/25 rounded-full;
   }
+
+  input[type=range]::-ms-track {
+    @apply bg-blue-500/25 rounded-full;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    @apply w-4 h-4 bg-blue-500 rounded-full;
+  }
+
 }
 
 @tailwind base;
