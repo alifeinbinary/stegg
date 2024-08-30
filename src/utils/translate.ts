@@ -50,9 +50,10 @@ const clearContx = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
 // Draw the nodes on the canvas
 function plot(
   output: string[],
-  canvasRef: React.RefObject<HTMLCanvasElement | null>
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
+  size: number
 ) {
-  const size = 12;
+  // const size = 20;
 
   const colours: string[] = [
     "#ffeedd",
@@ -62,16 +63,16 @@ function plot(
     "#88aa99",
     "#aabb99",
     "#bb9988",
-    "#ccaabb",
     "#eebbaa",
     "#ff8866",
+    "#ccaabb",
     "#886677",
     "#887766",
+    "#554433",
     "#667755",
     "#557777",
-    "#554433",
-    "#442233",
     "#223311",
+    "#442233",
     "#331111",
     "#330011",
   ];
@@ -87,15 +88,15 @@ function plot(
   let iter = 0;
 
   for (let row = 0; row < Math.ceil(output.length / 4); row++) {
-    let top = 16;
+    let top = size + 10;
 
     if (row > 0) {
-      top += 32 * row;
+      top += (size + 34) * row;
     }
 
     for (let col = 0; col < 4; col++) {
       const str = output[iter];
-      const left = 14;
+      const left = size + 14;
       let column = 0;
 
       if (!str) {
@@ -103,7 +104,7 @@ function plot(
       }
 
       if (col > 0) {
-        column += 264 * col;
+        column += (size + 264) * col;
       }
 
       for (let string = 0; string < str.length; string++) {
