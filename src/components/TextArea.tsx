@@ -11,6 +11,7 @@ interface TextAreaProps {
     setDecryptedText: React.Dispatch<React.SetStateAction<string>>;
     input: string;
     setInput: React.Dispatch<React.SetStateAction<string>>;
+    setOutput: React.Dispatch<React.SetStateAction<string[]>>;
     setEncryptionEnabled: React.Dispatch<React.SetStateAction<boolean>>;
     canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
     handleDecrypt: (encryptedText: string, password: string, setDecryptedText: React.Dispatch<React.SetStateAction<string>>) => void;
@@ -19,7 +20,7 @@ interface TextAreaProps {
     setSize: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password, setPassword, encryptedText, setDecryptedText, input, setInput, setEncryptionEnabled, canvasRef, handleDecrypt, decryptedText, size, setSize }) => {
+export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password, setPassword, encryptedText, setDecryptedText, input, setInput, setOutput, setEncryptionEnabled, canvasRef, handleDecrypt, decryptedText, size, setSize }) => {
 
     const handleCheckboxChange = () => {
         setEncryptionEnabled(!encryptionEnabled)
@@ -95,6 +96,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                         setInput(e.target.value);
                         if (e.target.value.trim() === '') {
                             clearContx(canvasRef);
+                            setOutput([]);
                         }
                     }} maxLength={512} className="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
                 </div>
