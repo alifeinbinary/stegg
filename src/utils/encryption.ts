@@ -30,7 +30,7 @@ function handleDecrypt(
       setDecryptedText(originalText);
     }
   } catch (error) {
-    setDecryptedText(
+    console.log(
       "Decryption failed. Check the password or PNG file. Error: " + error
     );
   }
