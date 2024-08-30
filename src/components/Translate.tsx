@@ -3,13 +3,15 @@ import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { Dropzone } from './Dropzone';
 import { TextArea } from './TextArea';
+
 const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () => {
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [input, setInput] = useState<string>(""); // textarea value
     const [output, setOutput] = useState<string[]>([]); // textarea value converted to array of binary strings
     const [canvasHeight, setCanvasHeight] = useState<number>(32); // height of the canvas
-    const [canvasWidth, setCanvasWidth] = useState<number>(window.innerWidth); // width of the canvas
+    const [canvasWidth, setCanvasWidth] = useState<number>(1024); // width of the canvas
+    const [size, setSize] = useState<number>(12); // size of the nodes
 
     const [encryptionEnabled, setEncryptionEnabled] = useState<boolean>(false); // encryption toggle
     const [textToDecrypt, setTextToDecrypt] = useState<string>(''); // text extracted from PNG
@@ -17,12 +19,10 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
     const [encryptedText, setEncryptedText] = useState<string>(''); // textarea value encrypted if enabled
     const [decryptedText, setDecryptedText] = useState<string>(''); // string extracted from PNG decrypted if enabled
 
+    const DEBUG = import.meta.env.MODE === 'development';
+
     // Resize the canvas when more data is added
     const handleResize = useCallback(() => {
-        if (canvasRef.current) {
-            // Calculate the height of the canvas based on the number of binary strings
-            setCanvasHeight(Math.ceil(output.length / 4) * 32);
-        }
         const canv = canvasRef.current;
         if (!canv) return;
 
@@ -30,24 +30,33 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
 
         if (contx) {
             if (canvasHeight === canvasHeight) {
-                plot(output, canvasRef);
+                plot(output, canvasRef, size);
             }
-            setCanvasHeight(Math.ceil(output.length / 4) * 32)
-            setCanvasWidth(window.innerWidth);
+            setCanvasHeight(Math.ceil(output.length / 4) * (34 + size));
+            setCanvasWidth(1024 + (size * 5));
 
             if (canv.width !== canvasWidth || canv.height !== canvasHeight) {
                 canv.width = canvasWidth;
                 canv.height = canvasHeight;
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [output]);
+
+        if (DEBUG) {
+            console.log(`Canvas Height: ${canvasHeight}\nCanvas Width: ${canvasWidth}\nOutput Length: ${output.length}\nNodes Size: ${size}`)
+        }
+    }, [DEBUG, canvasHeight, canvasWidth, output, size]);
 
     // Side effects
     useEffect(() => {
+        const canv = canvasRef.current;
+        if (!canv) return;
         // Paint the canvas
-        plot(output, canvasRef);
-    }, [canvasHeight, canvasWidth, output])
+        plot(output, canvasRef, size);
+
+        if (DEBUG) {
+            console.log(`Data size: ${output.length} bytes\nNodes size: ${size} pixels`)
+        }
+    }, [DEBUG, canvasHeight, canvasWidth, output, size])
 
     useEffect(() => {
         handleResize();
@@ -57,13 +66,21 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         if (input && encryptionEnabled) {
             handleEncrypt(input, password, setEncryptedText);
         }
-    }, [encryptionEnabled, input, password])
+
+        if (DEBUG) {
+            console.log(`Input: ${input}\nPassword: ${password}\nEncryption Enabled: ${encryptionEnabled}`)
+        }
+    }, [DEBUG, encryptionEnabled, input, password])
 
     useEffect(() => {
         if (textToDecrypt) {
             handleDecrypt(textToDecrypt, password, setDecryptedText)
         }
-    }, [password, textToDecrypt])
+
+        if (DEBUG) {
+            console.log(`Text to decrypt: ${textToDecrypt}\nPassword: ${password}`)
+        }
+    }, [DEBUG, password, textToDecrypt])
 
     useEffect(() => {
         function handleTranslate() {
@@ -76,14 +93,18 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
             }
         }
         handleTranslate();
-    }, [input, password, encryptionEnabled, encryptedText]);
+
+        if (DEBUG) {
+            console.log(`Input: ${input}\nEncrypted Text: ${encryptedText}\nEncryption Enabled: ${encryptionEnabled}`)
+        }
+    }, [DEBUG, input, password, encryptionEnabled, encryptedText]);
 
     return (
         <div>
             <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='pb-2 w-full' />
             <div className='flex gap-4'>
                 <div className='flex-1 w-2/3'>
-                    <TextArea encryptionEnabled={encryptionEnabled} password={password} setPassword={setPassword} encryptedText={encryptedText} setDecryptedText={setDecryptedText} input={input} setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} canvasRef={canvasRef} handleDecrypt={handleDecrypt} decryptedText={decryptedText} />
+                    <TextArea encryptionEnabled={encryptionEnabled} password={password} setPassword={setPassword} encryptedText={encryptedText} setDecryptedText={setDecryptedText} input={input} setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} canvasRef={canvasRef} handleDecrypt={handleDecrypt} decryptedText={decryptedText} size={size} setSize={setSize} />
                 </div>
                 <Dropzone setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setTextToDecrypt={setTextToDecrypt} />
             </div>
