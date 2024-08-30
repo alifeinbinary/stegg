@@ -53,7 +53,7 @@ function App() {
         <p className='font-medium mr-2'>Like my work? <a href='https://www.alifeinbinary.com/contact' target='_blank' className='text-blue-300 hover:underline'>Hire me</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
       </span>
       <section className="">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-8 lg:px-6">
+        <div className="py-8 md:px-4 sm:px-0 mx-auto max-w-screen-xl lg:py-8 lg:px-6">
           <Translate />
         </div>
       </section>
