@@ -135,4 +135,4 @@ function plot(
   }
 }
 
-export { convertBinary, plot };
+export { convertBinary, plot, clearContx };

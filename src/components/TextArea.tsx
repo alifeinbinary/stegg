@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { createPngWithMetadata } from '../utils/save';
+import { clearContx } from '../utils/translate';
 import Slider from './Slider';
 interface TextAreaProps {
     encryptionEnabled: boolean;
@@ -90,7 +91,12 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                 </div>
                 <div className="px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800">
                     <label htmlFor="editor" className="sr-only">Download</label>
-                    <textarea rows={4} id="text-input" value={input} onChange={(e) => setInput(e.target.value)} maxLength={512} className="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
+                    <textarea rows={4} id="text-input" value={input} onChange={(e) => {
+                        setInput(e.target.value);
+                        if (e.target.value.trim() === '') {
+                            clearContx(canvasRef);
+                        }
+                    }} maxLength={512} className="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
                 </div>
             </div>
         </form>
