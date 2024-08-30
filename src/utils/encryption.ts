@@ -10,7 +10,7 @@ const handleEncrypt = (
 };
 
 function handleDecrypt(
-  encryptedText: string,
+  textToDecrypt: string,
   password: string,
   setDecryptedText: React.Dispatch<React.SetStateAction<string>>
 ) {
@@ -21,7 +21,7 @@ function handleDecrypt(
   };
 
   try {
-    const bytes = AES.decrypt(encryptedText, password);
+    const bytes = AES.decrypt(textToDecrypt, password);
     const originalText = bytes.toString(enc.Utf8);
 
     if (originalText.length === 0) {

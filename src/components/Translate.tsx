@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { Dropzone } from './Dropzone';
@@ -6,19 +6,21 @@ import { TextArea } from './TextArea';
 const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () => {
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const [input, setInput] = useState<string>("");
-    const [output, setOutput] = useState<string[]>([]);
-    const [canvasHeight, setCanvasHeight] = useState<number>(32);
-    const [canvasWidth, setCanvasWidth] = useState<number>(window.innerWidth);
+    const [input, setInput] = useState<string>(""); // textarea value
+    const [output, setOutput] = useState<string[]>([]); // textarea value converted to array of binary strings
+    const [canvasHeight, setCanvasHeight] = useState<number>(32); // height of the canvas
+    const [canvasWidth, setCanvasWidth] = useState<number>(window.innerWidth); // width of the canvas
 
-    const [encryptionEnabled, setEncryptionEnabled] = useState<boolean>(false);
-    const [textToDecrypt, setTextToDecrypt] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [encryptedText, setEncryptedText] = useState<string>('');
-    const [decryptedText, setDecryptedText] = useState<string>('');
+    const [encryptionEnabled, setEncryptionEnabled] = useState<boolean>(false); // encryption toggle
+    const [textToDecrypt, setTextToDecrypt] = useState<string>(''); // text extracted from PNG
+    const [password, setPassword] = useState<string>(''); // password value
+    const [encryptedText, setEncryptedText] = useState<string>(''); // textarea value encrypted if enabled
+    const [decryptedText, setDecryptedText] = useState<string>(''); // string extracted from PNG decrypted if enabled
 
+    // Resize the canvas when more data is added
     const handleResize = useCallback(() => {
         if (canvasRef.current) {
+            // Calculate the height of the canvas based on the number of binary strings
             setCanvasHeight(Math.ceil(output.length / 4) * 32);
         }
         const canv = canvasRef.current;
@@ -41,39 +43,40 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [output]);
 
-    function handleTranslate() {
-        if (input.length !== 0) {
-            convertBinary(input, setOutput);
-            handleEncrypt(input, password, setEncryptedText);
-        }
-    }
-
     // Side effects
     useEffect(() => {
-        if (password.length > 0 && textToDecrypt !== "" && encryptionEnabled) {
-            handleDecrypt(textToDecrypt, password, setDecryptedText)
-        } else if (textToDecrypt !== "" && !encryptionEnabled) {
-            setDecryptedText(textToDecrypt)
-        } else {
-            setDecryptedText("")
-        }
-
-    }, [textToDecrypt, password, encryptionEnabled])
-
-    useEffect(() => {
+        // Paint the canvas
         plot(output, canvasRef);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [canvasHeight, canvasWidth])
+    }, [canvasHeight, canvasWidth, output])
 
     useEffect(() => {
         handleResize();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [output])
+    }, [handleResize, output])
 
     useEffect(() => {
+        if (input && encryptionEnabled) {
+            handleEncrypt(input, password, setEncryptedText);
+        }
+    }, [encryptionEnabled, input, password])
+
+    useEffect(() => {
+        if (textToDecrypt) {
+            handleDecrypt(textToDecrypt, password, setDecryptedText)
+        }
+    }, [password, textToDecrypt])
+
+    useEffect(() => {
+        function handleTranslate() {
+            if (input.length !== 0 || encryptedText.length !== 0) {
+                if (encryptionEnabled) {
+                    convertBinary(encryptedText, setOutput);
+                } else {
+                    convertBinary(input, setOutput);
+                }
+            }
+        }
         handleTranslate();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [input])
+    }, [input, password, encryptionEnabled, encryptedText]);
 
     return (
         <div>
