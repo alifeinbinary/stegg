@@ -26,19 +26,23 @@ body {
   }
 
   input[type=range]::-webkit-slider-runnable-track {
-    @apply  bg-blue-500/25 rounded-full;
+    @apply  bg-blue-900/25 rounded-full;
   }
 
   input[type=range]::-moz-range-track {
-    @apply bg-blue-500/25 rounded-full;
+    @apply bg-blue-900/25 rounded-full;
   }
 
   input[type=range]::-ms-track {
-    @apply bg-blue-500/25 rounded-full;
+    @apply bg-blue-900/25 rounded-full;
+  }
+
+  input[type="range"]::-moz-range-progress {
+    @apply bg-blue-900/25 rounded-full;
   }
 
   input[type="range"]::-moz-range-thumb {
-    @apply w-4 h-4 bg-blue-500 rounded-full;
+    @apply w-4 h-4 bg-blue-900 rounded-full;
   }
 
 }

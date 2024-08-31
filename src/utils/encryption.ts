@@ -10,22 +10,22 @@ const handleEncrypt = (
 };
 
 function handleDecrypt(
-  textToDecrypt: string,
+  stringToDecrypt: string,
   password: string,
   setDecryptedText: React.Dispatch<React.SetStateAction<string>>
 ) {
-  const generateBase64Random = (length: number): string => {
-    const randomBytes = new Uint8Array(length);
-    crypto.getRandomValues(randomBytes);
-    return btoa(String.fromCharCode(...randomBytes));
-  };
+  // const generateBase64Random = (length: number): string => {
+  //   const randomBytes = new Uint8Array(length);
+  //   crypto.getRandomValues(randomBytes);
+  //   return btoa(String.fromCharCode(...randomBytes));
+  // };
 
   try {
-    const bytes = AES.decrypt(textToDecrypt, password);
+    const bytes = AES.decrypt(stringToDecrypt, password);
     const originalText = bytes.toString(enc.Utf8);
 
     if (originalText.length === 0) {
-      setDecryptedText(generateBase64Random(128));
+      setDecryptedText(stringToDecrypt);
     } else {
       setDecryptedText(originalText);
     }
