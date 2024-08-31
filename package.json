@@ -14,12 +14,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "crypto-js": "^4.2.0",
-    "file-saver": "^2.0.5",
     "flowbite": "^2.5.1",
     "meta-png": "^1.0.6",
-    "periodicjs.component.selectfx": "^1.0.0",
-    "piexifjs": "^1.0.6",
-    "png-metadata": "latest",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3"
