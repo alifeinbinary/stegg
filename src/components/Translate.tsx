@@ -40,18 +40,31 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                 canv.height = canvasHeight;
             }
         }
-
-        if (DEBUG) {
-            console.log(`Canvas Height: ${canvasHeight}\nCanvas Width: ${canvasWidth}\nOutput Length: ${output.length}\nNodes Size: ${size}`)
-        }
-    }, [DEBUG, canvasHeight, canvasWidth, output, size]);
+    }, [canvasHeight, canvasWidth, output, size]);
 
     // Side effects
 
     // Keeping it fresh
     useEffect(() => {
         console.clear();
-    }, [input, size, encryptionEnabled, textToDecrypt, password, encryptedText, decryptedText])
+        // Debug console
+        const items = {
+            input: input,
+            outputLength: output.length, // output,
+            canvasHeight: `${canvasHeight}px`, // canvasHeight,
+            canvasWidth: `${canvasWidth}px`,
+            size: size,
+            encryptionEnabled: encryptionEnabled,
+            textToDecrypt: textToDecrypt,
+            password: password,
+            encryptedText: encryptedText,
+            decryptedText: decryptedText
+        }
+        if (DEBUG) {
+            console.table(items);
+        }
+        // console.table([input, size, encryptionEnabled, textToDecrypt, password, encryptedText, decryptedText]);
+    }, [DEBUG, input, size, encryptionEnabled, textToDecrypt, password, encryptedText, decryptedText, output, canvasHeight, canvasWidth])
 
     // Paint the canvas
     useEffect(() => {
@@ -59,11 +72,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         if (!canv) return;
 
         plot(output, canvasRef, size);
-
-        if (DEBUG) {
-            console.log(`Data size: ${output.length} bytes\nNodes size: ${size} pixels`)
-        }
-    }, [DEBUG, canvasHeight, canvasWidth, output, size])
+    }, [canvasHeight, canvasWidth, output, size])
 
     // Change the canvas height if necessary
     useEffect(() => {
@@ -75,21 +84,13 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         if (input && encryptionEnabled && password) {
             handleEncrypt(input, password, setEncryptedText);
         }
-
-        if (DEBUG) {
-            console.log(`Input: ${input}\nPassword: ${password}\nEncryption Enabled: ${encryptionEnabled}`)
-        }
-    }, [DEBUG, encryptionEnabled, input, password])
+    }, [encryptionEnabled, input, password])
 
     useEffect(() => {
         if (textToDecrypt) {
             handleDecrypt(textToDecrypt, password, setDecryptedText)
         }
-
-        if (DEBUG) {
-            console.log(`Text to decrypt: ${textToDecrypt}\nPassword: ${password}`)
-        }
-    }, [DEBUG, password, textToDecrypt])
+    }, [password, textToDecrypt])
 
     useEffect(() => {
         function handleTranslate() {
@@ -102,11 +103,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
             }
         }
         handleTranslate();
-
-        if (DEBUG) {
-            console.log(`Input: ${input}\nEncrypted Text: ${encryptedText}\nEncryption Enabled: ${encryptionEnabled}`)
-        }
-    }, [DEBUG, input, password, encryptionEnabled, encryptedText]);
+    }, [input, password, encryptionEnabled, encryptedText]);
 
     return (
         <div className='max-w-5xl mx-auto'>
