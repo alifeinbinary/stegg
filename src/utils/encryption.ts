@@ -14,12 +14,6 @@ function handleDecrypt(
   password: string,
   setDecryptedText: React.Dispatch<React.SetStateAction<string>>
 ) {
-  // const generateBase64Random = (length: number): string => {
-  //   const randomBytes = new Uint8Array(length);
-  //   crypto.getRandomValues(randomBytes);
-  //   return btoa(String.fromCharCode(...randomBytes));
-  // };
-
   try {
     const bytes = AES.decrypt(stringToDecrypt, password);
     const originalText = bytes.toString(enc.Utf8);
