@@ -47,10 +47,17 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
     }, [DEBUG, canvasHeight, canvasWidth, output, size]);
 
     // Side effects
+
+    // Keeping it fresh
+    useEffect(() => {
+        console.clear();
+    }, [input, size, encryptionEnabled, textToDecrypt, password, encryptedText, decryptedText])
+
+    // Paint the canvas
     useEffect(() => {
         const canv = canvasRef.current;
         if (!canv) return;
-        // Paint the canvas
+
         plot(output, canvasRef, size);
 
         if (DEBUG) {
@@ -58,12 +65,14 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         }
     }, [DEBUG, canvasHeight, canvasWidth, output, size])
 
+    // Change the canvas height if necessary
     useEffect(() => {
         handleResize();
     }, [handleResize, output])
 
+
     useEffect(() => {
-        if (input && encryptionEnabled) {
+        if (input && encryptionEnabled && password) {
             handleEncrypt(input, password, setEncryptedText);
         }
 
@@ -101,15 +110,15 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
 
     return (
         <div className='max-w-5xl mx-auto'>
-            <div className='grid md:grid-cols-4 sm:grid-cols-1 gap-4'>
-                <div className='md:col-span-3 sm:col-span-1'>
+            <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
+                <div className='col-span-3 md:col-span-3 sm:col-span-3 xs:col-span-1'>
                     <TextArea encryptionEnabled={encryptionEnabled} password={password} setPassword={setPassword} encryptedText={encryptedText} setDecryptedText={setDecryptedText} input={input} setInput={setInput} setOutput={setOutput} setEncryptionEnabled={setEncryptionEnabled} canvasRef={canvasRef} handleDecrypt={handleDecrypt} decryptedText={decryptedText} size={size} setSize={setSize} />
                 </div>
-                <div className='md:col-span-1 sm:col-span-1'>
+                <div className='col-span-1 md:col-span-1 sm:col-span-1 xs:col-span-1'>
                     <Dropzone setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setTextToDecrypt={setTextToDecrypt} />
                 </div>
             </div>
-            <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg bg-slate-100' />
+            <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100' />
         </div>
     );
 }

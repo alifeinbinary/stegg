@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {},
+    screens: {
+      xs: { max: "639px" },
+    },
   },
   plugins: [require("flowbite/plugin")],
 };

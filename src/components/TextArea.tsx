@@ -39,8 +39,9 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
 
     return (
         <div className='w-full'>
-            <form>
-                <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+            <h4 className="mb-2 h4 sm:hidden xs:hidden  text-left font-bold dark:text-white">Encrypt</h4>
+            <form className='min-h-48 h-full'>
+                <div className="w-full min-h-48 mb-4 sm:mb-0 xs:mb-0 border border-gray-200 rounded-lg sm:rounded-none sm:rounded-t-lg xs:rounded-none xs:rounded-t-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                     <div className="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                         <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
                             <div className="flex flex-wrap items-center space-x-1 rtl:space-x-reverse sm:ps-4">
@@ -99,7 +100,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                 clearContx(canvasRef);
                                 setOutput([]);
                             }
-                        }} maxLength={512} className="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
+                        }} maxLength={512} className="block w-full min-h-28 h-full px-0 text-base text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
                     </div>
                 </div>
             </form>
