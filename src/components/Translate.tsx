@@ -22,7 +22,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
     const [decryptedText, setDecryptedText] = useState<string>(''); // string extracted from PNG decrypted if enabled
     const [debugMode, setDebugMode] = useState<boolean>(false);
 
-    const DEBUG = import.meta.env.MODE === 'development' ? debugMode : false;
+    const DEBUG = debugMode ? import.meta.env.MODE === 'development' : false;
 
 
     // Handlers
