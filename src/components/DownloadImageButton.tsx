@@ -52,7 +52,8 @@ const DownloadImageButton: React.FC<DownloadImageButtonProps> = ({ canvasRef, in
         }
     };
 
-    const handleDownload = async () => {
+    const handleDownload = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         if (canvasRef.current && input) {
             if (encryptionEnabled) {
                 await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password);
@@ -76,7 +77,8 @@ const DownloadImageButton: React.FC<DownloadImageButtonProps> = ({ canvasRef, in
             <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={0} id="btn-download" onClick={handleDownload} disabled={!input.length} className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-blue-900 hover:bg-blue-800 focus:ring-blue-200 focus:ring-4'}`}>
                 <FontAwesomeIcon icon={faFloppyDisk} />
                 <span className='sr-only'>Download</span>
-            </button><div id="tooltip-save" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            </button>
+            <div id="tooltip-save" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                 Save to disk
                 <div className="tooltip-arrow" data-popper-arrow></div>
             </div>
