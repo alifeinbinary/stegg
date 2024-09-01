@@ -45,6 +45,10 @@ body {
     @apply w-4 h-4 bg-blue-900 rounded-full;
   }
 
+  input[type="range"]::-webkit-slider-thumb {
+    @apply w-4 h-4 bg-blue-900 rounded-full;
+  }
+
 }
 
 @tailwind base;
