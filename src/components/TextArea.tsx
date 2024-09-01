@@ -16,10 +16,11 @@
  */
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFloppyDisk, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
-import { createPngWithMetadata } from '../utils/save';
+import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { clearContx } from '../utils/translate';
 import Slider from './Slider';
+import DownloadImageButton from './DownloadImageButton';
+
 interface TextAreaProps {
     encryptionEnabled: boolean;
     password: string;
@@ -47,41 +48,6 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
         }
     }
 
-    const handleSaveVisibility = () => {
-        if (encryptionEnabled) {
-            if (!password || !input) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            if (input.length > 0) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    };
-
-    const handleSave = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (canvasRef.current && input) {
-            if (encryptionEnabled) {
-                await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password);
-            } else {
-                await createPngWithMetadata(canvasRef.current, input, encryptionEnabled, password);
-            }
-
-            clearContx(canvasRef);
-        }
-        setInput("");
-        setPassword("");
-        setEncryptedText("");
-        setDecryptedText("");
-        setEncryptionEnabled(false);
-        setOutput([]);
-    };
-
     return (
         <div className='w-full'>
             <h4 className="mb-2 h4 sm:hidden xs:hidden  text-left font-bold dark:text-white">Encrypt</h4>
@@ -90,14 +56,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                     <div className="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                         <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
                             <div className="flex flex-wrap items-center space-x-1 rtl:space-x-reverse sm:ps-4">
-                                <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={0} id="btn-download" onClick={handleSave} disabled={!input.length} className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-blue-900 hover:bg-blue-800 focus:ring-blue-200 focus:ring-4'}`}>
-                                    <FontAwesomeIcon icon={faFloppyDisk} />
-                                    <span className='sr-only'>Download</span>
-                                </button>
-                                <div id="tooltip-save" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                    Save to disk
-                                    <div className="tooltip-arrow" data-popper-arrow></div>
-                                </div>
+                                <DownloadImageButton canvasRef={canvasRef} input={input} setInput={setInput} password={password} setPassword={setPassword} encryptedText={encryptedText} setEncryptedText={setEncryptedText} setDecryptedText={setDecryptedText} encryptionEnabled={encryptionEnabled} setEncryptionEnabled={setEncryptionEnabled} setOutput={setOutput} />
                             </div>
                         </div>
                         <Slider size={size} setSize={setSize} />
@@ -134,7 +93,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                             setDecryptedText('')
                                             clearContx(canvasRef);
                                         }
-                                    }} value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`ml-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-900 focus:border-blue-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-900`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
+                                    }} value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`text-base ml-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-900 focus:border-blue-900 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-900`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
 
                                 </div>
                             </label>

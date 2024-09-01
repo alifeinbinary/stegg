@@ -1,3 +1,4 @@
+// import { createRef } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUpload } from "@fortawesome/free-solid-svg-icons"
 import { useDropzone } from "react-dropzone"
@@ -12,7 +13,7 @@ interface DropzoneProps {
     setDecryptedText: (text: string) => void;
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setStringToDecrypt, password, setPassword, setDecryptedText }) => {
+export const FileUploader: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setStringToDecrypt, password, setPassword, setDecryptedText }) => {
     const onDrop = (acceptedFiles: File[]) => {
 
         const strToBool = (str: string): boolean => {
@@ -59,12 +60,12 @@ export const Dropzone: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabl
         })
     }
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop })
+    const { getRootProps, getInputProps, acceptedFiles } = useDropzone({ onDrop, noClick: true, noKeyboard: true, accept: { 'image/png': ['.png'] } })
     return (
         <div className='w-full'>
             <h4 className="mb-2 h4 sm:hidden xs:hidden text-left font-bold dark:text-white">Decrypt</h4>
             <div className="flex items-center justify-center w-full h-52 xs:h-24">
-                <label {...getRootProps()} tabIndex={0} htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+                <label {...getRootProps()} onClick={() => onDrop(acceptedFiles)} tabIndex={0} htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
                     <div className="flex flex-col items-center justify-center ">
                         <FontAwesomeIcon icon={faUpload} className="w-10 h-10 mb-3 text-gray-400 sm:hidden xs:hidden" />
                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop to extract message</p>

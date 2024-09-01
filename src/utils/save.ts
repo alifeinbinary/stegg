@@ -1,10 +1,16 @@
 import { addMetadata } from "meta-png";
 
-function saveBlob(blob: Blob, fileName: string) {
+function saveBlob(blobWithMetadata: Blob, fileName: string) {
+  const url = URL.createObjectURL(blobWithMetadata);
   const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
+  link.href = url;
   link.download = fileName;
+
+  document.body.appendChild(link);
   link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 async function addMetadataToPng(
@@ -53,12 +59,14 @@ async function createPngWithMetadata(
 ) {
   const croppedCanvas = cropImageFromCanvas(canvas);
   const blob = await getCanvasBlob(croppedCanvas);
+
   const blobWithMetadata = await addMetadataToPng(
     blob,
     encryptedText,
     encryptionEnabled.toString(),
     password
   );
+
   saveBlob(
     blobWithMetadata,
     `alifeinbinary_com-${encryptedText.slice(7, 15)}.png`
