@@ -1,14 +1,32 @@
+/*
+ *   Copyright (c) 2024 Andrew Halliwell
+
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeFork, faFaceSmile } from '@fortawesome/free-solid-svg-icons'
 import { faReact, faFontAwesome, faNodeJs, faNpm } from '@fortawesome/free-brands-svg-icons'
 import Translate from './components/Translate'
+import Footer from './components/Footer'
 import './App.css'
 
 function App() {
 
   return (
     <>
-      <div className='container px-4 max-w-6xl'>
+      <div className='container px-4 mx-auto max-w-6xl'>
         <section className="px-6 sm:px-2 xs:px-1 pt-8">
           <div className="py-8 px-4 bg-white dark:bg-gray-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
             <div className="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
@@ -51,23 +69,13 @@ function App() {
         </section>
         <span className='flex-row flex pt-2 px-6 justify-between text-white'>
           <div className='grid grid-cols-2 xs:grid-cols-1 w-full'>
-            <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> Fork this project on <a className='text-blue-300 hover:underline' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
-            <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>Like my work? <a href='https://www.alifeinbinary.com/contact' target='_blank' className='text-blue-300 hover:underline'>Hire me</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
+            <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> Fork this project on <a className='text-blue-100 hover:text-blue-200 hover:underline' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
+            <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>Like my work? <a href='https://www.alifeinbinary.com/contact' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline'>Hire me</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
           </div>
         </span>
-        <section className="px-6 sm:px-2 xs:px-1">
-          <div className="py-8 md:px-4 sm:px-0 mx-auto max-w-screen-xl lg:py-8 lg:px-6">
-            <Translate />
-          </div>
-        </section>
+        <Translate />
       </div>
-      <footer className="bg-white dark:bg-gray-900">
-        <div className="mx-auto max-w-screen-xl p-2 md:flex md:items-center md:justify-between">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            &copy; 2024 <a className="hover:underline" href="https://www.linkedin.com/in/alifeinbinary/">Andrew Halliwell</a>. All Rights Reserved. <br />Released under the GPLv3 license.
-          </span>
-        </div>
-      </footer>
+      <Footer />
     </>
   )
 }
