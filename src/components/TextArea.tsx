@@ -1,3 +1,20 @@
+/*
+ *   Copyright (c) 2024 Andrew Halliwell
+
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { createPngWithMetadata } from '../utils/save';
@@ -73,7 +90,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                     <div className="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                         <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
                             <div className="flex flex-wrap items-center space-x-1 rtl:space-x-reverse sm:ps-4">
-                                <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={1} id="btn-download" onClick={handleSave} disabled={!input.length} className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-blue-900 hover:bg-blue-800 focus:ring-blue-200 focus:ring-4'}`}>
+                                <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={0} id="btn-download" onClick={handleSave} disabled={!input.length} className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-blue-900 hover:bg-blue-800 focus:ring-blue-200 focus:ring-4'}`}>
                                     <FontAwesomeIcon icon={faFloppyDisk} />
                                     <span className='sr-only'>Download</span>
                                 </button>
@@ -97,7 +114,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                     Enable AES 128-bit encryption
                                     <div className="tooltip-arrow" data-popper-arrow></div>
                                 </div>
-                                <div tabIndex={3} className='shadow-card p-1 flex h-[46px] items-center justify-center rounded-md text-gray-900 bg-gray-200'>
+                                <div tabIndex={0} className='shadow-card p-1 flex h-[46px] items-center justify-center rounded-md text-gray-900 bg-gray-200'>
                                     <span
                                         className={`flex h-9 w-9 items-center justify-center rounded ${!encryptionEnabled ? 'text-sm text-gray-500 bg-gray-200' : 'bg-blue-900 hover:bg-blue-800 text-white'
                                             }`}
@@ -117,7 +134,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                             setDecryptedText('')
                                             clearContx(canvasRef);
                                         }
-                                    }} value={password} type="text" tabIndex={4} id="password-input" disabled={!encryptionEnabled} className={`ml-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-900 focus:border-blue-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-900`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
+                                    }} value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`ml-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-900 focus:border-blue-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-900`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
 
                                 </div>
                             </label>
@@ -135,7 +152,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                 clearContx(canvasRef);
                                 setOutput([]);
                             }
-                        }} maxLength={512} tabIndex={5} className="block w-full min-h-28 h-full px-0 text-base text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
+                        }} maxLength={512} tabIndex={0} className="block w-full min-h-28 h-full px-0 text-base text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
                     </div>
                 </div>
             </form>
