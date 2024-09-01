@@ -8,6 +8,8 @@ I realise that nobody asked for this, I just made it as a fun, gimmicky way to s
 
 It was created with [Vite](https://github.com/vitejs/vite), [Tailwind](https://github.com/tailwindlabs/tailwindcss), [Flowbite](https://github.com/themesberg/flowbite), and [Font Awesome](https://github.com/FortAwesome/Font-Awesome) icons.
 
+This project is published under the GPLv3 license.
+
 ## Technology involved
 
 - Typescript
