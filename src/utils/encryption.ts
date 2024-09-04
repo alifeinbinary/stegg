@@ -16,6 +16,7 @@
  */
 
 import { AES, enc } from "crypto-js";
+import { toast } from "react-toastify";
 const handleEncrypt = (
   input: string,
   password: string,
@@ -38,11 +39,11 @@ function handleDecrypt(
       setDecryptedText(stringToDecrypt);
     } else {
       setDecryptedText(originalText);
+      toast.success("Decryption successful");
     }
   } catch (error) {
-    console.log(
-      "Decryption failed. Check the password or PNG file. Error: " + error
-    );
+    console.info("Decryption failed", error);
+    return;
   }
 }
 

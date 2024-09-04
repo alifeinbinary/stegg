@@ -17,6 +17,7 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'react-toastify';
 import { clearContx } from '../utils/translate';
 import Slider from './Slider';
 import DownloadImageButton from './DownloadImageButton';
@@ -28,6 +29,8 @@ interface TextAreaProps {
     encryptedText: string;
     setEncryptedText: React.Dispatch<React.SetStateAction<string>>;
     setDecryptedText: React.Dispatch<React.SetStateAction<string>>;
+    stringToDecrypt: string;
+    setStringToDecrypt: React.Dispatch<React.SetStateAction<string>>;
     input: string;
     setInput: React.Dispatch<React.SetStateAction<string>>;
     setOutput: React.Dispatch<React.SetStateAction<string[]>>;
@@ -39,12 +42,29 @@ interface TextAreaProps {
     setSize: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password, setPassword, encryptedText, setEncryptedText, setDecryptedText, input, setInput, setOutput, setEncryptionEnabled, canvasRef, decryptedText, size, setSize }) => {
+export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password, setPassword, encryptedText, setEncryptedText, setDecryptedText, stringToDecrypt, setStringToDecrypt, input, setInput, setOutput, setEncryptionEnabled, canvasRef, decryptedText, size, setSize }) => {
 
     const handleCheckboxChange = () => {
         setEncryptionEnabled(!encryptionEnabled)
+        toast.info("Encryption " + (!encryptionEnabled ? "enabled. You will need to provide the secret key to third parties whom you share the image with" : "disabled. Message will be embedded as plain text."), {
+            autoClose: 4000,
+            pauseOnHover: true
+        });
         if (encryptionEnabled) {
             setPassword('');
+        } else {
+            setDecryptedText('');
+            setOutput([]);
+        }
+        if (decryptedText && stringToDecrypt) {
+            setEncryptedText('');
+            setStringToDecrypt('');
+        }
+        if (stringToDecrypt && password === '') {
+            setEncryptedText('');
+            setStringToDecrypt('');
+            clearContx(canvasRef);
+            setOutput([]);
         }
     }
 
@@ -108,6 +128,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                         <textarea rows={4} id="text-input" value={input} onChange={(e) => {
                             setInput(e.target.value);
                             if (e.target.value.trim() === '') {
+                                setEncryptedText('');
                                 clearContx(canvasRef);
                                 setOutput([]);
                             }

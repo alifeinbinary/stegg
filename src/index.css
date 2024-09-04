@@ -10,6 +10,21 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --toastify-color-light: #fff;
+  --toastify-color-dark: #1D293B;
+  --toastify-color-info: #aaddcc;
+  --toastify-color-success: #aabb99;
+  --toastify-color-warning: #ff8866;
+  --toastify-color-error: #ccaabb;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+  --toastify-toast-border-radius: 10px;
+  --toastify-toast-border-width: 1px;
+  --toastify-toast-border-color: #fff;
 }
 
 body {
@@ -49,6 +64,10 @@ body {
     @apply w-4 h-4 bg-blue-900 rounded-full;
   }
 
+}
+
+.Toastify__toast {
+  border: 2px solid #99aabb;
 }
 
 @tailwind base;

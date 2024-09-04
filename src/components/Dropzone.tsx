@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUpload } from "@fortawesome/free-solid-svg-icons"
 import { useDropzone } from "react-dropzone"
 import { getMetadata } from "meta-png"
+import { toast } from "react-toastify"
 
 interface DropzoneProps {
     setInput: (input: string) => void;
@@ -55,22 +56,48 @@ export const FileUploader: React.FC<DropzoneProps> = ({ setInput, setEncryptionE
                 const imageArray = new Uint8Array(binaryStr as ArrayBuffer)
 
                 // Pull metadata values from the png image
-                const stringToDecrypt = getMetadata(imageArray as Uint8Array, 'Message')
-                const encryptionState = getMetadata(imageArray as Uint8Array, 'Encrypted')?.toLowerCase();
+                try {
+                    const stringToDecrypt = getMetadata(imageArray as Uint8Array, 'Message')
+                    const encryptionState = getMetadata(imageArray as Uint8Array, 'Encrypted')?.toLowerCase();
 
-                if (encryptionState !== undefined) {
-                    if (strToBool(encryptionState)) {
-                        setEncryptionEnabled(true)
+                    if (!encryptionState && !stringToDecrypt) {
+                        toast.error("Image not compatible with the translator or it has had it's metadata stripped in transit.",
+                            {
+                                autoClose: 5000,
+                                pauseOnHover: true
+                            }
+                        );
+                        return
+                    } else if (!encryptionState && stringToDecrypt) {
+                        setInput(stringToDecrypt as string)
+                        toast.error('No encryption state found, however, a message is contained within the PNG file.');
+                    } else if (encryptionState && !stringToDecrypt) {
+                        toast.error('An encryption state was found, however, there is no message found within the PNG file.');
+                    } else if (encryptionState && stringToDecrypt) {
+                        if (strToBool(encryptionState)) {
+                            setEncryptionEnabled(true)
+                            setStringToDecrypt(stringToDecrypt as string)
+                            toast.info("Please provide the secret key to decrypt the message", {
+                                autoClose: 4000,
+                                pauseOnHover: true
+                            });
+                        } else {
+                            setEncryptionEnabled(false)
+                            setPassword('')
+                            setStringToDecrypt(stringToDecrypt as string)
+                        }
+                        return
                     } else {
-                        setEncryptionEnabled(false)
-                        setPassword('')
+                        return
                     }
-                } else {
-                    // Handle the case where encryptionState is undefined
-                    console.log("Encryption state not found. This no longer compatible with the translator.");
-                    setEncryptionEnabled(false); // or set it to true, depending on your requirements
+                } catch (error) {
+                    toast.error("Only PNG files generated with this translator are supported.", {
+                        autoClose: 5000,
+                        pauseOnHover: true
+                    });
+                    console.log("Error: " + error);
+                    return
                 }
-                setStringToDecrypt(stringToDecrypt as string)
             }
             reader.readAsArrayBuffer(file)
         })
@@ -81,7 +108,7 @@ export const FileUploader: React.FC<DropzoneProps> = ({ setInput, setEncryptionE
         <div className='w-full'>
             <h4 className="mb-2 h4 sm:hidden xs:hidden text-left font-bold dark:text-white">Decrypt</h4>
             <div className="flex items-center justify-center w-full h-52 xs:h-24">
-                <label {...getRootProps()} onClick={() => onDrop(acceptedFiles)} tabIndex={0} htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+                <label {...getRootProps()} onChange={() => onDrop(acceptedFiles)} tabIndex={0} htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
                     <div className="flex flex-col items-center justify-center ">
                         <FontAwesomeIcon icon={faUpload} className="w-10 h-10 mb-3 text-gray-400 sm:hidden xs:hidden" />
                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop to extract message</p>

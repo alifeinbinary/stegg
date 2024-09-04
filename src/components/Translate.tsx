@@ -18,6 +18,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
+import { ToastContainer } from "react-toastify"
 import { FileUploader } from './Dropzone';
 import { TextArea } from './TextArea';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,9 +26,9 @@ import { faTerminal } from '@fortawesome/free-solid-svg-icons';
 import { Hook, Unhook } from 'console-feed'
 import { Message } from 'console-feed/lib/definitions/Component';
 import { LogsContainer } from './LogsContainer';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () => {
-
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [input, setInput] = useState<string>(""); // textarea value
     const [output, setOutput] = useState<string[]>([]); // textarea value converted to array of binary strings
@@ -147,7 +148,9 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         if (stringToDecrypt && !encryptionEnabled) {
             setDecryptedText(stringToDecrypt)
         }
-        convertBinary(stringToDecrypt, setOutput);
+        if (stringToDecrypt.length > 0) {
+            convertBinary(stringToDecrypt, setOutput);
+        }
     }, [encryptionEnabled, password, stringToDecrypt])
 
     useEffect(() => {
@@ -166,7 +169,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                 <div className='max-w-5xl mx-auto'>
                     <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
                         <div className='col-span-3 md:col-span-3 sm:col-span-3 xs:col-span-1'>
-                            <TextArea encryptionEnabled={encryptionEnabled} password={password} setPassword={setPassword} encryptedText={encryptedText} setEncryptedText={setEncryptedText} setDecryptedText={setDecryptedText} input={input} setInput={setInput} setOutput={setOutput} setEncryptionEnabled={setEncryptionEnabled} canvasRef={canvasRef} handleDecrypt={handleDecrypt} decryptedText={decryptedText} size={size} setSize={setSize} />
+                            <TextArea encryptionEnabled={encryptionEnabled} password={password} setPassword={setPassword} encryptedText={encryptedText} setEncryptedText={setEncryptedText} stringToDecrypt={stringToDecrypt} setDecryptedText={setDecryptedText} setStringToDecrypt={setStringToDecrypt} input={input} setInput={setInput} setOutput={setOutput} setEncryptionEnabled={setEncryptionEnabled} canvasRef={canvasRef} handleDecrypt={handleDecrypt} decryptedText={decryptedText} size={size} setSize={setSize} />
                         </div>
                         <div className='col-span-1 md:col-span-1 sm:col-span-1 xs:col-span-1'>
                             <FileUploader setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
@@ -180,6 +183,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                     </div>
                 </div>
             </div>
+            <ToastContainer draggable={true} position='bottom-left' autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} limit={2} theme='dark' />
         </section>
     );
 }

@@ -16,8 +16,13 @@
  */
 
 import { addMetadata } from "meta-png";
+import { toast } from "react-toastify";
+
+const toastId = "save";
 
 function saveBlob(blobWithMetadata: Blob, fileName: string) {
+  toast.update(toastId, { render: "Saving image...", type: "success" });
+
   const url = URL.createObjectURL(blobWithMetadata);
   const link = document.createElement("a");
   link.href = url;
@@ -36,6 +41,8 @@ async function addMetadataToPng(
   encryptionEnabled: string,
   password: string
 ): Promise<Blob> {
+  toast.update(toastId, { render: "Adding metadata to PNG", type: "info" });
+
   const buffer = await blob.arrayBuffer();
   const pngData = new Uint8Array(buffer);
   const inputText = (document.getElementById("text-input") as HTMLInputElement)
@@ -74,6 +81,8 @@ async function createPngWithMetadata(
   encryptionEnabled: boolean,
   password: string
 ) {
+  toast.info("Creating PNG from canvas", { toastId: toastId });
+
   const croppedCanvas = cropImageFromCanvas(canvas);
   const blob = await getCanvasBlob(croppedCanvas);
 
@@ -91,6 +100,8 @@ async function createPngWithMetadata(
 }
 
 function cropImageFromCanvas(canvas: HTMLCanvasElement) {
+  toast.info("Trimming canvas", { toastId: toastId });
+
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Failed to get canvas context");
 
