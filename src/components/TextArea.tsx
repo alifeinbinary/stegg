@@ -84,10 +84,12 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                             <label className='relative inline-flex cursor-pointer select-none items-center'>
                                 <input
                                     type='checkbox'
-                                    checked={encryptionEnabled}
+                                    checked={encryptionEnabled ? encryptionEnabled : false}
                                     onChange={handleCheckboxChange}
                                     className='sr-only'
                                     data-tooltip-target="tooltip-encryption"
+                                    data-testid="toggle-encryption"
+                                    aria-checked={encryptionEnabled}
                                 />
                                 <div id="tooltip-encryption" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                                     Enable AES 128-bit encryption
@@ -113,7 +115,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                             setDecryptedText('')
                                             clearContx(canvasRef);
                                         }
-                                    }} value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`text-base ml-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-900 focus:border-blue-900 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-900`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
+                                    }} data-testid="password-input" value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`text-base ml-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-900 focus:border-blue-900 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-900`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
 
                                 </div>
                             </label>
@@ -132,7 +134,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ encryptionEnabled, password,
                                 clearContx(canvasRef);
                                 setOutput([]);
                             }
-                        }} maxLength={512} tabIndex={0} className="block w-full min-h-28 h-full px-0 text-base text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts '}`} required ></textarea>
+                        }} data-testid="text-input" maxLength={512} tabIndex={0} className="block w-full min-h-28 h-full px-0 text-base text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={`${decryptedText ? decryptedText : 'Type your thoughts'}`} required ></textarea>
                     </div>
                 </div>
             </form>

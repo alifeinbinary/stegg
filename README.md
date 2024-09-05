@@ -15,7 +15,7 @@ This project is published under the GPLv3 license.
 - Typescript
 - React
 - HTML Canvas
-- Encryption in the browser
+- Cryptography in the browser
 - Image generation and consumption
 - Embedding metadata in files
 

@@ -15,22 +15,20 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Console } from 'console-feed';
-import { Message } from 'console-feed/lib/definitions/Component';
-import '../App.css';
+// /** @type {import('jest').Config} */
+// const config = {
+//   verbose: true,
+// };
+module.exports = {
+  testEnvironment: "jsdom",
+  resetMocks: true,
+  transform: {
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+  },
 
-interface LogConainterProps {
-    logs: Message[]
-}
-const LogsContainer = (logs: LogConainterProps) => {
+  setupFilesAfterEnv: ["@testing-library/jest-dom"],
 
-    return (
-        <div className='flex justify-center items-center pt-2'>
-            <div data-testid='console-feed' className='w-full max-w-xl h-full text-left'>
-                <Console logs={logs.logs} filter={['table']} variant="light" styles={{ BASE_FONT_SIZE: '12px', PADDING: '0px', LOG_BORDER: 'none' }} />
-            </div>
-        </div>
-    )
-}
-
-export { LogsContainer }
+  moduleNameMapper: {
+    "\\.css$": "identity-obj-proxy",
+  },
+};
