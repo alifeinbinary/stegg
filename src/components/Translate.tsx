@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { ToastContainer } from "react-toastify"
@@ -26,23 +26,32 @@ import { faTerminal } from '@fortawesome/free-solid-svg-icons';
 import { Hook, Unhook } from 'console-feed'
 import { Message } from 'console-feed/lib/definitions/Component';
 import { LogsContainer } from './LogsContainer';
+import Feed from './Feed';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAppState, useImageState } from '../utils/stores';
 
-const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () => {
+
+const Translate: React.FC = () => {
+
+    const {
+        debugMode, setDebugMode,
+        logs, setLogs
+    } = useAppState();
+
+    const {
+        input, setInput,
+        output, setOutput,
+        canvasHeight, setCanvasHeight,
+        canvasWidth, setCanvasWidth,
+        size,
+        password, setPassword,
+        encryptionEnabled, setEncryptionEnabled,
+        stringToDecrypt, setStringToDecrypt,
+        encryptedText, setEncryptedText,
+        decryptedText, setDecryptedText
+    } = useImageState();
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const [input, setInput] = useState<string>(""); // textarea value
-    const [output, setOutput] = useState<string[]>([]); // textarea value converted to array of binary strings
-    const [canvasHeight, setCanvasHeight] = useState<number>(32); // height of the canvas
-    const [canvasWidth, setCanvasWidth] = useState<number>(1024); // width of the canvas
-    const [size, setSize] = useState<number>(12); // size of the nodes
-
-    const [encryptionEnabled, setEncryptionEnabled] = useState<boolean>(false); // encryption toggle
-    const [stringToDecrypt, setStringToDecrypt] = useState<string>(''); // text extracted from PNG
-    const [password, setPassword] = useState<string>(''); // password value
-    const [encryptedText, setEncryptedText] = useState<string>(''); // textarea value encrypted if enabled
-    const [decryptedText, setDecryptedText] = useState<string>(''); // string extracted from PNG decrypted if enabled
-    const [debugMode, setDebugMode] = useState<boolean>(false);
-    const [logs, setLogs] = useState<Message[]>([]);
 
     const DEBUG = debugMode ? debugMode : import.meta.env.MODE === 'development';
 
@@ -66,7 +75,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                 canv.height = canvasHeight;
             }
         }
-    }, [canvasHeight, canvasWidth, output, size]);
+    }, [canvasHeight, canvasRef, canvasWidth, output, setCanvasHeight, setCanvasWidth, size]);
 
     const handleDebugMode = () => {
         setDebugMode(!debugMode);
@@ -94,7 +103,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                 Unhook(hookedConsole)
             }
         }
-    }, [])
+    }, [setLogs])
 
     // Keeping it fresh in the console
     useEffect(() => {
@@ -123,7 +132,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         if (!canv) return;
 
         plot(output, canvasRef, size);
-    }, [canvasHeight, canvasWidth, output, size])
+    }, [canvasHeight, canvasRef, canvasWidth, output, size])
 
     // Change the canvas height if necessary
     useEffect(() => {
@@ -139,7 +148,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
             setStringToDecrypt('')
             setDecryptedText('')
         }
-    }, [encryptionEnabled, input, password])
+    }, [encryptionEnabled, input, password, setDecryptedText, setEncryptedText, setStringToDecrypt])
 
     useEffect(() => {
         if (encryptionEnabled && password) {
@@ -151,7 +160,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
         if (stringToDecrypt.length > 0) {
             convertBinary(stringToDecrypt, setOutput);
         }
-    }, [encryptionEnabled, password, stringToDecrypt])
+    }, [encryptionEnabled, password, setDecryptedText, setOutput, stringToDecrypt])
 
     useEffect(() => {
         if (input.length !== 0 || encryptedText.length !== 0) {
@@ -161,7 +170,7 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                 convertBinary(input, setOutput);
             }
         }
-    }, [input, password, encryptionEnabled, encryptedText]);
+    }, [input, password, encryptionEnabled, encryptedText, setOutput]);
 
     return (
         <section className="px-6 sm:px-2 xs:px-1">
@@ -169,17 +178,18 @@ const Translate: React.FC<React.CanvasHTMLAttributes<HTMLCanvasElement>> = () =>
                 <div className='max-w-5xl mx-auto'>
                     <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
                         <div className='col-span-3 md:col-span-3 sm:col-span-3 xs:col-span-1'>
-                            <TextArea encryptionEnabled={encryptionEnabled} password={password} setPassword={setPassword} encryptedText={encryptedText} setEncryptedText={setEncryptedText} stringToDecrypt={stringToDecrypt} setDecryptedText={setDecryptedText} setStringToDecrypt={setStringToDecrypt} input={input} setInput={setInput} setOutput={setOutput} setEncryptionEnabled={setEncryptionEnabled} canvasRef={canvasRef} handleDecrypt={handleDecrypt} decryptedText={decryptedText} size={size} setSize={setSize} />
+                            <TextArea />
                         </div>
                         <div className='col-span-1 md:col-span-1 sm:col-span-1 xs:col-span-1'>
                             <FileUploader setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
                         </div>
                     </div>
+                    {input && output.length > 0 && <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Output</h4>}
                     <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100' />
+                    <Feed />
                     <div className=''>
                         {debugMode && <LogsContainer logs={logs} />}
                         <button className='text-sm font-light text-gray-100 hover:text-gray-300 hover:underline' onClick={handleDebugMode}><FontAwesomeIcon icon={faTerminal} className='text-sm pr-2 font-light text-gray-100 hover:text-gray-300 hover:underline' />{debugMode ? 'Disable' : 'Enable'} debug console</button>
-
                     </div>
                 </div>
             </div>

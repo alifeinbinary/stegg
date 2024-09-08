@@ -15,26 +15,25 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import { createPngWithMetadata } from '../utils/save';
 import { clearContx } from '../utils/translate';
+import { useImageState } from '../utils/stores';
 
-interface DownloadImageButtonProps {
-    canvasRef: React.RefObject<HTMLCanvasElement>;
-    input: string;
-    setInput: React.Dispatch<React.SetStateAction<string>>;
-    password: string;
-    setPassword: React.Dispatch<React.SetStateAction<string>>;
-    encryptedText: string;
-    setEncryptedText: React.Dispatch<React.SetStateAction<string>>;
-    setDecryptedText: React.Dispatch<React.SetStateAction<string>>;
-    encryptionEnabled: boolean;
-    setEncryptionEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-    setOutput: React.Dispatch<React.SetStateAction<string[]>>;
-}
+const DownloadImageButton: React.FC = () => {
 
-const DownloadImageButton: React.FC<DownloadImageButtonProps> = ({ canvasRef, input, setInput, password, setPassword, encryptedText, setEncryptedText, setDecryptedText, encryptionEnabled, setEncryptionEnabled, setOutput }) => {
+    const {
+        input, setInput,
+        setOutput,
+        encryptionEnabled, setEncryptionEnabled,
+        password, setPassword,
+        encryptedText, setEncryptedText,
+        setDecryptedText
+    } = useImageState();
+
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const handleSaveVisibility = () => {
         if (encryptionEnabled) {
@@ -54,7 +53,7 @@ const DownloadImageButton: React.FC<DownloadImageButtonProps> = ({ canvasRef, in
 
     const handleDownload = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        if (canvasRef.current && input) {
+        if (canvasRef && canvasRef.current && input) {
             if (encryptionEnabled) {
                 await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password);
             } else {
@@ -74,7 +73,7 @@ const DownloadImageButton: React.FC<DownloadImageButtonProps> = ({ canvasRef, in
 
     return (
         <>
-            <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={0} id="btn-download" onClick={handleDownload} disabled={!input.length} className={`inline-flex items-center px-5 py-2.5 text-sm font-medium text-center rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-blue-900 hover:bg-blue-800 focus:ring-blue-200 focus:ring-4'}`}>
+            <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={0} id="btn-download" onClick={handleDownload} disabled={!input.length} className={`inline-flex justify-center items-center h-9 w-9 text-sm font-medium text-center transition ease-in-out duration-300 rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen hover:bg-quailegg focus:ring-blue-200 focus:ring-4'}`}>
                 <FontAwesomeIcon icon={faFloppyDisk} />
                 <span className='sr-only'>Download</span>
             </button>

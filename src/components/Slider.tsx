@@ -15,12 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-interface SliderProps {
-    size: number;
-    setSize: React.Dispatch<React.SetStateAction<number>>;
-}
+import { useImageState } from '../utils/stores';
 
-const Slider: React.FC<SliderProps> = ({ size, setSize }) => {
+const Slider: React.FC = () => {
+
+    const [size, setSize] = useImageState(state => [state.size, state.setSize]);
 
     function handleSliderChange(event: React.ChangeEvent<HTMLInputElement>) {
         setSize(Math.floor(Number(event.target.value)));

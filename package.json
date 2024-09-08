@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.8",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
@@ -23,7 +24,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.25.4",

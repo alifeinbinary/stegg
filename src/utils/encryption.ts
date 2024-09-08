@@ -17,10 +17,11 @@
 
 import { AES, enc } from "crypto-js";
 import { toast } from "react-toastify";
+
 const handleEncrypt = (
   input: string,
   password: string,
-  setEncryptedText: React.Dispatch<React.SetStateAction<string>>
+  setEncryptedText: React.Dispatch<string>
 ) => {
   const encrypted = AES.encrypt(input, password).toString();
   setEncryptedText(encrypted);
@@ -29,7 +30,7 @@ const handleEncrypt = (
 function handleDecrypt(
   stringToDecrypt: string,
   password: string,
-  setDecryptedText: React.Dispatch<React.SetStateAction<string>>
+  setDecryptedText: React.Dispatch<string>
 ) {
   try {
     const bytes = AES.decrypt(stringToDecrypt, password);

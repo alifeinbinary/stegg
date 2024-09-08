@@ -16,10 +16,7 @@
  */
 
 // Converting text input to an array of binary strings
-function convertBinary(
-  input: string,
-  setOutput: React.Dispatch<React.SetStateAction<string[]>>
-) {
+function convertBinary(input: string, setOutput: React.Dispatch<string[]>) {
   if (input !== input) {
     return;
   }
