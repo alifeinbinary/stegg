@@ -1,3 +1,7 @@
 ol[role="tree"] {
     display: none;
 }
+
+.feed-image {
+    clip-path: inset(0px 0px 30px 0px);
+}
