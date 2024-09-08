@@ -16,12 +16,10 @@
  */
 
 import { Console } from 'console-feed';
-import { Message } from 'console-feed/lib/definitions/Component';
+import { LogConainterProps } from '../types';
 import '../App.css';
 
-interface LogConainterProps {
-    logs: Message[]
-}
+
 const LogsContainer = (logs: LogConainterProps) => {
 
     return (
