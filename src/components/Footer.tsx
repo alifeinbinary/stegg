@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
         <footer className="bg-white dark:bg-gray-900">
             <div className="mx-auto p-2 md:flex md:items-center md:justify-between">
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                    &copy; 2024 <a className="hover:underline" href="https://www.linkedin.com/in/alifeinbinary/">Andrew Halliwell</a>. All Rights Reserved. <br />Released under the GPLv3 license.
+                    &copy; 2024 <a className="hover:underline" href="https://www.alifeinbinary.com/">Andrew Halliwell</a>. All Rights Reserved. <br />Released under the GPLv3 license.
                 </span>
             </div>
         </footer>

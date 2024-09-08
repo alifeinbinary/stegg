@@ -55,6 +55,12 @@ function App() {
                   <li>
                     Embedding metadata in files
                   </li>
+                  <li>
+                    CRUD operations to a serverless API on AWS
+                  </li>
+                  <li>
+                    Jest tests
+                  </li>
                 </ul>
               </div>
               <h3 className='mb-4 text-lg tracking-tight font-bold text-gray-900 dark:text-white'>Created with:</h3>
@@ -70,7 +76,7 @@ function App() {
         <span className='flex-row flex pt-2 px-6 justify-between text-white'>
           <div className='grid grid-cols-2 xs:grid-cols-1 w-full'>
             <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> Fork this project on <a className='text-blue-100 hover:text-blue-200 hover:underline' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
-            <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>Like my work? <a href='https://www.alifeinbinary.com/contact' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline'>Hire me</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
+            <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>Like my work? <a href='https://www.linkedin.com/in/alifeinbinary/' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline'>Hire me</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
           </div>
         </span>
         <Translate />
