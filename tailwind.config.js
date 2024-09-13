@@ -28,6 +28,9 @@ export default {
         bergundy: "#331111",
         deepbergundy: "#330011",
       },
+      transitionProperty: {
+        width: "width",
+      },
     },
     screens: {
       xs: { max: "639px" },
