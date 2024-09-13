@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MutableRefObject } from "react";
 import { Message } from "console-feed/lib/definitions/Component";
 import { Dispatch } from "react";
 import { create } from "zustand";
@@ -37,6 +38,9 @@ interface PostState {
   output: string[];
   setOutput: Dispatch<string[]>;
 
+  image: string;
+  setImage: (value: string) => void;
+
   encryptedText: string;
   setEncryptedText: (value: string) => void;
 
@@ -54,6 +58,9 @@ interface PostState {
 }
 
 interface ImageState {
+  canvasRef: MutableRefObject<HTMLCanvasElement | null> | null;
+  setCanvasRef: (ref: MutableRefObject<HTMLCanvasElement | null>) => void;
+
   input: string;
   setInput: (value: string) => void;
 
@@ -111,6 +118,9 @@ export const usePostState = create<PostState>((set) => ({
   output: [],
   setOutput: (value: string[]) => set({ output: value }),
 
+  image: "",
+  setImage: (value: string) => set({ image: value }),
+
   encryptedText: "",
   setEncryptedText: (value: string) => set({ encryptedText: value }),
 
@@ -119,6 +129,9 @@ export const usePostState = create<PostState>((set) => ({
 }));
 
 export const useImageState = create<ImageState>((set) => ({
+  canvasRef: null, // Initialize with null
+  setCanvasRef: (ref) => set(() => ({ canvasRef: ref })),
+
   input: "",
   setInput: (value: string) => set({ input: value }),
 
