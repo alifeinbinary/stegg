@@ -16,8 +16,8 @@
  */
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCodeFork, faFaceSmile } from '@fortawesome/free-solid-svg-icons'
-import { faReact, faFontAwesome, faNodeJs, faNpm } from '@fortawesome/free-brands-svg-icons'
+import { faCodeFork, faFaceSmile, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faReact, faFontAwesome, faNodeJs, faNpm, faAws, faFirefoxBrowser } from '@fortawesome/free-brands-svg-icons'
 import Translate from './components/Translate'
 import Footer from './components/Footer'
 import './App.css'
@@ -63,13 +63,43 @@ function App() {
                   </li>
                 </ul>
               </div>
-              <h3 className='mb-4 text-lg tracking-tight font-bold text-gray-900 dark:text-white'>Created with:</h3>
-              <div className='text-3xl flex flex-row'>
-                <FontAwesomeIcon icon={faReact} className='hover:text-blue-900' />
-                <FontAwesomeIcon icon={faNodeJs} className="ml-2 hover:text-blue-900" />
-                <FontAwesomeIcon icon={faFontAwesome} className="ml-2 hover:text-blue-900" />
-                <FontAwesomeIcon icon={faNpm} className="ml-2 hover:text-blue-900" />
+              <div className='grid grid-cols-2 pt-6 sm:grid-cols-1 xs:grid-cols-1 w-full relative'>
+                <div className='mb-4'>
+                  <figure className="max-w-screen-md">
+                    <div className="flex items-center mb-4 text-lightorange">
+                      <FontAwesomeIcon icon={faStar} className="w-5 h-5 me-1" aria-hidden="true" />
+                      <span className='text-gray-300 flex items-center'>
+                        <FontAwesomeIcon icon={faStar} className="w-5 h-5 me-1" aria-hidden="true" />
+                        <FontAwesomeIcon icon={faStar} className="w-5 h-5 me-1" aria-hidden="true" />
+                        <FontAwesomeIcon icon={faStar} className="w-5 h-5 me-1" aria-hidden="true" />
+                        <FontAwesomeIcon icon={faStar} className="w-5 h-5 me-1" aria-hidden="true" />
+                      </span>
+                    </div>
+                    <blockquote>
+                      <p className="text-xl font-semibold text-gray-900 dark:text-white">"Is this like Twitter for robots? Why would anyone make this?"</p>
+                    </blockquote>
+                    <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
+                      <img className="w-6 h-6 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="profile picture" />
+                      <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-300 dark:divide-gray-700">
+                        <cite className="pe-3 font-medium text-gray-900 dark:text-white">Diane</cite>
+                        <cite className="ps-3 text-sm text-gray-500 dark:text-gray-400">A retired, former part-time receptionist and recent grandmother of twins I showed this to on the ferry</cite>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </div>
+                <div className='mb-4 absolute lg:absolute md:absolute sm:absolute xs:relative bottom-0 right-0'>
+                  <h3 className='mb-1 mt-4 text-lg tracking-tight font-bold text-gray-900 dark:text-white'>Created with</h3>
+                  <div className='text-3xl flex flex-row'>
+                    <a href="https://nodejs.org/" target="_blank"><FontAwesomeIcon icon={faNodeJs} className="hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                    <a href="https://www.npmjs.com/" target="_blank"><FontAwesomeIcon icon={faNpm} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                    <a href="https://react.dev/" target="_blank"><FontAwesomeIcon icon={faReact} className='ml-2 hover:text-orange transition-colors duration-500 ease-in-out' /></a>
+                    <a href="https://aws.amazon.com/" target="_blank"><FontAwesomeIcon icon={faAws} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                    <a href='https://fontawesome.com/' target='_blank'><FontAwesomeIcon icon={faFontAwesome} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                    <a href="https://www.mozilla.org/en-CA/firefox/new/" target="_blank"><FontAwesomeIcon icon={faFirefoxBrowser} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         </section>
