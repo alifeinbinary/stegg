@@ -15,16 +15,19 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Footer: React.FC = () => {
-    return (
-        <footer className="bg-white dark:bg-gray-900">
-            <div className="mx-auto p-2 md:flex md:items-center md:justify-between">
-                <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                    &copy; 2024 <a className="hover:underline" href="https://www.alifeinbinary.com/">Andrew Halliwell</a>. All Rights Reserved. <br />Released under the <a href="https://choosealicense.com/licenses/gpl-3.0/" target="_blank" className="hover:underline">GPLv3 license</a>.
-                </span>
-            </div>
-        </footer>
-    );
-};
+import { Console } from 'console-feed';
+import { LogConainterProps } from '../types';
+import '../App.css';
 
-export default Footer
+const DebugConsole = (logs: LogConainterProps) => {
+
+    return (
+        <div className='flex justify-center items-center pt-2'>
+            <div data-testid='console-feed' className='w-full max-w-xl h-full text-left'>
+                <Console logs={logs.logs} filter={['table']} variant="light" styles={{ BASE_FONT_SIZE: '12px', PADDING: '0px', LOG_BORDER: 'none' }} />
+            </div>
+        </div>
+    )
+}
+
+export default DebugConsole

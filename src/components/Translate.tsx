@@ -18,27 +18,16 @@
 import { useEffect, useCallback, useRef } from 'react'
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
-import { ToastContainer } from "react-toastify"
-import { FileUploader } from './Dropzone';
-import { TextArea } from './TextArea';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTerminal } from '@fortawesome/free-solid-svg-icons';
-import { Hook, Unhook } from 'console-feed'
-import { Message } from 'console-feed/lib/definitions/Component';
-import { LogsContainer } from './LogsContainer';
-import Feed from './Feed';
+import { Slide, ToastContainer } from "react-toastify"
+import { FileUploader } from './Decrypt';
+import { TextArea } from './Encrypt';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAppState, useImageState } from '../utils/stores';
-
+import { useImageState } from '../utils/stores';
 
 const Translate: React.FC = () => {
 
     const {
-        debugMode, setDebugMode,
-        logs, setLogs
-    } = useAppState();
-
-    const {
+        setCanvasRef,
         input, setInput,
         output, setOutput,
         canvasHeight, setCanvasHeight,
@@ -48,12 +37,10 @@ const Translate: React.FC = () => {
         encryptionEnabled, setEncryptionEnabled,
         stringToDecrypt, setStringToDecrypt,
         encryptedText, setEncryptedText,
-        decryptedText, setDecryptedText
+        setDecryptedText
     } = useImageState();
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-    const DEBUG = debugMode ? debugMode : import.meta.env.MODE === 'development';
 
     // Handlers
     // Resize the canvas when more data is added
@@ -65,9 +52,14 @@ const Translate: React.FC = () => {
 
         if (contx) {
             if (canvasHeight === canvasHeight) {
-                plot(output, canvasRef, size);
+                plot(output, canvasRef, size, encryptionEnabled);
             }
-            setCanvasHeight(Math.ceil(output.length / 4) * (34 + size));
+            if ((output.length > 64 && encryptionEnabled) ||
+                (output.length > 128 && !encryptionEnabled)) {
+                setCanvasHeight(Math.ceil(output.length / 8) * (5 + size));
+            } else {
+                setCanvasHeight(Math.ceil(output.length / 4) * (34 + size));
+            }
             setCanvasWidth(1024 + (size * 5));
 
             if (canv.width !== canvasWidth || canv.height !== canvasHeight) {
@@ -75,64 +67,24 @@ const Translate: React.FC = () => {
                 canv.height = canvasHeight;
             }
         }
-    }, [canvasHeight, canvasRef, canvasWidth, output, setCanvasHeight, setCanvasWidth, size]);
-
-    const handleDebugMode = () => {
-        setDebugMode(!debugMode);
-    }
+    }, [canvasHeight, canvasWidth, encryptionEnabled, output, setCanvasHeight, setCanvasWidth, size]);
 
     // Side effects
-    // Loading the console
-    useEffect(() => {
-        function handleCallback(logItems: Message[]) {
-            setLogs(logItems);
-        }
-        function transpose(matrix: Message[][]) {
-            if (!matrix || matrix.length === 0) return [];
-            const table = matrix[0]
-            return table
-        }
-        const hookedConsole = Hook(
-            window.console,
-            (logItems) => handleCallback([{ ...logItems, data: [transpose(logItems.data as Message[][])] }] as Message[]),
-            false
-        )
 
-        return () => {
-            if (hookedConsole) {
-                Unhook(hookedConsole)
-            }
-        }
-    }, [setLogs])
-
-    // Keeping it fresh in the console
+    // Send the canvas to the store
     useEffect(() => {
-        console.clear();
-        // Debug console
-        const items = {
-            input: [input],
-            outputLength: [output.length], // output,
-            canvasHeight: [`${canvasHeight}px`], // canvasHeight,
-            canvasWidth: [`${canvasWidth}px`],
-            size: [size],
-            encryptionEnabled: [encryptionEnabled],
-            stringToDecrypt: [stringToDecrypt],
-            password: [password],
-            encryptedText: [encryptedText],
-            decryptedText: [decryptedText]
+        if (canvasRef.current) {
+            setCanvasRef(canvasRef);
         }
-        if (DEBUG) {
-            console.table(items);
-        }
-    }, [DEBUG, input, size, encryptionEnabled, stringToDecrypt, password, encryptedText, decryptedText, output, canvasHeight, canvasWidth])
+    }, [canvasRef, setCanvasRef]);
 
     // Paint the canvas
     useEffect(() => {
         const canv = canvasRef.current;
         if (!canv) return;
 
-        plot(output, canvasRef, size);
-    }, [canvasHeight, canvasRef, canvasWidth, output, size])
+        plot(output, canvasRef, size, encryptionEnabled);
+    }, [canvasHeight, canvasRef, canvasWidth, encryptionEnabled, output, size])
 
     // Change the canvas height if necessary
     useEffect(() => {
@@ -173,7 +125,7 @@ const Translate: React.FC = () => {
     }, [input, password, encryptionEnabled, encryptedText, setOutput]);
 
     return (
-        <section className="px-6 sm:px-2 xs:px-1">
+        <section id="translate" className="px-6 sm:px-2 xs:px-1">
             <div className="pt-8 pb-1 md:px-4 sm:px-0 mx-auto max-w-screen-xl lg:py-8 lg:px-6">
                 <div className='max-w-5xl mx-auto'>
                     <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
@@ -184,16 +136,24 @@ const Translate: React.FC = () => {
                             <FileUploader setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
                         </div>
                     </div>
-                    {input && output.length > 0 && <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Output</h4>}
-                    <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100' />
-                    <Feed />
-                    <div className=''>
-                        {debugMode && <LogsContainer logs={logs} />}
-                        <button className='text-sm font-light text-gray-100 hover:text-gray-300 hover:underline' onClick={handleDebugMode}><FontAwesomeIcon icon={faTerminal} className='text-sm pr-2 font-light text-gray-100 hover:text-gray-300 hover:underline' />{debugMode ? 'Disable' : 'Enable'} debug console</button>
-                    </div>
+                    {input && output.length > 0 && <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Canvas</h4>}
+                    <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100 dark:bg-slate-700' />
                 </div>
             </div>
-            <ToastContainer draggable={true} position='bottom-left' autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} limit={2} theme='dark' />
+            <ToastContainer
+                position="bottom-left"
+                autoClose={2000}
+                limit={2}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme="dark"
+                transition={Slide}
+            />
         </section>
     );
 }

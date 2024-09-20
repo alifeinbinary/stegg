@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef } from 'react';
+import { Tooltip } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import { createPngWithMetadata } from '../utils/save';
@@ -25,6 +25,7 @@ import { useImageState } from '../utils/stores';
 const DownloadImageButton: React.FC = () => {
 
     const {
+        canvasRef,
         input, setInput,
         setOutput,
         encryptionEnabled, setEncryptionEnabled,
@@ -32,8 +33,6 @@ const DownloadImageButton: React.FC = () => {
         encryptedText, setEncryptedText,
         setDecryptedText
     } = useImageState();
-
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const handleSaveVisibility = () => {
         if (encryptionEnabled) {
@@ -53,11 +52,14 @@ const DownloadImageButton: React.FC = () => {
 
     const handleDownload = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
+
+        const action = "download";
+
         if (canvasRef && canvasRef.current && input) {
             if (encryptionEnabled) {
-                await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password);
+                await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password, action);
             } else {
-                await createPngWithMetadata(canvasRef.current, input, encryptionEnabled, password);
+                await createPngWithMetadata(canvasRef.current, input, encryptionEnabled, password, action);
             }
 
             clearContx(canvasRef);
@@ -73,14 +75,13 @@ const DownloadImageButton: React.FC = () => {
 
     return (
         <>
-            <button data-tooltip-target="tooltip-save" data-tooltip-trigger="hover" type="submit" tabIndex={0} id="btn-download" onClick={handleDownload} disabled={!input.length} className={`inline-flex justify-center items-center h-9 w-9 text-sm font-medium text-center transition ease-in-out duration-300 rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200 focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen hover:bg-quailegg focus:ring-blue-200 focus:ring-4'}`}>
-                <FontAwesomeIcon icon={faFloppyDisk} />
-                <span className='sr-only'>Download</span>
-            </button>
-            <div id="tooltip-save" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                Save to disk
-                <div className="tooltip-arrow" data-popper-arrow></div>
-            </div>
+            <Tooltip content="Save to disk" placement="top">
+                <label htmlFor="btn-download" className="sr-only">Download</label>
+                <button onClick={handleDownload} disabled={!input.length} type="submit" tabIndex={0} id="btn-download" className={`inline-flex justify-center items-center h-9 w-9 text-sm font-medium text-center transition ease-in-out duration-300 rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200/[0.5] focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen/[0.8] dark:bg-sagegreen dark:text-slate-900 dark:hover:bg-gray-300 hover:bg-sagegreen/[1.0] focus:ring-4'}`}>
+                    <FontAwesomeIcon icon={faFloppyDisk} />
+                    <span className='sr-only'>Download</span>
+                </button>
+            </Tooltip>
         </>
     );
 };
