@@ -4,5 +4,22 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"vs-code-prettier-eslint.prettierLast": true,
+		"prettier.tabWidth": 4,
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true,
+		"tailwindcss-intellisense.trace.server": "off",
+		"tailwindCSS.includeLanguages": {
+			"html": "html",
+			"typescript": "typescript",
+			"javascript": "javascript",
+			"*.css": "tailwindcss"
+		},
+		"editor.quickSuggestions": {
+			"strings": "on"
+		},
+		"tailwindCSS.colorDecorators": true,
+		"tailwindCSS.experimental.classRegex": []
+	}
 }
