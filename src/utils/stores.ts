@@ -15,150 +15,149 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MutableRefObject } from "react";
 import { Message } from "console-feed/lib/definitions/Component";
-import { Dispatch } from "react";
+import { Dispatch, MutableRefObject } from "react";
 import { create } from "zustand";
 
 // Define the store
 interface AppState {
-  debugMode: boolean;
-  setDebugMode: (value: boolean) => void;
+    debugMode: boolean;
+    setDebugMode: (value: boolean) => void;
 
-  logs: Message[];
-  setLogs: (value: Message[]) => void;
+    logs: Message[];
+    setLogs: (value: Message[]) => void;
 }
 
 interface PostState {
-  input: string;
+    input: string;
 
-  password: string;
-  setPassword: (value: string) => void;
+    password: string;
+    setPassword: (value: string) => void;
 
-  output: string[];
-  setOutput: Dispatch<string[]>;
+    output: string[];
+    setOutput: Dispatch<string[]>;
 
-  image: string;
-  setImage: (value: string) => void;
+    image: string;
+    setImage: (value: string) => void;
 
-  encryptedText: string;
-  setEncryptedText: (value: string) => void;
+    encryptedText: string;
+    setEncryptedText: (value: string) => void;
 
-  decryptedText: string;
-  setDecryptedText: (value: string) => void;
+    decryptedText: string;
+    setDecryptedText: (value: string) => void;
 
-  user: string;
-  setUser: (value: string) => void;
+    author: string;
+    setAuthor: (value: string) => void;
 
-  stringToDecrypt: string;
-  setStringToDecrypt: (value: string) => void;
+    stringToDecrypt: string;
+    setStringToDecrypt: (value: string) => void;
 
-  encryptionEnabled: boolean;
-  setEncryptionEnabled: (value: boolean) => void;
+    encryptionEnabled: boolean;
+    setEncryptionEnabled: (value: boolean) => void;
 }
 
 interface ImageState {
-  canvasRef: MutableRefObject<HTMLCanvasElement | null> | null;
-  setCanvasRef: (ref: MutableRefObject<HTMLCanvasElement | null>) => void;
+    canvasRef: MutableRefObject<HTMLCanvasElement | null> | null;
+    setCanvasRef: (ref: MutableRefObject<HTMLCanvasElement | null>) => void;
 
-  input: string;
-  setInput: (value: string) => void;
+    input: string;
+    setInput: (value: string) => void;
 
-  output: string[];
-  setOutput: Dispatch<string[]>;
+    output: string[];
+    setOutput: Dispatch<string[]>;
 
-  canvasHeight: number;
-  setCanvasHeight: (value: number) => void;
+    canvasHeight: number;
+    setCanvasHeight: (value: number) => void;
 
-  canvasWidth: number;
-  setCanvasWidth: (value: number) => void;
+    canvasWidth: number;
+    setCanvasWidth: (value: number) => void;
 
-  size: number;
-  setSize: (value: number) => void;
+    size: number;
+    setSize: (value: number) => void;
 
-  password: string;
-  setPassword: (value: string) => void;
+    password: string;
+    setPassword: (value: string) => void;
 
-  encryptedText: string;
-  setEncryptedText: (value: string) => void;
+    encryptedText: string;
+    setEncryptedText: (value: string) => void;
 
-  encryptionEnabled: boolean;
-  setEncryptionEnabled: (value: boolean) => void;
+    encryptionEnabled: boolean;
+    setEncryptionEnabled: (value: boolean) => void;
 
-  stringToDecrypt: string;
-  setStringToDecrypt: (value: string) => void;
+    stringToDecrypt: string;
+    setStringToDecrypt: (value: string) => void;
 
-  decryptedText: string;
-  setDecryptedText: Dispatch<string>;
+    decryptedText: string;
+    setDecryptedText: Dispatch<string>;
 }
 
 export const useAppState = create<AppState>((set) => ({
-  debugMode: false,
-  setDebugMode: (value: boolean) => set({ debugMode: value }),
+    debugMode: false,
+    setDebugMode: (value: boolean) => set({ debugMode: value }),
 
-  logs: [],
-  setLogs: (value: Message[]) => set({ logs: value }),
+    logs: [],
+    setLogs: (value: Message[]) => set({ logs: value }),
 }));
 
 export const usePostState = create<PostState>((set) => ({
-  input: "",
+    input: "",
 
-  password: "",
-  setPassword: (value: string) => set({ password: value }),
+    password: "",
+    setPassword: (value: string) => set({ password: value }),
 
-  user: "",
-  setUser: (value: string) => set({ user: value }),
+    author: "",
+    setAuthor: (value: string) => set({ author: value }),
 
-  stringToDecrypt: "",
-  setStringToDecrypt: (value: string) => set({ stringToDecrypt: value }),
+    stringToDecrypt: "",
+    setStringToDecrypt: (value: string) => set({ stringToDecrypt: value }),
 
-  encryptionEnabled: false,
-  setEncryptionEnabled: (value: boolean) => set({ encryptionEnabled: value }),
+    encryptionEnabled: false,
+    setEncryptionEnabled: (value: boolean) => set({ encryptionEnabled: value }),
 
-  output: [],
-  setOutput: (value: string[]) => set({ output: value }),
+    output: [],
+    setOutput: (value: string[]) => set({ output: value }),
 
-  image: "",
-  setImage: (value: string) => set({ image: value }),
+    image: "",
+    setImage: (value: string) => set({ image: value }),
 
-  encryptedText: "",
-  setEncryptedText: (value: string) => set({ encryptedText: value }),
+    encryptedText: "",
+    setEncryptedText: (value: string) => set({ encryptedText: value }),
 
-  decryptedText: "",
-  setDecryptedText: (value: string) => set({ decryptedText: value }),
+    decryptedText: "",
+    setDecryptedText: (value: string) => set({ decryptedText: value }),
 }));
 
 export const useImageState = create<ImageState>((set) => ({
-  canvasRef: null, // Initialize with null
-  setCanvasRef: (ref) => set(() => ({ canvasRef: ref })),
+    canvasRef: null, // Initialize with null
+    setCanvasRef: (ref) => set(() => ({ canvasRef: ref })),
 
-  input: "",
-  setInput: (value: string) => set({ input: value }),
+    input: "",
+    setInput: (value: string) => set({ input: value }),
 
-  output: [],
-  setOutput: (value: string[]) => set({ output: value }),
+    output: [],
+    setOutput: (value: string[]) => set({ output: value }),
 
-  canvasHeight: 32,
-  setCanvasHeight: (value: number) => set({ canvasHeight: value }),
+    canvasHeight: 32,
+    setCanvasHeight: (value: number) => set({ canvasHeight: value }),
 
-  canvasWidth: 1024,
-  setCanvasWidth: (value: number) => set({ canvasWidth: value }),
+    canvasWidth: 1024,
+    setCanvasWidth: (value: number) => set({ canvasWidth: value }),
 
-  size: 12,
-  setSize: (value: number) => set({ size: value }),
+    size: 12,
+    setSize: (value: number) => set({ size: value }),
 
-  password: "",
-  setPassword: (value: string) => set({ password: value }),
+    password: "",
+    setPassword: (value: string) => set({ password: value }),
 
-  encryptedText: "",
-  setEncryptedText: (value: string) => set({ encryptedText: value }),
+    encryptedText: "",
+    setEncryptedText: (value: string) => set({ encryptedText: value }),
 
-  encryptionEnabled: false,
-  setEncryptionEnabled: (value: boolean) => set({ encryptionEnabled: value }),
+    encryptionEnabled: false,
+    setEncryptionEnabled: (value: boolean) => set({ encryptionEnabled: value }),
 
-  stringToDecrypt: "",
-  setStringToDecrypt: (value: string) => set({ stringToDecrypt: value }),
+    stringToDecrypt: "",
+    setStringToDecrypt: (value: string) => set({ stringToDecrypt: value }),
 
-  decryptedText: "",
-  setDecryptedText: (value: string) => set({ decryptedText: value }),
+    decryptedText: "",
+    setDecryptedText: (value: string) => set({ decryptedText: value }),
 }));
