@@ -16,7 +16,7 @@
  */
 
 import { render, fireEvent, screen } from '@testing-library/react';
-import Slider from '../components/Slider';
+import Slider from '../components/NodeSize';
 
 describe('Slider Component', () => {
     const defaultProps = {
@@ -25,14 +25,14 @@ describe('Slider Component', () => {
     };
 
     it('should render the component correctly', () => {
-        render(<Slider {...defaultProps} />);
+        render(<Slider />);
         const slider = screen.getByRole('slider');
         expect(slider).toBeInTheDocument();
         expect(slider).toHaveValue('16');
     });
 
     it('should update size when slider value changes', () => {
-        render(<Slider {...defaultProps} />);
+        render(<Slider />);
 
         const slider = screen.getByRole('slider');
         fireEvent.change(slider, { target: { value: '18' } });
@@ -41,7 +41,7 @@ describe('Slider Component', () => {
     });
 
     it('should respect the min, max, and step attributes', () => {
-        render(<Slider {...defaultProps} />);
+        render(<Slider />);
 
         const slider = screen.getByRole('slider');
         expect(slider).toHaveAttribute('min', '12');

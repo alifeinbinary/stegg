@@ -16,10 +16,10 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { LogsContainer } from '../components/LogsContainer';
+import DebugConsole from '../components/DebugConsole';
 import { Message } from 'console-feed/lib/definitions/Component';
 
-describe('LogsContainer Component', () => {
+describe('DebugConsole Component', () => {
     const items = {
         input: ["test input string"],
         canvasHeight: ["32px"], // canvasHeight,
@@ -47,13 +47,13 @@ describe('LogsContainer Component', () => {
     ];
 
     it('should render the component correctly', () => {
-        render(<LogsContainer logs={mockLogs} />);
+        render(<DebugConsole logs={mockLogs} />);
 
         const consoleFeed = screen.getByTestId('console-feed');
         expect(consoleFeed).toBeInTheDocument();
     });
 
     it('should pass logs to the Console component', () => {
-        render(<LogsContainer logs={mockLogs} />);
+        render(<DebugConsole logs={mockLogs} />);
     });
 });

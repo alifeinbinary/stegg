@@ -17,7 +17,7 @@
 
 
 import { render, screen, fireEvent } from '@testing-library/react';
-import { FileUploader } from '../components/Dropzone';
+import { FileUploader } from '../components/Decrypt';
 import { useDropzone } from 'react-dropzone';
 import { getMetadata } from 'meta-png';
 

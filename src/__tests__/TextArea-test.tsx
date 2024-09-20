@@ -22,7 +22,7 @@
 import React from 'react';
 import { jest, expect } from '@jest/globals';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { TextArea } from '../components/TextArea';
+import { TextArea } from '../components/Encrypt';
 import { toast } from 'react-toastify';
 
 jest.mock('react-toastify', () => ({
