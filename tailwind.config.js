@@ -1,43 +1,39 @@
-const flowbite = require("flowbite-react/tailwind");
 /** @type {import('tailwindcss').Config} */
+const flowbite = require("flowbite-react/tailwind");
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
-    ,
-    flowbite.content(),
-  ],
-  theme: {
-    extend: {
-      colors: {
-        beige: "#ffeedd",
-        lightergreen: "#ddeecc",
-        eggblue: "#aaddcc",
-        seablue: "#99aabb",
-        sagegreen: "#88aa99",
-        lightgreen: "#aabb99",
-        lighterbrown: "#bb9988",
-        lightorange: "#eebbaa",
-        orange: "#ff8866",
-        pink: "#ccaabb",
-        mauve: "#886677",
-        lightbrown: "#887766",
-        brown: "#554433",
-        greengrass: "#667755",
-        quailegg: "#557777",
-        forestgreen: "#223311",
-        lightbergundy: "#442233",
-        bergundy: "#331111",
-        deepbergundy: "#330011",
-      },
-      transitionProperty: {
-        width: "width",
-      },
+    theme: {
+        extend: {
+            colors: {
+                // Tailwind colors
+                // * denotes not a close match
+                beige: "#ffeedd", // orange-100
+                lightergreen: "#ddeecc", // lime-100
+                eggblue: "#aaddcc", // emerald-200
+                seablue: "#99aabb", // slate-400
+                sagegreen: "#88aa99", // neutral-400 *
+                lightgreen: "#aabb99", // stone-400 *
+                lighterbrown: "#bb9988", // stone-400 *
+                lightorange: "#eebbaa", // red-300 *
+                orange: "#ff8866", // red-400 *
+                pink: "#ccaabb", // stone-400 *
+                mauve: "#886677", // stone-500 *
+                lightbrown: "#887766", // stone-500 *
+                brown: "#554433", // stone-700
+                greengrass: "#667755", // stone-500 *
+                quailegg: "#557777", // gray-500 *
+                forestgreen: "#223311", // lime-950
+                lightbergundy: "#442233", // zinc-800 *
+                bergundy: "#331111", // orange-950
+                deepbergundy: "#330011", // red-950
+            },
+            transitionProperty: {
+                width: "width",
+            },
+        },
+        screens: {
+            xs: { max: "639px" },
+        },
     },
-    screens: {
-      xs: { max: "639px" },
-    },
-  },
-  plugins: [flowbite.plugin()],
+    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
+    plugins: [flowbite.plugin(), "eslint-plugin-tailwindcss"],
 };
