@@ -65,7 +65,8 @@ const clearContx = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
 function plot(
   output: string[],
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
-  size: number
+  size: number,
+  encryptionEnabled: boolean
 ) {
   // const size = 20;
 
@@ -100,52 +101,108 @@ function plot(
   clearContx(canvasRef);
 
   let iter = 0;
+  let sizeMultiplier = 29;
+  let sizeModifier = 0;
+  let columnWidth = 264;
+  let seedOffset = 10;
+  let lineHeight = 34;
+  let columnDivider = 4;
 
-  for (let row = 0; row < Math.ceil(output.length / 4); row++) {
-    let top = size + 10;
+  async function doLoop(
+    contx: CanvasRenderingContext2D,
+    sizeModifier: number,
+    sizeMultiplier: number,
+    columnWidth: number,
+    seedOffset: number,
+    lineHeight: number,
+    columnDivider: number
+  ) {
+    const calculatedSize = size - sizeModifier;
+    // Calculate rows
+    for (let row = 0; row < Math.ceil(output.length / 4); row++) {
+      let top = calculatedSize + seedOffset;
 
-    if (row > 0) {
-      top += (size + 34) * row;
-    }
-
-    for (let col = 0; col < 4; col++) {
-      const str = output[iter];
-      const left = size + 14;
-      let column = 0;
-
-      if (!str) {
-        break;
+      if (row > 0) {
+        top += (calculatedSize + lineHeight) * row;
       }
 
-      if (col > 0) {
-        column += (size + 264) * col;
-      }
+      for (let col = 0; col < columnDivider; col++) {
+        const str = output[iter];
+        const left = calculatedSize + (seedOffset + 4);
+        let column = 0;
 
-      for (let string = 0; string < str.length; string++) {
-        contx.beginPath();
-        drawShape(
-          contx,
-          column + left + 29 * string,
-          top,
-          getRandomInt(3, 12),
-          size,
-          size,
-          Math.PI
-        );
-        contx.moveTo(300, 20);
-        contx.lineWidth = 2;
-
-        if (str[string] === "1") {
-          contx.fillStyle = colours[Math.floor(Math.random() * colours.length)];
-          contx.fill();
-        } else {
-          contx.strokeStyle =
-            colours[Math.floor(Math.random() * colours.length)];
-          contx.stroke();
+        if (!str) {
+          break;
         }
+
+        if (col > 0) {
+          column += (calculatedSize + columnWidth) * col;
+        }
+        // Calculate columns
+        for (let string = 0; string < str.length; string++) {
+          contx.beginPath();
+          drawShape(
+            contx,
+            column + left + sizeMultiplier * string,
+            top,
+            getRandomInt(3, 12),
+            calculatedSize,
+            calculatedSize,
+            Math.PI
+          );
+          contx.moveTo(300, 20);
+          contx.lineWidth = 2 / (sizeModifier - 5);
+
+          if (str[string] === "1") {
+            contx.fillStyle =
+              colours[Math.floor(Math.random() * colours.length)];
+            contx.fill();
+          } else {
+            contx.strokeStyle =
+              colours[Math.floor(Math.random() * colours.length)];
+            contx.stroke();
+          }
+        }
+        iter++;
       }
-      iter++;
     }
+  }
+
+  if (
+    (output.length > 64 && encryptionEnabled) ||
+    (output.length > 128 && !encryptionEnabled)
+  ) {
+    sizeModifier = 7;
+    sizeMultiplier = 15;
+    columnWidth = 130;
+    seedOffset = 4;
+    lineHeight = 12;
+    columnDivider = 8;
+    doLoop(
+      contx,
+      sizeModifier,
+      sizeMultiplier,
+      columnWidth,
+      seedOffset,
+      lineHeight,
+      columnDivider
+    );
+  } else {
+    sizeModifier = 0;
+    sizeMultiplier = 29;
+    columnWidth = 264;
+    seedOffset = 10;
+    lineHeight = 34;
+    columnDivider = 4;
+    doLoop(
+      contx,
+      sizeModifier,
+      sizeMultiplier,
+      columnWidth,
+      seedOffset,
+      lineHeight,
+      columnDivider
+    );
   }
 }
 
