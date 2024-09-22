@@ -36,7 +36,7 @@ const Header: React.FC = () => {
             <section className="px-6 sm:px-2 xs:px-1 pt-8">
                 <div className="py-4 px-4 bg-white dark:bg-slate-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
-                        <DarkThemeToggle onClick={toggleTheme} className='absolute top-0 right-0' />
+                        <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} className='absolute top-0 right-0' />
                         <h1 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Binary Translator</h1>
                         <p className="mb-4 font-bold dark:text-gray-100">This is an application written in Typescript using React</p>
                         <p className="mb-4 font-base dark:text-gray-200"><b>How it works:</b> This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data; nodes that are filled represent 1's and nodes that are empty represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</p>
