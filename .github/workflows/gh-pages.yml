@@ -49,3 +49,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Set environment variables
+        run: |
+          echo "VITE_MAIN_API_URL=${VITE_MAIN_API_URL}" >> $GITHUB_ENV
+          echo "VITE_MANAGE_API_URL=${VITE_MANAGE_API_URL}" >> $GITHUB_ENV
+          echo "VITE_READ_API_URL=${VITE_READ_API_URL}" >> $GITHUB_ENV
+          echo "VITE_TOKEN=${VITE_TOKEN}" >> $GITHUB_ENV
+        env:
+          VITE_MAIN_API_URL: ${{ secrets.VITE_MAIN_API_URL }}
+          VITE_MANAGE_API_URL: ${{ secrets.VITE_MANAGE_API_URL }}
+          VITE_READ_API_URL: ${{ secrets.VITE_READ_API_URL }}
+          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
