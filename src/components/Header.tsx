@@ -19,9 +19,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DarkThemeToggle } from 'flowbite-react';
 import { faAsterisk, faCodeFork, faFaceSmile, faLock, faStar } from '@fortawesome/free-solid-svg-icons'
 import { faReact, faFontAwesome, faNodeJs, faNpm, faAws, faFirefoxBrowser } from '@fortawesome/free-brands-svg-icons'
+import { useTheme } from '../utils/useTheme';
 
 
 const Header: React.FC = () => {
+    const { theme, toggleTheme } = useTheme();
     // Detect system theme on page load and apply it to the HTML document
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark')
@@ -34,7 +36,7 @@ const Header: React.FC = () => {
             <section className="px-6 sm:px-2 xs:px-1 pt-8">
                 <div className="py-4 px-4 bg-white dark:bg-slate-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
-                        <DarkThemeToggle className='absolute top-0 right-0' />
+                        <DarkThemeToggle onClick={toggleTheme} className='absolute top-0 right-0' />
                         <h1 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Binary Translator</h1>
                         <p className="mb-4 font-bold dark:text-gray-100">This is an application written in Typescript using React</p>
                         <p className="mb-4 font-base dark:text-gray-200"><b>How it works:</b> This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data; nodes that are filled represent 1's and nodes that are empty represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</p>
@@ -96,7 +98,7 @@ const Header: React.FC = () => {
                                         <p className="text-xl font-semibold text-gray-900 dark:text-white">"Is this like Twitter for robots? Why would anyone make this?"</p>
                                     </blockquote>
                                     <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
-                                        <img className="w-6 h-6 rounded-full" src="public/diane.webp" alt="profile picture" />
+                                        <img className="w-6 h-6 rounded-full" src="diane.webp" alt="profile picture" />
                                         <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-300 dark:divide-gray-700">
                                             <cite className="pe-3 font-medium text-gray-900 dark:text-white">Diane</cite>
                                             <cite className="ps-3 text-sm text-gray-500 dark:text-gray-300">A newly retired, former part-time receptionist and recent grandmother of twins I showed this to on the ferry</cite>
