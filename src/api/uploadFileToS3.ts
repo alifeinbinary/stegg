@@ -15,7 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { toast } from "react-toastify";
 interface PreSignedPostPayloadProps {
     data: {
         fields: {
@@ -42,10 +41,6 @@ export const uploadFileToS3 = (
     presignedPostData: PreSignedPostPayloadProps,
     file: Blob,
 ) => {
-    const toastId = toast("Processing image...", { autoClose: false });
-    toast.update(toastId, {
-        render: "Uploading file to S3...",
-    });
     console.debug("presignedPostData", presignedPostData);
     console.debug("Uploading file to S3...");
 
@@ -64,20 +59,10 @@ export const uploadFileToS3 = (
             if (xhr.status === 204) {
                 resolve(xhr.response);
                 console.debug("File uploaded successfully", xhr.response);
-                toast.update(toastId, {
-                    render: "File uploaded successfully",
-                    type: "success",
-                    autoClose: 3000,
-                    isLoading: false,
-                });
                 return xhr.response.url;
             } else {
                 reject(xhr.response);
                 console.error("File upload failed:", xhr.response);
-                toast.update(toastId, {
-                    render: "File upload failed.",
-                    type: "error",
-                });
             }
         };
     });

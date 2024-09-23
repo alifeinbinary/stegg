@@ -16,7 +16,6 @@
  */
 
 import { useMutation } from "@apollo/client";
-// import { toast } from "react-toastify";
 import { CREATE_BINARYFEEDIMAGE } from "./api";
 // import { useGetPreSignedPostPayload } from "./getPreSignedPostPayload";
 // import { uploadFileToS3 } from "./uploadFileToS3";
@@ -77,25 +76,17 @@ export const useCreateBinaryFeedImage = () => {
     // useEffect(() => {
     //   if (createFileError) {
     //     console.log("createFileError", createFileError);
-    //     toast.update(toastId, {
-    //       type: "error",
-    //       render: "Failed to create file in the file manager.",
-    //     });
     //   } else if (createFileData) {
     //     console.log(
     //       "createFileData",
     //       createFileData.fileManager.createFile.data.src
     //     );
     //     //   setFeedImageUrl(createFileData.fileManager.createFile.data.src);
-    //     toast.update(toastId, {
-    //       type: "success",
-    //       render: `Your file is now accessible at the following URL:\n${createFileData.fileManager.createFile.data.src}`,
-    //     });
     //     console.log(
     //       `Your file is now accessible at the following URL:\n${createFileData.fileManager.createFile.data.src}`
     //     );
     //   }
-    // }, [createFileData, createFileError, toastId]);
+    // }, [createFileData, createFileError]);
 
     // Fetch the blob and get its size
     // const fetchBlobAndGetSize = async (url: string) => {
@@ -107,10 +98,6 @@ export const useCreateBinaryFeedImage = () => {
     const createBinaryFeedImage = async (
         fileInput: string[],
     ): Promise<FmFileResponse> => {
-        // const toastId = toast("Creating image reference in database...", {
-        //     autoClose: false,
-        // });
-
         await createFileMutation({
             variables: {
                 data: fileInput,
@@ -134,16 +121,8 @@ export const useCreateBinaryFeedImage = () => {
 
         //     if (loading) {
         //         console.debug("loading");
-        //         toast.update(toastId, {
-        //             type: "info",
-        //             render: "Fetching pre-signed POST payload...",
-        //         });
         //     } else if (error) {
         //         console.debug("error", error);
-        //         toast.update(toastId, {
-        //             type: "error",
-        //             render: "Failed to fetch pre-signed POST payload.",
-        //         });
         //     } else {
         //         console.debug("data", data);
         //     }
@@ -185,26 +164,12 @@ export const useCreateBinaryFeedImage = () => {
         //                 },
         //             });
         //             console.debug("File record created in the file manager");
-        //             toast.update(toastId, {
-        //                 render: "File record created in the file manager",
-        //                 type: "info",
-        //                 autoClose: 1000,
-        //                 isLoading: false,
-        //             });
         //             return preSignedPostPayload;
         //         }
 
-        //         toast.update(toastId, {
-        //             render: "Creating image...",
-        //             type: "info",
-        //         });
         //         // processFileUpload(fileName, url);
         //     } else {
-        //         toast.update(toastId, {
-        //             autoClose: 1000,
-        //             type: "warning",
-        //             render: "File not processed.",
-        //         });
+
         //     }
         // }
         return new Promise((resolve) => {

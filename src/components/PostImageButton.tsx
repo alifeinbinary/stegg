@@ -72,7 +72,7 @@ const PostImageButton: React.FC = () => {
 
     const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const toastId = toast("Processing image...", { autoClose: false });
+        const toastId = toast("Processing image...", { autoClose: false, isLoading: true });
 
         if (canvasRef && canvasRef.current && input) {
 
@@ -81,17 +81,32 @@ const PostImageButton: React.FC = () => {
                 toast.update(toastId, {
                     render: "Embedding metadata...",
                     type: "info",
-                    isLoading: true,
-                    autoClose: 2000
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.0
                 });
 
                 const { fileName, url } = await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password, "post");
 
                 console.debug("fileName", fileName, "url", url);
+                toast.update(toastId, {
+                    render: "Determining the size of the image...",
+                    type: "info",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.14
+                })
 
                 const { blob, size } = await fetchBlobAndGetSize(url);
 
                 console.debug("blob", blob, "size", size);
+                toast.update(toastId, {
+                    render: "Getting presigned post payload...",
+                    type: "info",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.28
+                })
 
                 const { data } = await getPreSignedPostPayload({
                     name: fileName,
@@ -100,6 +115,13 @@ const PostImageButton: React.FC = () => {
                 })
 
                 console.debug("data", data);
+                toast.update(toastId, {
+                    render: "Uploading to S3 bucket...",
+                    type: "info",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.42
+                })
 
                 const preSignedPostPayload = data?.fileManager.getPreSignedPostPayload.data;
 
@@ -119,13 +141,35 @@ const PostImageButton: React.FC = () => {
                 delete fileInput.__typename;
 
                 console.debug("fileInput", fileInput);
+                toast.update(toastId, {
+                    render: "Creating binary feed image...",
+                    type: "info",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.57
+                })
 
                 const createdFile = await createBinaryFeedImage(fileInput);
 
                 console.debug("createdFile", createdFile);
+                toast.update(toastId, {
+                    render: "Creating binary image post...",
+                    type: "info",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.71
+                })
 
                 const authorOrAnon = author ? author : "Anon";
                 await createBinaryImagePost(authorOrAnon, preSignedPostPayload.file.key);
+
+                toast.update(toastId, {
+                    type: "success",
+                    render: "Image uploaded successfully",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 1.0
+                })
 
             } else {
                 toast.update(toastId, {

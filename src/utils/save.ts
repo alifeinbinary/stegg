@@ -16,18 +16,8 @@
  */
 
 import { addMetadata } from "meta-png";
-import { toast } from "react-toastify";
-
-let toastId: string;
 
 function saveBlob(blobWithMetadata: Blob, fileName: string) {
-    toast.update(toastId, {
-        render: "Saving image for download.",
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-    });
-
     const url = URL.createObjectURL(blobWithMetadata);
     const link = document.createElement("a");
     link.href = url;
@@ -41,13 +31,6 @@ function saveBlob(blobWithMetadata: Blob, fileName: string) {
 }
 
 function returnBlob(blobWithMetadata: Blob, fileName: string) {
-    toast.update(toastId, {
-        render: "Returning blob",
-        type: "info",
-        isLoading: false,
-        autoClose: 2000,
-    });
-
     const url = URL.createObjectURL(blobWithMetadata);
     const link = document.createElement("a");
     link.href = url;
@@ -67,8 +50,6 @@ async function addMetadataToPng(
     encryptionEnabled: string,
     password: string,
 ): Promise<Blob> {
-    toast.update(toastId, { render: "Adding metadata to PNG", type: "info" });
-
     const buffer = await blob.arrayBuffer();
     const pngData = new Uint8Array(buffer);
     const inputText = (
@@ -112,10 +93,6 @@ async function createPngWithMetadata(
     const croppedCanvas = cropImageFromCanvas(canvas);
     const blob = await getCanvasBlob(croppedCanvas);
 
-    toast.update(toastId, {
-        render: "Creating PNG with metadata",
-        type: "info",
-    });
     const blobWithMetadata = await addMetadataToPng(
         blob,
         encryptedText,
@@ -124,21 +101,11 @@ async function createPngWithMetadata(
     );
 
     if (action === "download") {
-        toast.update(toastId, {
-            render: "Saving image for download",
-            type: "success",
-        });
         saveBlob(
             blobWithMetadata,
             `alifeinbinary_com-${encryptedText.slice(7, 15)}.png`,
         );
     } else if (action === "post" && encryptedText) {
-        toast.update(toastId, {
-            render: "Saving image for post",
-            type: "info",
-            autoClose: 2000,
-            isLoading: false,
-        });
         const filename = `alifeinbinary_com-${encryptedText.slice(7, 15)}.png`;
         const { url } = returnBlob(blobWithMetadata, filename);
 
@@ -153,12 +120,6 @@ async function createPngWithMetadata(
 }
 
 function cropImageFromCanvas(canvas: HTMLCanvasElement) {
-    toast.update(toastId, {
-        render: "Trimming the canvas",
-        type: "info",
-        isLoading: true,
-    });
-
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Failed to get canvas context");
 
