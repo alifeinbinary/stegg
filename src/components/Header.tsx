@@ -39,8 +39,8 @@ const Header: React.FC = () => {
                         <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} className='absolute top-0 right-0' />
                         <h1 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Binary Translator</h1>
                         <p className="mb-4 font-bold dark:text-gray-100">This is an application written in Typescript using React</p>
-                        <p className="mb-4 font-base dark:text-gray-200"><b>How it works:</b> This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data; nodes that are filled represent 1's and nodes that are empty represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</p>
-                        <p className="mb-4 font-base dark:text-gray-200">Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provide them, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</p>
+                        <p className="mb-4 font-base dark:text-gray-200"><b>How it works:</b> This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</p>
+                        <p className="mb-4 font-base dark:text-gray-200">Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</p>
                         <p className='mb-4 font-base dark:text-gray-200'>I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-blue-900 hover:underline dark:text-blue-300' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within.</p>
                         <div className='mb-4'>
                             <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">Technology involved</h2>
@@ -67,10 +67,10 @@ const Header: React.FC = () => {
                                         Embedding metadata in files
                                     </li>
                                     <li>
-                                        CRUD operations to a serverless API on AWS
+                                        CRUD operations to a serverless API on AWS using GraphQL
                                     </li>
                                     <li>
-                                        File storage on AWS S3 managed by cron jobs
+                                        File storage on AWS S3 managed by a cron job
                                     </li>
                                     <li>
                                         Jest tests
@@ -95,7 +95,7 @@ const Header: React.FC = () => {
                                         </span>
                                     </div>
                                     <blockquote>
-                                        <p className="text-xl font-semibold text-gray-900 dark:text-white">"Is this like Twitter for robots? Why would anyone make this?"</p>
+                                        <p className="text-xl font-semibold text-gray-900 dark:text-white">"Is this like Twitter for robots? Why would anyone make this???"</p>
                                     </blockquote>
                                     <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
                                         <img className="w-6 h-6 rounded-full" src="diane.webp" alt="profile picture" />
