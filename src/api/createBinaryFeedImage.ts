@@ -17,8 +17,6 @@
 
 import { useMutation } from "@apollo/client";
 import { CREATE_BINARYFEEDIMAGE } from "./api";
-// import { useGetPreSignedPostPayload } from "./getPreSignedPostPayload";
-// import { uploadFileToS3 } from "./uploadFileToS3";
 
 interface FmFileResponse {
     file: any;
@@ -58,120 +56,16 @@ export const useCreateBinaryFeedImage = () => {
         },
     });
 
-    // useEffect(() => {
-    //   if (preSignedData) {
-    //     console.log("preSignedData", preSignedData);
-    //     const data = preSignedData;
-    //     createFileMutation({
-    //       variables: {
-    //         name: data.data.name,
-    //         type: data.data.type,
-    //         size: 0,
-    //         ...data,
-    //       },
-    //     });
-    //   }
-    // }, [createFileMutation, preSignedData]);
-
-    // useEffect(() => {
-    //   if (createFileError) {
-    //     console.log("createFileError", createFileError);
-    //   } else if (createFileData) {
-    //     console.log(
-    //       "createFileData",
-    //       createFileData.fileManager.createFile.data.src
-    //     );
-    //     //   setFeedImageUrl(createFileData.fileManager.createFile.data.src);
-    //     console.log(
-    //       `Your file is now accessible at the following URL:\n${createFileData.fileManager.createFile.data.src}`
-    //     );
-    //   }
-    // }, [createFileData, createFileError]);
-
-    // Fetch the blob and get its size
-    // const fetchBlobAndGetSize = async (url: string) => {
-    //     const response = await fetch(url);
-    //     const blob = await response.blob();
-    //     return { blob, size: blob.size };
-    // };
-
     const createBinaryFeedImage = async (
         fileInput: string[],
     ): Promise<FmFileResponse> => {
+        console.debug("fileInput", fileInput);
         await createFileMutation({
             variables: {
                 data: fileInput,
             },
         });
 
-        // if (fileName && fileUrl) {
-
-        //     // const { blob, size } = await fetchBlobAndGetSize(fileUrl);
-
-        //     // const fileType = "image/png";
-
-        //     // Trigger the query with the actual size
-        //     // const { data, loading, error } = await preSignedData.refetch({
-        //     //     data: {
-        //     //         name: fileName,
-        //     //         type: fileType,
-        //     //         size: size,
-        //     //     },
-        //     // });
-
-        //     if (loading) {
-        //         console.debug("loading");
-        //     } else if (error) {
-        //         console.debug("error", error);
-        //     } else {
-        //         console.debug("data", data);
-        //     }
-
-        //     if (data) {
-        //         const preSignedPostPayload =
-        //             data?.fileManager.getPreSignedPostPayload.data;
-        //         console.debug("preSignedPostPayload", preSignedPostPayload);
-        //         if (preSignedPostPayload !== undefined && blob !== undefined) {
-        //             // Upload file to S3
-        //             //
-        //             // Args:
-        //             // presignedPostData: PreSignedPostPayloadProps,
-        //             // file: Blob
-        //             const imageUrl = await uploadFileToS3(
-        //                 preSignedPostPayload,
-        //                 blob,
-        //             );
-        //             console.debug("preSignedPostPayload", preSignedPostPayload);
-        //             console.debug("imageUrl", imageUrl);
-
-        //             // const fileInput = {
-        //             //     ...preSignedPostPayload.file,
-        //             //     tags: ["binary-image"],
-        //             //     aliases: [],
-        //             //     location: { folderId: "66dab76c9c00420008532f91" },
-        //             // };
-        //             console.debug("fileInput", fileInput);
-        //             delete fileInput.__typename;
-        //             // Create file record in file manager
-        //             await createFileMutation({
-        //                 variables: {
-        //                     data: {
-        //                         name: fileInput.name,
-        //                         type: fileInput.type,
-        //                         size: fileInput.size,
-        //                         ...fileInput,
-        //                     },
-        //                 },
-        //             });
-        //             console.debug("File record created in the file manager");
-        //             return preSignedPostPayload;
-        //         }
-
-        //         // processFileUpload(fileName, url);
-        //     } else {
-
-        //     }
-        // }
         return new Promise((resolve) => {
             resolve({} as FmFileResponse);
         });
