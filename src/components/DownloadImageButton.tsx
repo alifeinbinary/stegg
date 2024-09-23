@@ -75,7 +75,7 @@ const DownloadImageButton: React.FC = () => {
 
     return (
         <>
-            <Tooltip content="Save to disk" placement="top">
+            <Tooltip content={input.length ? "Download image" : "Enter a message before saving to disk"} placement="top">
                 <label htmlFor="btn-download" className="sr-only">Download</label>
                 <button onClick={handleDownload} disabled={!input.length} type="submit" tabIndex={0} id="btn-download" className={`inline-flex justify-center items-center h-9 w-9 text-sm font-medium text-center transition ease-in-out duration-300 rounded-lg ${handleSaveVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200/[0.5] focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen/[0.8] dark:bg-sagegreen dark:text-slate-900 dark:hover:bg-gray-300 hover:bg-sagegreen/[1.0] focus:ring-4'}`}>
                     <FontAwesomeIcon icon={faFloppyDisk} />
