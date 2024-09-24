@@ -18,7 +18,7 @@
 import { Message } from "console-feed/lib/definitions/Component";
 import { Dispatch, MutableRefObject } from "react";
 import { create } from "zustand";
-import { useListBinaryImagePosts } from "../api/listBinaryImagePosts";
+import { useListBinaryImagePosts } from "../api/useListBinaryImagePosts";
 
 // Define the store
 interface AppState {

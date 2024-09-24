@@ -18,7 +18,7 @@
 import { FC, useEffect, useState } from "react";
 import { Alert, Spinner } from "flowbite-react";
 import { PostProps } from "../types";
-import { useListBinaryImagePosts } from "../api/listBinaryImagePosts";
+import { useListBinaryImagePosts } from "../api/useListBinaryImagePosts";
 import Post from "./Post";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

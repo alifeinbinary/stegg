@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DarkThemeToggle } from 'flowbite-react';
 import { faAsterisk, faCodeFork, faFaceSmile, faLock, faStar } from '@fortawesome/free-solid-svg-icons'
 import { faReact, faFontAwesome, faNodeJs, faNpm, faAws, faFirefoxBrowser } from '@fortawesome/free-brands-svg-icons'
-import { useTheme } from '../utils/useTheme';
+import { useTheme } from '../hooks/useTheme';
 
 
 const Header: React.FC = () => {
@@ -109,12 +109,12 @@ const Header: React.FC = () => {
                             <div className='mb-4 absolute lg:absolute md:absolute sm:absolute xs:relative bottom-0 right-0'>
                                 <h3 className='mb-1 mt-4 text-lg tracking-tight font-bold text-gray-900 dark:text-white'>Created with</h3>
                                 <div className='text-3xl flex flex-row'>
-                                    <a href="https://nodejs.org/" target="_blank"><FontAwesomeIcon icon={faNodeJs} className="hover:text-forestgreen transition-colors duration-500 ease-in-out" /></a>
-                                    <a href="https://www.npmjs.com/" target="_blank"><FontAwesomeIcon icon={faNpm} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
-                                    <a href="https://react.dev/" target="_blank"><FontAwesomeIcon icon={faReact} className='ml-2 hover:text-eggblue transition-colors duration-500 ease-in-out' /></a>
-                                    <a href="https://aws.amazon.com/" target="_blank"><FontAwesomeIcon icon={faAws} className="ml-2 hover:text-eggblue transition-colors duration-500 ease-in-out" /></a>
-                                    <a href='https://fontawesome.com/' target='_blank'><FontAwesomeIcon icon={faFontAwesome} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
-                                    <a href="https://www.mozilla.org/en-CA/firefox/new/" target="_blank"><FontAwesomeIcon icon={faFirefoxBrowser} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                                    <a href="https://nodejs.org/" aria-label="Node JS" target="_blank"><FontAwesomeIcon icon={faNodeJs} className="hover:text-forestgreen transition-colors duration-500 ease-in-out" /></a>
+                                    <a href="https://www.npmjs.com/" aria-label="NPM" target="_blank"><FontAwesomeIcon icon={faNpm} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                                    <a href="https://react.dev/" aria-label="React" target="_blank"><FontAwesomeIcon icon={faReact} className='ml-2 hover:text-eggblue transition-colors duration-500 ease-in-out' /></a>
+                                    <a href="https://aws.amazon.com/" aria-label="Amazon Web Services" target="_blank"><FontAwesomeIcon icon={faAws} className="ml-2 hover:text-eggblue transition-colors duration-500 ease-in-out" /></a>
+                                    <a href='https://fontawesome.com/' aria-label="Font Awesome" target='_blank'><FontAwesomeIcon icon={faFontAwesome} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
+                                    <a href="https://www.mozilla.org/en-CA/firefox/new/" aria-label="Mozilla Firefox" target="_blank"><FontAwesomeIcon icon={faFirefoxBrowser} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
                                 </div>
                             </div>
                         </div>
