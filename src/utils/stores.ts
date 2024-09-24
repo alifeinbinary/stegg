@@ -18,6 +18,7 @@
 import { Message } from "console-feed/lib/definitions/Component";
 import { Dispatch, MutableRefObject } from "react";
 import { create } from "zustand";
+import { useListBinaryImagePosts } from "../api/listBinaryImagePosts";
 
 // Define the store
 interface AppState {
@@ -26,6 +27,8 @@ interface AppState {
 
     logs: Message[];
     setLogs: (value: Message[]) => void;
+
+    updateCache: () => void;
 }
 
 interface PostState {
@@ -91,12 +94,27 @@ interface ImageState {
     setDecryptedText: Dispatch<string>;
 }
 
+const updateCache = async () => {
+    const { error, loading, refetch } = useListBinaryImagePosts();
+
+    if (!loading && !error) {
+        try {
+            await refetch();
+            console.log("Cache updated successfully!");
+        } catch (error) {
+            console.error("Error updating cache:", error);
+        }
+    }
+};
+
 export const useAppState = create<AppState>((set) => ({
     debugMode: false,
     setDebugMode: (value: boolean) => set({ debugMode: value }),
 
     logs: [],
     setLogs: (value: Message[]) => set({ logs: value }),
+
+    updateCache: () => updateCache(),
 }));
 
 export const usePostState = create<PostState>((set) => ({
