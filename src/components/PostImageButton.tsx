@@ -44,7 +44,7 @@ const PostImageButton: React.FC = () => {
 
     const { getPreSignedPostPayload } = useGetPreSignedPostPayload();
     const { createBinaryFeedImage } = useCreateBinaryFeedImage();
-    const { createBinaryImagePost } = useCreateBinaryImagePost();
+    const { createBinaryImagePost, publishBinaryImagePost } = useCreateBinaryImagePost();
 
     const handlePostVisibility = () => {
         if (encryptionEnabled) {
@@ -141,7 +141,7 @@ const PostImageButton: React.FC = () => {
                     ...preSignedPostPayload.file,
                     tags: ["binary-image"],
                     aliases: [],
-                    location: { folderId: "66dab76c9c00420008532f91" },
+                    location: { folderId: "66dab7609c00420008532f90#0001" },
                 };
                 delete fileInput.__typename;
 
@@ -167,12 +167,25 @@ const PostImageButton: React.FC = () => {
 
                 // CREATE BINARY IMAGE POST ENTRY WITH IMAGE, AUTHOR, AND DATE
                 const authorOrAnon = author ? author : "Anon";
-                await createBinaryImagePost(authorOrAnon, preSignedPostPayload.file.key);
+                const imageUrl = "https://dj8rv0ejdatzv.cloudfront.net/files/" + preSignedPostPayload.file.key;
+                const postId = await createBinaryImagePost(authorOrAnon, imageUrl);
 
-                console.debug("Image uploaded successfully");
+                console.debug("Binary image post created.");
+                toast.update(toastId, {
+                    type: "info",
+                    render: "Binary image post created.",
+                    isLoading: false,
+                    autoClose: 2000,
+                    progress: 0.85
+                })
+
+                // PUBLISH IMAGE POST
+                await publishBinaryImagePost(postId);
+
+                console.debug("Image published successfully!");
                 toast.update(toastId, {
                     type: "success",
-                    render: "Image uploaded successfully",
+                    render: "Image uploaded successfully!",
                     isLoading: false,
                     autoClose: 2000,
                     progress: 1.0
