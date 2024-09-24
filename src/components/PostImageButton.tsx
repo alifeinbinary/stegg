@@ -15,6 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Tooltip } from "flowbite-react";
@@ -23,15 +24,13 @@ import { useCreateBinaryImagePost } from "../api/createBinaryImagePost";
 import { useGetPreSignedPostPayload } from "../api/getPreSignedPostPayload";
 import { clearContx } from "../utils/translate";
 import { createPngWithMetadata } from "../utils/save";
-import { usePostState, useImageState } from "../utils/stores";
+import { useImageState } from "../utils/stores";
 import { toast } from "react-toastify";
 import { uploadFileToS3 } from "../api/uploadFileToS3";
 
 const PostImageButton: React.FC = () => {
 
-    const {
-        author, setAuthor
-    } = usePostState();
+    const [author, setAuthor] = useState("");
 
     const {
         canvasRef,

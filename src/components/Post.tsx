@@ -15,10 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Post.tsx
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDownload, faShare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-import { getMetadata } from "meta-png"
+import { getMetadata } from "meta-png";
 import { PostProps } from "../types";
 import Password from "./Password";
 import { usePostState } from "../utils/stores";
@@ -26,31 +27,31 @@ import { useEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
 
 function Post({ id, author, posted, image }: PostProps) {
+    const postState = usePostState((state) => state.posts[id]);
+    const setPostState = usePostState((state) => state.setPostState);
 
-    const {
-        input,
-        password, setPassword,
-        encryptionEnabled, setEncryptionEnabled,
-        setOutput,
-        stringToDecrypt, setStringToDecrypt,
-        decryptedText, setDecryptedText,
-        setEncryptedText
-    } = usePostState();
+    // Initialize the state for this post if it doesn't exist
+    useEffect(() => {
+        if (!postState) {
+            setPostState(id, {
+                input: "",
+                password: "",
+                output: [],
+                image: image as string,
+                encryptedText: "",
+                decryptedText: "",
+                author: author,
+                stringToDecrypt: "",
+                encryptionEnabled: false,
+            });
+        }
+    }, [id, image, author, postState, setPostState]);
 
     const handleSaveVisibility = () => {
-        if (encryptionEnabled) {
-            if (!password || !input) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            if (input.length > 0) {
-                return false;
-            } else {
-                return true;
-            }
+        if (postState?.encryptionEnabled) {
+            return !(postState.password && postState.input);
         }
+        return !postState?.input.length;
     };
 
     const convertUrlToUint8Array = async (url: string) => {
@@ -63,20 +64,22 @@ function Post({ id, author, posted, image }: PostProps) {
 
     useEffect(() => {
         const convertImage = async () => {
-            const imageArray = await convertUrlToUint8Array(image as string);
-            const stringToDecrypt = getMetadata(imageArray, 'Message')
-            if (password.length > 0 && stringToDecrypt) {
-                handleDecrypt(stringToDecrypt, password, setDecryptedText);
+            const imageArray = await convertUrlToUint8Array(postState?.image as string);
+            const stringToDecrypt = getMetadata(imageArray, "Message");
+            if (postState?.password && stringToDecrypt) {
+                handleDecrypt(stringToDecrypt, postState.password, (decrypted) =>
+                    setPostState(id, { decryptedText: decrypted })
+                );
             }
         };
-        convertImage();
-    }, [password]);
+        if (postState?.password) convertImage();
+    }, [postState?.password, id, postState?.image, setPostState]);
 
     useEffect(() => {
-        if (decryptedText.length > 0) {
-            console.log("decryptedText: ", decryptedText);
+        if (postState?.decryptedText) {
+            console.log("decryptedText: ", postState.decryptedText);
         }
-    }, [decryptedText]);
+    }, [postState?.decryptedText]);
 
     return (
         <div className="group/image transition duration-350 ease-out pb-4" id={id}>
@@ -97,17 +100,16 @@ function Post({ id, author, posted, image }: PostProps) {
                     </div>
                 </div>
             </div>
-            <div className="">
-                <p className="text-base text-left width-auto font-medium dark:text-white flex-shrink">
-
-                </p>
-                <div className="">
+            <div>
+                <div>
                     <div className="flex pt-10 px-7 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
-                        {decryptedText ? <p className="text-xl text-left width-auto font-medium text-gray-900 dark:text-white flex-shrink pb-10">{decryptedText}</p> : <img
-                            className="rounded-2xl feed-image"
-                            src={image}
-                            alt="Binary Image Post `{id}`"
-                        />}
+                        {postState?.decryptedText ? (
+                            <p className="text-xl text-left width-auto font-medium text-gray-900 dark:text-white flex-shrink pb-10">
+                                {postState.decryptedText}
+                            </p>
+                        ) : (
+                            <img className="rounded-2xl feed-image" src={postState?.image} alt={"Binary image " + id} />
+                        )}
                     </div>
                 </div>
                 <div className="flex justify-between">
@@ -131,7 +133,18 @@ function Post({ id, author, posted, image }: PostProps) {
                         </div>
                     </div>
                     <div className="w-full h-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-br-lg">
-                        <Password password={password} setPassword={setPassword} encryptionEnabled={encryptionEnabled} setEncryptionEnabled={setEncryptionEnabled} decryptedText={decryptedText} setDecryptedText={setDecryptedText} setOutput={setOutput} stringToDecrypt={stringToDecrypt} setStringToDecrypt={setStringToDecrypt} setEncryptedText={setEncryptedText} />
+                        <Password
+                            password={postState?.password || ""}
+                            setPassword={(value) => setPostState(id, { password: value })}
+                            encryptionEnabled={postState?.encryptionEnabled || false}
+                            setEncryptionEnabled={(value) => setPostState(id, { encryptionEnabled: value })}
+                            decryptedText={postState?.decryptedText || ""}
+                            setDecryptedText={(value) => setPostState(id, { decryptedText: value })}
+                            setOutput={(value) => setPostState(id, { output: value })}
+                            stringToDecrypt={postState?.stringToDecrypt || ""}
+                            setStringToDecrypt={(value) => setPostState(id, { stringToDecrypt: value })}
+                            setEncryptedText={(value) => setPostState(id, { encryptedText: value })}
+                        />
                     </div>
                 </div>
             </div>

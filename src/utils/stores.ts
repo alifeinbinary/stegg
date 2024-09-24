@@ -33,30 +33,19 @@ interface AppState {
 
 interface PostState {
     input: string;
-
     password: string;
-    setPassword: (value: string) => void;
-
     output: string[];
-    setOutput: Dispatch<string[]>;
-
     image: string;
-    setImage: (value: string) => void;
-
     encryptedText: string;
-    setEncryptedText: (value: string) => void;
-
     decryptedText: string;
-    setDecryptedText: (value: string) => void;
-
     author: string;
-    setAuthor: (value: string) => void;
-
     stringToDecrypt: string;
-    setStringToDecrypt: (value: string) => void;
-
     encryptionEnabled: boolean;
-    setEncryptionEnabled: (value: boolean) => void;
+}
+
+interface PostStore {
+    posts: Record<string, PostState>;
+    setPostState: (id: string, newState: Partial<PostState>) => void;
 }
 
 interface ImageState {
@@ -117,32 +106,18 @@ export const useAppState = create<AppState>((set) => ({
     updateCache: () => updateCache(),
 }));
 
-export const usePostState = create<PostState>((set) => ({
-    input: "",
-
-    password: "",
-    setPassword: (value: string) => set({ password: value }),
-
-    author: "",
-    setAuthor: (value: string) => set({ author: value }),
-
-    stringToDecrypt: "",
-    setStringToDecrypt: (value: string) => set({ stringToDecrypt: value }),
-
-    encryptionEnabled: false,
-    setEncryptionEnabled: (value: boolean) => set({ encryptionEnabled: value }),
-
-    output: [],
-    setOutput: (value: string[]) => set({ output: value }),
-
-    image: "",
-    setImage: (value: string) => set({ image: value }),
-
-    encryptedText: "",
-    setEncryptedText: (value: string) => set({ encryptedText: value }),
-
-    decryptedText: "",
-    setDecryptedText: (value: string) => set({ decryptedText: value }),
+export const usePostState = create<PostStore>((set) => ({
+    posts: {},
+    setPostState: (id, newState) =>
+        set((state) => ({
+            posts: {
+                ...state.posts,
+                [id]: {
+                    ...state.posts[id], // spread existing state for this post
+                    ...newState, // apply new state
+                },
+            },
+        })),
 }));
 
 export const useImageState = create<ImageState>((set) => ({

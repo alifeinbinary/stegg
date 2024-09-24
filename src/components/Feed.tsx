@@ -59,13 +59,7 @@ const Feed: FC = () => {
                     Feed
                 </h4>
                 {posts.map((post) => (
-                    <Post
-                        key={post.id}
-                        id={post.id}
-                        author={post.author}
-                        posted={post.posted}
-                        image={post.image}
-                    />
+                    <Post key={post.id} id={post.id} author={post.author} posted={post.posted} image={post.image} />
                 ))}
             </div>
         </div>
