@@ -71,6 +71,7 @@ export const TextArea: React.FC = () => {
                             theme={buttonTheme}
                             color={"primary"}
                             type="button"
+                            aria-label="How to use this app"
                         >
                             <FontAwesomeIcon
                                 icon={faCircleInfo}

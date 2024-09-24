@@ -116,17 +116,17 @@ function Post({ id, author, posted, image }: PostProps) {
                     <div className="w-full max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-bl-lg">
                         <div className="flex items-center">
                             <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-red-600 dark:hover:text-red-600 transition duration-350 ease-in-out">
-                                <button className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-lightgreen hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
+                                <button aria-label="Download image" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-lightgreen hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
                                     <FontAwesomeIcon icon={faDownload} />
                                 </button>
                             </div>
-                            <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
+                            <div aria-label="Send image by email" className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
                                 <button className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-seablue hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
                                     <FontAwesomeIcon icon={faShare} />
                                 </button>
                             </div>
                             <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
-                                <button className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-orange hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
+                                <button aria-label="Delete post" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-orange hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
                                     <FontAwesomeIcon icon={faTrashCan} />
                                 </button>
                             </div>
