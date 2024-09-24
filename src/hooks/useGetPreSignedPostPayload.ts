@@ -16,7 +16,7 @@
  */
 
 import { useQuery } from "@apollo/client";
-import { GET_PRE_SIGNED_POST_PAYLOAD } from "./api";
+import { GET_PRE_SIGNED_POST_PAYLOAD } from "../api/api";
 
 /*
  * Get a pre-signed post payload for uploading a file

@@ -16,7 +16,7 @@
  */
 
 import { useMutation } from "@apollo/client";
-import { DELETE_BINARYIMAGEPOST } from "./api";
+import { DELETE_BINARYIMAGEPOST } from "../api/api";
 
 /*
  * Delete a binary image post
