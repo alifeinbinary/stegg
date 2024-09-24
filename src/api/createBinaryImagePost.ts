@@ -16,7 +16,7 @@
  */
 
 import { useMutation } from "@apollo/client";
-import { CREATE_BINARYIMAGEPOST } from "./api";
+import { CREATE_BINARYIMAGEPOST, PUBLISH_BINARYIMAGEPOST } from "./api";
 
 /*
  * Create a binary image post for the feed
@@ -28,17 +28,35 @@ export const useCreateBinaryImagePost = () => {
         },
     });
 
+    const [publishMutation] = useMutation(PUBLISH_BINARYIMAGEPOST, {
+        context: {
+            apiName: "manage",
+        },
+    });
+
     const createBinaryImagePost = async (author: string, imageUrl: string) => {
         const timestamp = Date.now();
         const datePosted = new Date(timestamp).toISOString();
-        return createFileMutation({
+        const result = await createFileMutation({
             variables: {
                 author,
                 image: imageUrl,
                 posted: datePosted,
             },
         });
+        return result.data.createBinaryImagePost.data.id;
     };
 
-    return { createBinaryImagePost };
+    const publishBinaryImagePost = async (id: string) => {
+        return publishMutation({
+            variables: {
+                id,
+                meta: {
+                    status: "published",
+                },
+            },
+        });
+    };
+
+    return { createBinaryImagePost, publishBinaryImagePost };
 };

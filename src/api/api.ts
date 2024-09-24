@@ -30,6 +30,31 @@ export const LIST_BINARYIMAGEPOSTS = gql`
     }
 `;
 
+// This GraphQL query is used to create pre-signed POST payloads using the basic file information (name, type, and size).
+export const GET_PRE_SIGNED_POST_PAYLOAD = gql`
+    query GetPreSignedPostPayload($data: PreSignedPostPayloadInput!) {
+        fileManager {
+            getPreSignedPostPayload(data: $data) {
+                data {
+                    data
+                    file {
+                        id
+                        name
+                        type
+                        size
+                        key
+                    }
+                }
+                error {
+                    code
+                    data
+                    message
+                }
+            }
+        }
+    }
+`;
+
 // This GraphQL mutation is used to store file information in the File Manager, after the file is uploaded to the S3 bucket.
 export const CREATE_BINARYFEEDIMAGE = gql`
     mutation CreateFile($data: FmFileCreateInput!) {
@@ -79,6 +104,25 @@ export const CREATE_BINARYIMAGEPOST = gql`
     }
 `;
 
+export const PUBLISH_BINARYIMAGEPOST = gql`
+    mutation PublishBinaryImagePost($id: ID!) {
+        publishBinaryImagePost(revision: $id) {
+            data {
+                id
+                meta {
+                    status
+                    revisions {
+                        id
+                        meta {
+                            status
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 // Mutation to delete an entry
 export const DELETE_BINARYIMAGEPOST = gql`
     mutation DeleteBinaryImagePost($id: ID!) {
@@ -88,31 +132,6 @@ export const DELETE_BINARYIMAGEPOST = gql`
                 author
                 image
                 posted
-            }
-        }
-    }
-`;
-
-// This GraphQL query is used to create pre-signed POST payloads using the basic file information (name, type, and size).
-export const GET_PRE_SIGNED_POST_PAYLOAD = gql`
-    query GetPreSignedPostPayload($data: PreSignedPostPayloadInput!) {
-        fileManager {
-            getPreSignedPostPayload(data: $data) {
-                data {
-                    data
-                    file {
-                        id
-                        name
-                        type
-                        size
-                        key
-                    }
-                }
-                error {
-                    code
-                    data
-                    message
-                }
             }
         }
     }
