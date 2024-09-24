@@ -18,11 +18,17 @@
 import { useQuery } from "@apollo/client";
 import { LIST_BINARYIMAGEPOSTS } from "./api";
 
-// Use the LIST query
+/*
+ * List binary image posts
+ * @returns The list of binary image posts
+ * @example
+ * const { data, loading, error } = useListBinaryImagePosts();
+ */
 export const useListBinaryImagePosts = () => {
     return useQuery(LIST_BINARYIMAGEPOSTS, {
         context: {
             apiName: "read",
         },
+        fetchPolicy: "cache-first",
     });
 };

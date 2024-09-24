@@ -47,9 +47,10 @@ interface FmFileResponse {
     error: string;
 }
 
+/*
+ * Create a binary image for the post
+ */
 export const useCreateBinaryFeedImage = () => {
-    // const preSignedData = useGetPreSignedPostPayload();
-
     const [createFileMutation] = useMutation(CREATE_BINARYFEEDIMAGE, {
         context: {
             apiName: "main",
@@ -59,7 +60,6 @@ export const useCreateBinaryFeedImage = () => {
     const createBinaryFeedImage = async (
         fileInput: string[],
     ): Promise<FmFileResponse> => {
-        console.debug("fileInput", fileInput);
         await createFileMutation({
             variables: {
                 data: fileInput,

@@ -18,6 +18,13 @@
 import { useQuery } from "@apollo/client";
 import { GET_PRE_SIGNED_POST_PAYLOAD } from "./api";
 
+/*
+ * Get a pre-signed post payload for uploading a file
+ * @param file The file to upload
+ * @returns The pre-signed post payload
+ * @example
+ * const { getPreSignedPostPayload } = useGetPreSignedPostPayload();
+ */
 export const useGetPreSignedPostPayload = () => {
     const { refetch } = useQuery(GET_PRE_SIGNED_POST_PAYLOAD, {
         context: {

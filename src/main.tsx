@@ -53,7 +53,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 persistCache({
   cache,
-  storage: window.localStorage,
+  storage: window.localStorage
 });
 
 const link = authMiddleware.split(

@@ -18,7 +18,9 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_BINARYIMAGEPOST } from "./api";
 
-// Use the DELETE mutation
+/*
+ * Delete a binary image post
+ */
 export const useDeleteBinaryImagePost = () => {
     return useMutation(DELETE_BINARYIMAGEPOST);
 };
