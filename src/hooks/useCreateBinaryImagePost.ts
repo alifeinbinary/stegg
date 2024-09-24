@@ -16,7 +16,7 @@
  */
 
 import { useMutation } from "@apollo/client";
-import { CREATE_BINARYIMAGEPOST, PUBLISH_BINARYIMAGEPOST } from "./api";
+import { CREATE_BINARYIMAGEPOST, PUBLISH_BINARYIMAGEPOST } from "../api/api";
 
 /*
  * Create a binary image post for the feed
