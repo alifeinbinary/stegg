@@ -15,15 +15,42 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation, Trans } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { DarkThemeToggle } from 'flowbite-react';
-import { faAsterisk, faCodeFork, faFaceSmile, faLock, faStar } from '@fortawesome/free-solid-svg-icons'
+import { CustomFlowbiteTheme, DarkThemeToggle, Dropdown, Navbar } from 'flowbite-react';
+import { faAsterisk, faCodeFork, faFaceSmile, faGlobe, faLock, faStar } from '@fortawesome/free-solid-svg-icons'
 import { faReact, faFontAwesome, faNodeJs, faNpm, faAws, faFirefoxBrowser } from '@fortawesome/free-brands-svg-icons'
 import { useTheme } from '../hooks/useTheme';
 
+const customNavbarTheme: CustomFlowbiteTheme["navbar"] = {
+    root: {
+        base: "w-full bg-white dark:bg-slate-900 px-0 py-2.5",
+        rounded: {
+            on: "rounded",
+            off: "rounded-none",
+        },
+    },
+    link: {
+        base: "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent",
+        active: {
+            on: "bg-blue-700 text-white md:bg-transparent md:text-blue-700",
+            off: "",
+        },
+        disabled: {
+            on: "text-gray-400 hover:cursor-not-allowed",
+            off: "",
+        },
+    },
+};
+
+const customDropdownTheme: CustomFlowbiteTheme["dropdown"] = {
+    arrowIcon: "xs:hidden w-4 h-4 ml-1 text-gray-500 dark:text-gray-400",
+    inlineWrapper: "flex items-center rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700",
+}
 
 const Header: React.FC = () => {
     const { theme, toggleTheme } = useTheme();
+    const { t, i18n } = useTranslation();
     // Detect system theme on page load and apply it to the HTML document
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark')
@@ -31,56 +58,84 @@ const Header: React.FC = () => {
         document.documentElement.classList.remove('dark')
     }
 
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+        console.debug("Language changed to:", lng);
+    }
+
     return (
         <div id="header">
             <section className="px-6 sm:px-2 xs:px-1 pt-8">
                 <div className="py-4 px-4 bg-white dark:bg-slate-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
-                        <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} className='absolute top-0 right-0' />
-                        <h1 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Binary Translator</h1>
-                        <p className="mb-4 font-bold dark:text-gray-100">This is an application written in Typescript using React</p>
-                        <p className="mb-4 font-base dark:text-gray-200"><b>How it works:</b> This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</p>
-                        <p className="mb-4 font-base dark:text-gray-200">Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</p>
-                        <p className='mb-4 font-base dark:text-gray-200'>I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-blue-900 hover:underline dark:text-blue-300' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within.</p>
+                        <Navbar fluid rounded theme={customNavbarTheme}>
+                            <Navbar.Brand>
+                                <img src="./public/binary-translate.png" className="mr-3 h-12 sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
+                                <span className="self-center whitespace-nowrap text-2xl xs:text-sm tracking-tight font-bold text-gray-900 dark:text-white">{t('title')}</span>
+                            </Navbar.Brand>
+                            <div className='flex items-end list-none'>
+                                <Navbar.Link className='mr-2 xs:mr-0'>
+                                    <Dropdown inline label={<FontAwesomeIcon icon={faGlobe} className='w-5 h-5' />} dismissOnClick={true} floatingArrow={true} theme={customDropdownTheme}>
+                                        <Dropdown.Item onClick={() => changeLanguage('en')}>English 🇬🇧</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => changeLanguage('es')}>Spanish 🇪🇸</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => changeLanguage('fr')}>French 🇫🇷</Dropdown.Item>
+                                    </Dropdown>
+                                </Navbar.Link>
+                                <Navbar.Link>
+                                    <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} />
+                                </Navbar.Link>
+                            </div>
+                        </Navbar>
+                        <p className="mb-4 pt-2 font-bold dark:text-gray-100">{t('description.intro')}</p>
+                        <p className="mb-4 font-base dark:text-gray-200"><b>{t('description.howitworks')}</b> <Trans i18nKey="description.paragraph1" components={{ b: <b />, FontAwesomeIcon: <FontAwesomeIcon icon={faLock} /> }}>This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</Trans></p>
+                        <p className="mb-4 font-base dark:text-gray-200"><Trans i18nKey="description.paragraph2" components={{ b: <b />, }}>Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</Trans></p>
+                        <p className='mb-4 font-base dark:text-gray-200'><Trans i18nKey="description.paragraph3" components={{ b: <b />, a: <a /> }}>I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-blue-900 hover:underline dark:text-blue-300' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within.</Trans></p>
                         <div className='mb-4'>
                             <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">Technology involved</h2>
                             <div className='grid grid-cols-2 xs:grid-cols-1 gap-4'>
                                 <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-200">
-                                    <li>
-                                        Typescript
-                                    </li>
-                                    <li>
-                                        React
-                                    </li>
-                                    <li>
-                                        HTML Canvas
-                                    </li>
-                                    <li>
-                                        Cryptography in the browser
-                                    </li>
-                                    <li>
-                                        Image generation and consumption
-                                    </li>
+                                    <Trans i18nKey="technology1" components={{ li: <li /> }}>
+                                        <li>
+                                            Typescript
+                                        </li>
+                                        <li>
+                                            React
+                                        </li>
+                                        <li>
+                                            HTML Canvas
+                                        </li>
+                                        <li>
+                                            Cryptography in the browser
+                                        </li>
+                                        <li>
+                                            Image generation and consumption
+                                        </li>
+                                    </Trans>
                                 </ul>
                                 <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-200">
-                                    <li>
-                                        Embedding metadata in files
-                                    </li>
-                                    <li>
-                                        CRUD operations to a serverless API on AWS using GraphQL
-                                    </li>
-                                    <li>
-                                        File storage on AWS S3 managed by a cron job
-                                    </li>
-                                    <li>
-                                        Jest tests
-                                    </li>
+                                    <Trans i18nKey="technology2" components={{ li: <li /> }}>
+                                        <li>
+                                            Embedding metadata in files
+                                        </li>
+                                        <li>
+                                            CRUD operations to a serverless API on AWS using GraphQL
+                                        </li>
+                                        <li>
+                                            File storage on AWS S3 managed by a cron job
+                                        </li>
+                                        <li>
+                                            Jest tests
+                                        </li>
+                                        <li>
+                                            Internationalisation
+                                        </li>
+                                    </Trans>
                                 </ul>
                             </div>
                         </div>
                         <div className="inline-flex items-center justify-center w-full">
                             <hr className="w-64 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
-                            <span className="absolute px-3 font-medium text-gray-300 -translate-x-1/2 bg-white left-1/2 3dark:text-white dark:bg-gray-900"><FontAwesomeIcon icon={faAsterisk} className="w-5 h-5 me-1" aria-hidden="true" /></span>
+                            <span className="absolute px-3 font-medium text-gray-300 -translate-x-1/2 bg-white left-1/2 3dark:text-white dark:bg-slate-900"><FontAwesomeIcon icon={faAsterisk} className="w-5 h-5 me-1" aria-hidden="true" /></span>
                         </div>
                         <div className='grid grid-cols-2 pt-6 sm:grid-cols-1 xs:grid-cols-1 w-full relative'>
                             <div className='mb-4'>
@@ -95,19 +150,19 @@ const Header: React.FC = () => {
                                         </span>
                                     </div>
                                     <blockquote>
-                                        <p className="text-xl font-semibold text-gray-900 dark:text-white">"Is this like Twitter for robots? Why would anyone make this???"</p>
+                                        <p className="text-xl font-semibold text-gray-900 dark:text-white">{t('review')}</p>
                                     </blockquote>
                                     <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
                                         <img className="w-6 h-6 rounded-full" src="diane.webp" alt="profile picture" />
                                         <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-300 dark:divide-gray-700">
                                             <cite className="pe-3 font-medium text-gray-900 dark:text-white">Diane</cite>
-                                            <cite className="ps-3 text-sm text-gray-500 dark:text-gray-300">A newly retired, former part-time receptionist and recent grandmother of twins I showed this to on the ferry</cite>
+                                            <cite className="ps-3 text-sm text-gray-500 dark:text-gray-300">{t('byline')}</cite>
                                         </div>
                                     </figcaption>
                                 </figure>
                             </div>
                             <div className='mb-4 absolute lg:absolute md:absolute sm:absolute xs:relative bottom-0 right-0'>
-                                <h3 className='mb-1 mt-4 text-lg tracking-tight font-bold text-gray-900 dark:text-white'>Created with</h3>
+                                <h3 className='mb-1 mt-4 text-lg tracking-tight font-bold text-gray-900 dark:text-white'>{t('createdwith')}</h3>
                                 <div className='text-3xl flex flex-row'>
                                     <a href="https://nodejs.org/" aria-label="Node JS" target="_blank"><FontAwesomeIcon icon={faNodeJs} className="hover:text-forestgreen transition-colors duration-500 ease-in-out" /></a>
                                     <a href="https://www.npmjs.com/" aria-label="NPM" target="_blank"><FontAwesomeIcon icon={faNpm} className="ml-2 hover:text-orange transition-colors duration-500 ease-in-out" /></a>
@@ -121,14 +176,14 @@ const Header: React.FC = () => {
 
                     </div>
                 </div>
-            </section>
+            </section >
             <span className='flex-row flex pt-2 px-6 justify-between text-white'>
                 <div className='grid grid-cols-2 xs:grid-cols-1 w-full'>
-                    <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> Fork this project on <a className='text-blue-100 hover:text-blue-200 hover:underline dark:text-blue-300' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
-                    <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>Like my work? <a href='https://www.linkedin.com/in/alifeinbinary/' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline dark:text-blue-300'>Hire me</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
+                    <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> {t('forkthisproject')}<a className='text-blue-100 hover:text-blue-200 hover:underline dark:text-blue-300' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
+                    <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>{t('likemywork')}<a href='https://www.linkedin.com/in/alifeinbinary/' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline dark:text-blue-300'> {t('hireme')}</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
                 </div>
             </span>
-        </div>
+        </div >
     );
 };
 
