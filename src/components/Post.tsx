@@ -17,8 +17,7 @@
 
 // Post.tsx
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faDownload, faShare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+import { faUser, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getMetadata } from "meta-png";
 import { PostProps } from "../types";
 import Password from "./Password";
@@ -27,6 +26,7 @@ import { useEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "flowbite-react";
+import { saveAs } from "file-saver";
 
 function Post({ id, author, posted, image }: PostProps) {
 
@@ -52,11 +52,28 @@ function Post({ id, author, posted, image }: PostProps) {
         }
     }, [id, image, author, postState, setPostState]);
 
-    const handleSaveVisibility = () => {
-        if (postState?.encryptionEnabled) {
-            return !(postState.password && postState.input);
+    // const handleSaveVisibility = () => {
+    //     if (postState?.encryptionEnabled) {
+    //         return !(postState.password && postState.input);
+    //     }
+    //     return !postState?.input.length;
+    // };
+
+    const handleImageDownload = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if (postState?.image) {
+            const url = postState?.image;
+            const filename = url.split("/").pop();
+            if (filename) {
+                fetch(url)
+                    .then(response => response.blob())
+                    .then(blob => saveAs(blob, filename));
+            } else {
+                console.log("Failed to get filename");
+            }
+        } else {
+            console.log("No image to download");
         }
-        return !postState?.input.length;
     };
 
     const convertUrlToUint8Array = async (url: string) => {
@@ -113,23 +130,23 @@ function Post({ id, author, posted, image }: PostProps) {
                     </div>
                 </div>
                 <div className="flex justify-between">
-                    <div className="w-full max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-bl-lg">
+                    <div className="max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-bl-lg">
                         <div className="flex items-center">
                             <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-red-600 dark:hover:text-red-600 transition duration-350 ease-in-out">
-                                <button aria-label="Download image" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-lightgreen hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
+                                <button aria-label="Download image" title="Download image" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-lightgreen hover:text-white focus:ring-blue-200 focus:ring-4" onClick={handleImageDownload}>
                                     <FontAwesomeIcon icon={faDownload} />
                                 </button>
                             </div>
-                            <div aria-label="Send image by email" className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
-                                <button className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-seablue hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
+                            {/* <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
+                                <button aria-label="Send image by email" title="Send image by email" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-seablue hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
                                     <FontAwesomeIcon icon={faShare} />
                                 </button>
-                            </div>
-                            <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
+                            </div> */}
+                            {/* <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
                                 <button aria-label="Delete post" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-orange hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
                                     <FontAwesomeIcon icon={faTrashCan} />
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className="w-full h-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-br-lg">

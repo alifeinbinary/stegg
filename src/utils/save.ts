@@ -15,19 +15,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { saveAs } from "file-saver";
 import { addMetadata } from "meta-png";
 
 function saveBlob(blobWithMetadata: Blob, fileName: string) {
     const url = URL.createObjectURL(blobWithMetadata);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = fileName;
-
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    if (fileName) {
+        fetch(url)
+            .then((response) => response.blob())
+            .then((blob) => saveAs(blob, fileName));
+    } else {
+        console.log("Failed to get filename");
+    }
 }
 
 function returnBlob(blobWithMetadata: Blob, fileName: string) {
