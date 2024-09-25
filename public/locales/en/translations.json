@@ -8,7 +8,7 @@
         "paragraph3": "I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-blue-900 hover:underline dark:text-blue-300' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within."
     },
     "technology1": "<li>Typescript</li><li>React</li><li>HTML Canvas</li><li>Cryptography in the browser</li><li>Image generation and consumption</li>",
-    "technology2": "<li>Embedding metadata in files</li><li>CRUD operations to a serverless API on AWS using GraphQL</li><li>File storage on AWS S3 managed by a cron job</li><li>Jest tests</li>",
+    "technology2": "<li>Embedding metadata in files</li><li>CRUD operations to a serverless API on AWS using GraphQL</li><li>File storage on AWS S3 managed by a cron job</li><li>Jest tests</li><li>Internationalisation</li>",
     "review": "Is this like Twitter for robots? Why would anyone make this???",
     "byline": "A newly retired, former part-time receptionist and recent grandmother of twins I showed this to on the ferry",
     "createdwith": "Created with",
