@@ -36,16 +36,16 @@
 // }
 
 export interface DropzoneProps {
-  setInput: (input: string) => void;
-  setEncryptionEnabled: (enabled: boolean) => void;
-  setStringToDecrypt: (text: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  setDecryptedText: (text: string) => void;
+    setInput: (input: string) => void;
+    setEncryptionEnabled: (enabled: boolean) => void;
+    setStringToDecrypt: (text: string) => void;
+    password: string;
+    setPassword: (password: string) => void;
+    setDecryptedText: (text: string) => void;
 }
 
 export interface LogConainterProps {
-  logs: Message[];
+    logs: Message[];
 }
 
 // export interface SliderProps {
@@ -80,10 +80,11 @@ export interface LogConainterProps {
 // }
 
 export interface PostProps {
-  id: string;
-  author: string;
-  posted: Date;
-  image: string;
+    key: Key | null | undefined;
+    id: string;
+    author: string;
+    posted: Date;
+    image: string;
 }
 
 // export interface PasswordProps {
@@ -102,14 +103,14 @@ export interface PostProps {
 // }
 
 export interface PasswordProps {
-  password: string;
-  setPassword: (value: string) => void;
-  setEncryptionEnabled: (value: boolean) => void;
-  encryptionEnabled: boolean;
-  setOutput: (value: string[]) => void;
-  setDecryptedText: (value: string) => void;
-  decryptedText: string;
-  setStringToDecrypt: (value: string) => void;
-  stringToDecrypt: string;
-  setEncryptedText: (value: string) => void;
+    password: string;
+    setPassword: (value: string) => void;
+    setEncryptionEnabled: (value: boolean) => void;
+    encryptionEnabled: boolean;
+    setOutput: (value: string[]) => void;
+    setDecryptedText: (value: string) => void;
+    decryptedText: string;
+    setStringToDecrypt: (value: string) => void;
+    stringToDecrypt: string;
+    setEncryptedText: (value: string) => void;
 }
