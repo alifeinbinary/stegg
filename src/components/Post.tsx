@@ -15,7 +15,6 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Post.tsx
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getMetadata } from "meta-png";
@@ -103,10 +102,9 @@ function Post({ id, author, posted, image }: PostProps) {
                 <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 rounded-t-lg">
                     <div className="px-3">
                         <p className="items-center text-left text-base leading-6 font-medium text-gray-900 dark:text-white">
-                            {author}
-                            <FontAwesomeIcon className="mx-3" icon={faUser} />
-                            <span className="ml-1 dark:text-white text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">
-                                {t('post.posted')} {new Date(posted).toDateString()}
+                            <span className="text-gray-900 dark:text-white xs:flex items-center">{author}<FontAwesomeIcon className="mx-2" icon={faUser} /></span>
+
+                            <span className="dark:text-white text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">{t('post.posted')} {new Date(posted).toDateString()}
                             </span>
                             <br />
                             <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">
@@ -130,7 +128,7 @@ function Post({ id, author, posted, image }: PostProps) {
                     </div>
                 </div>
                 <div className="flex justify-between">
-                    <div className="max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-bl-lg">
+                    <div className="max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-bl-lg">
                         <div className="flex items-center">
                             <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-red-600 dark:hover:text-red-600 transition duration-350 ease-in-out">
                                 <button aria-label="Download image" title="Download image" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-lightgreen hover:text-white focus:ring-blue-200 focus:ring-4" onClick={handleImageDownload}>
@@ -149,7 +147,7 @@ function Post({ id, author, posted, image }: PostProps) {
                             </div> */}
                         </div>
                     </div>
-                    <div className="w-full h-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-none xs:rounded-br-lg">
+                    <div className="w-full h-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">
                         <Password
                             password={postState?.password || ""}
                             setPassword={(value) => setPostState(id, { password: value })}

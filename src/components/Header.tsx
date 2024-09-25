@@ -73,7 +73,7 @@ const Header: React.FC = () => {
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
                         <Navbar fluid rounded theme={customNavbarTheme}>
                             <Navbar.Brand href="/">
-                                <img width={"100%"} height={"100%"} src="./binary-translate.png" className="mr-3 h-12 sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
+                                <img width={"100%"} height={"100%"} src="./binary-translate.png" className="mr-3 h-12 w-auto sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
                                 <span className="self-center whitespace-nowrap text-2xl xs:text-sm tracking-tight font-bold text-gray-900 dark:text-white">{t('title')}</span>
                             </Navbar.Brand>
                             <menu className='flex items-end list-none'>
