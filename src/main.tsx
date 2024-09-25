@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { createHttpLink } from '@apollo/client';
 import App from './App.tsx'
 import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink } from '@apollo/client'
-import { persistCache } from 'apollo3-cache-persist';
+// import { persistCache } from 'apollo3-cache-persist';
+import './i18n.ts'
 import './index.css'
 
 const readApiHttpLink = createHttpLink({
@@ -51,10 +52,10 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-persistCache({
-  cache,
-  storage: window.localStorage
-});
+// persistCache({
+//   cache,
+//   storage: window.localStorage
+// });
 
 const link = authMiddleware.split(
   (operation) => operation.getContext()["apiName"] === "main",

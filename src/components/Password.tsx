@@ -23,8 +23,11 @@ import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { clearContx } from '../utils/translate';
 // import { useAppState } from '../utils/stores';
 import { PasswordProps } from '../types';
+import { useTranslation } from "react-i18next";
 
 export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEncryptionEnabled, encryptionEnabled, setOutput, setDecryptedText, decryptedText, setStringToDecrypt, stringToDecrypt, setEncryptedText }) => {
+
+    const { t } = useTranslation();
 
     const toastId = useRef("save");
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -72,7 +75,7 @@ export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEn
                 aria-checked={encryptionEnabled}
             />
             <div tabIndex={0} className='shadow-card p-1 flex h-[46px] items-center justify-center rounded-md text-gray-900 bg-gray-200 dark:bg-seablue'>
-                <Tooltip content="Enable AES 128-bit encryption" className='bg-gray-200 dark:bg-beige/[0.8] text-gray-900' trigger="hover" placement="top" theme={lockTooltop}>
+                <Tooltip content={t('password.tooltip.content')} className='bg-gray-200 dark:bg-beige/[0.8] text-gray-900' trigger="hover" placement="top" theme={lockTooltop}>
                     <span
                         className={`flex h-9 w-9 items-center transition ease-in-out duration-300 justify-center rounded-l-md ${!encryptionEnabled ? 'text-sm text-gray-500 bg-gray-200' : 'bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] text-white'
                             }`}
@@ -93,7 +96,7 @@ export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEn
                         setDecryptedText('')
                         clearContx(canvasRef);
                     }
-                }} data-testid="password-input" value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`text-base ml-1 rounded-none rounded-e-lg bg-gray-100 border text-gray-900 focus:ring-transparent focus:border-gray-200 block flex-1 min-w-0 max-w-40 w-full border-gray-200 p-2.5 dark:bg-gray-200 dark:text-gray-900 dark:border-seablue dark:placeholder-gray-400 dark:focus:ring-transparent dark:focus:border-seablue`} placeholder={encryptionEnabled ? 'Enter a secret key' : 'Enable encryption'} />
+                }} data-testid="password-input" value={password} type="text" tabIndex={0} id="password-input" disabled={!encryptionEnabled} className={`text-base ml-1 rounded-none rounded-e-lg bg-gray-100 border text-gray-900 focus:ring-transparent focus:border-gray-200 block flex-1 min-w-0 max-w-40 w-full border-gray-200 p-2.5 dark:bg-gray-200 dark:text-gray-900 dark:border-seablue dark:placeholder-gray-400 dark:focus:ring-transparent dark:focus:border-seablue`} placeholder={encryptionEnabled ? t("password.hint") : t("password.enable")} />
             </div>
         </label>
     )

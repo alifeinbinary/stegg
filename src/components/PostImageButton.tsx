@@ -27,8 +27,11 @@ import { createPngWithMetadata } from "../utils/save";
 import { useImageState } from "../utils/stores";
 import { toast } from "react-toastify";
 import { uploadFileToS3 } from "../api/uploadFileToS3";
+import { useTranslation } from "react-i18next";
 
 const PostImageButton: React.FC = () => {
+
+    const { t } = useTranslation();
 
     const [author, setAuthor] = useState("");
 
@@ -71,14 +74,14 @@ const PostImageButton: React.FC = () => {
 
     const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const toastId = toast("Processing image...", { autoClose: false, isLoading: true });
+        const toastId = toast(t("postimagebutton.toast.processing"), { autoClose: false, isLoading: true });
 
         if (canvasRef && canvasRef.current && input) {
 
             if (encryptionEnabled) {
 
                 toast.update(toastId, {
-                    render: "Embedding metadata...",
+                    render: t("postimagebutton.toast.embedding"),
                     type: "info",
                     isLoading: false,
                     autoClose: 2000,
@@ -90,7 +93,7 @@ const PostImageButton: React.FC = () => {
 
                 console.debug("fileName", fileName, "url", url);
                 toast.update(toastId, {
-                    render: "Determining the size of the image...",
+                    render: t("postimagebutton.toast.size"),
                     type: "info",
                     isLoading: false,
                     autoClose: 2000,
@@ -102,7 +105,7 @@ const PostImageButton: React.FC = () => {
 
                 console.debug("blob", blob, "size", size);
                 toast.update(toastId, {
-                    render: "Getting presigned post payload...",
+                    render: t("postimagebutton.toast.presignedpayload"),
                     type: "info",
                     isLoading: false,
                     autoClose: 2000,
@@ -118,7 +121,7 @@ const PostImageButton: React.FC = () => {
 
                 console.debug("data", data);
                 toast.update(toastId, {
-                    render: "Uploading to S3 bucket...",
+                    render: t("postimagebutton.toast.uploading"),
                     type: "info",
                     isLoading: false,
                     autoClose: 2000,
@@ -146,7 +149,7 @@ const PostImageButton: React.FC = () => {
 
                 console.debug("fileInput", fileInput);
                 toast.update(toastId, {
-                    render: "Creating binary feed image...",
+                    render: t("postimagebutton.toast.createimage"),
                     type: "info",
                     isLoading: false,
                     autoClose: 2000,
@@ -157,7 +160,7 @@ const PostImageButton: React.FC = () => {
 
                 console.debug("createdFile", createdFile);
                 toast.update(toastId, {
-                    render: "Creating binary image post...",
+                    render: t("postimagebutton.toast.createimagepost"),
                     type: "info",
                     isLoading: false,
                     autoClose: 2000,
@@ -172,7 +175,7 @@ const PostImageButton: React.FC = () => {
                 console.debug("Binary image post created.");
                 toast.update(toastId, {
                     type: "info",
-                    render: "Binary image post created.",
+                    render: t("postimagebutton.toast.publishing"),
                     isLoading: false,
                     autoClose: 2000,
                     progress: 0.85
@@ -184,7 +187,7 @@ const PostImageButton: React.FC = () => {
                 console.debug("Image published successfully!");
                 toast.update(toastId, {
                     type: "success",
-                    render: "Image uploaded successfully!",
+                    render: t("postimagebutton.toast.success"),
                     isLoading: false,
                     autoClose: 2000,
                     progress: 1.0
@@ -195,7 +198,7 @@ const PostImageButton: React.FC = () => {
                 console.debug("Encryption disabled");
                 toast.update(toastId, {
                     type: "warning",
-                    render: "Encryption disabled. Only encrypted messages can be posted.",
+                    render: t("postimagebutton.toast.noencryption"),
                     isLoading: false,
                     autoClose: 2000
                 });
@@ -207,7 +210,7 @@ const PostImageButton: React.FC = () => {
             console.debug("No canvasRef or input");
             toast.update(toastId, {
                 type: "warning",
-                render: "No image to upload.",
+                render: t("postimagebutton.toast.nocanvasorinput"),
                 isLoading: false,
                 autoClose: 2000
             })
@@ -219,11 +222,11 @@ const PostImageButton: React.FC = () => {
             <input onChange={(e) => {
                 setAuthor(e.target.value);
             }} data-testid="user-input" value={author} type="text" tabIndex={0} id="user-input" disabled={false} className={`text-base rounded-none rounded-l-lg max-w-40 bg-gray-100 dark:bg-gray-100 border text-gray-900 focus:ring-transparent focus:border-transparent block flex-1 min-w-0 transition-width ease-in-out duration-1000 ${handlePostVisibility() ? 'w-0 px-0 py-2.5' : 'w-full p-2.5'} border-gray-200 focus:border-gray-200 dark:bg-gray-200 dark:border-seablue dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-none dark:focus:border-none`} placeholder={"Author Name"} />
-            <Tooltip content={password.length && input.length ? "Post image to the feed" : "Please enter a message and password before posting"} placement="bottom">
+            <Tooltip content={password.length && input.length ? t("postimagebutton.tooltip.posttofeed") : t("postimagebutton.tooltip.entermessage")} placement="bottom">
                 <button onClick={(e) => {
                     handleButtonClick(e)
-                }} disabled={!password.length || !input.length} className={`flex p-2 h-full w-20 ml-1 items-center justify-center transition ease-in-out duration-300 rounded text-base ${handlePostVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200/[0.5] focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] focus:ring-blue-200 focus:ring-4'}`}>
-                    Post <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 pl-2" aria-hidden="true" />
+                }} disabled={!password.length || !input.length} className={`flex p-2 h-full w-24 ml-1 items-center justify-center transition ease-in-out duration-300 rounded text-base ${handlePostVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200/[0.5] focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] focus:ring-blue-200 focus:ring-4'}`}>
+                    {t("postimagebutton.label")} <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 pl-2" aria-hidden="true" />
                 </button>
             </Tooltip>
         </div>

@@ -25,8 +25,12 @@ import Password from "./Password";
 import { usePostState } from "../utils/stores";
 import { useEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
+import { useTranslation } from "react-i18next";
 
 function Post({ id, author, posted, image }: PostProps) {
+
+    const { t } = useTranslation();
+
     const postState = usePostState((state) => state.posts[id]);
     const setPostState = usePostState((state) => state.setPostState);
 
@@ -90,7 +94,7 @@ function Post({ id, author, posted, image }: PostProps) {
                             {author}
                             <FontAwesomeIcon className="mx-3" icon={faUser} />
                             <span className="ml-1 dark:text-white text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">
-                                Posted {new Date(posted).toDateString()}
+                                {t('post.posted')} {new Date(posted).toDateString()}
                             </span>
                             <br />
                             <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">

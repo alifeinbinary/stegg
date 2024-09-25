@@ -15,12 +15,17 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation } from "react-i18next";
+
 const Footer: React.FC = () => {
+
+    const { t } = useTranslation();
+
     return (
         <footer className="bg-white dark:bg-gray-900">
             <div className="mx-auto p-2 md:flex md:items-center md:justify-between">
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                    &copy; 2024 <a className="hover:underline" href="https://www.alifeinbinary.com/">Andrew Halliwell</a>. All Rights Reserved. <br />Released under the <a href="https://choosealicense.com/licenses/gpl-3.0/" target="_blank" className="hover:underline">GPLv3 license</a>.
+                    &copy; 2024 <a className="hover:underline" href="https://www.alifeinbinary.com/">Andrew Halliwell</a>. {t('footer.rights')}. <br />{t('footer.license')} <a href="https://choosealicense.com/licenses/gpl-3.0/" target="_blank" className="hover:underline">GPLv3 license</a>.
                 </span>
             </div>
         </footer>

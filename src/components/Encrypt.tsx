@@ -26,9 +26,12 @@ import DownloadImageButton from "./DownloadImageButton";
 import Slider from "./NodeSize";
 import { Password } from "./Password";
 import PostImageButton from "./PostImageButton";
+import { useTranslation, Trans } from "react-i18next";
 
 export const TextArea: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
+
+    const { t } = useTranslation();
 
     const {
         input,
@@ -62,7 +65,7 @@ export const TextArea: React.FC = () => {
             <span className="flex flex-row justify-between pt-2 text-white">
                 <div className="grid w-full grid-cols-2 xs:grid-cols-2">
                     <h4 className="h4 sm:visible md:visible lg:visible mb-2 text-left text-2xl font-bold xs:invisible dark:text-white">
-                        Encrypt
+                        {t("encrypt.title")}
                     </h4>
                     <p className="col-span-1 flex flex-row-reverse text-right font-medium xs:mr-0 xs:pb-2 xs:text-right">
                         {/* <!-- Modal toggle --> */}
@@ -71,7 +74,7 @@ export const TextArea: React.FC = () => {
                             theme={buttonTheme}
                             color={"primary"}
                             type="button"
-                            aria-label="How to use this app"
+                            aria-label={t("encrypt.modal.title")}
                         >
                             <FontAwesomeIcon
                                 icon={faCircleInfo}
@@ -83,46 +86,41 @@ export const TextArea: React.FC = () => {
             </span>
             {/* <!-- Main modal --> */}
             <Modal show={openModal} onClose={() => setOpenModal(false)}>
-                <Modal.Header>How to use this app</Modal.Header>
+                <Modal.Header>{t("encrypt.modal.title")}</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
                         <div className="text-base leading-relaxed">
                             <List>
                                 <List.Item className="text-gray-700 dark:text-gray-100">
-                                    Type your message, click to encrypt if
-                                    desired, and save/share - only those with
-                                    the password can access it.
+                                    {t("encrypt.modal.step1")}
                                 </List.Item>
                                 <List.Item className="text-gray-700 dark:text-gray-100">
-                                    Drop image in here and use the password
-                                    given to decode the message.
+                                    {t("encrypt.modal.step2")}
                                 </List.Item>
                             </List>
                         </div>
                     </div>
                     <h5 className="text-md mt-5 font-bold text-gray-800 dark:text-gray-200">
-                        Caveats
+                        {t("encrypt.modal.caveatstitle")}
                     </h5>
                     <p className="mt-1 text-sm leading-relaxed text-gray-700 dark:text-gray-100">
-                        As a security measure, some operating systems, notably
-                        iOS, strip metadata from images to prevent malicious
-                        code from executing on your phone. This means that
-                        images you pass along to a third party won't be able to
-                        be decrypted if they have been sent from your iPhone.
+                        {t("encrypt.modal.caveatstext")}
                     </p>
                     <h5 className="text-md mt-5 font-bold text-gray-800 dark:text-gray-200">
-                        Security disclaimer
+                        {t("encrypt.modal.securitytitle")}
                     </h5>
                     <p className="mt-1 text-sm leading-relaxed text-gray-700 dark:text-gray-100">
-                        Images shared to the feed are stored on a server until
-                        they are deleted or expire, however, the plain text
-                        message is never sent to our servers. All encryption is
-                        calculated by your web browser, so only the encrypted
-                        message is stored to the image's metadata, which{" "}
-                        <i>is</i> temporarily hosted on our servers. This novel
-                        app is meant for educational and entertainment purposes.
-                        That being said, it uses 128-bit AES encryption, so it's
-                        about as secure as you can get.
+                        <Trans i18nKey="encrypt.modal.securitytext" components={{ i: <i /> }}>
+                            Images shared to the feed are stored on a server until
+                            they are deleted or expire, however, the plain text
+                            message is never sent to our servers. All encryption is
+                            calculated by your web browser, so only the encrypted
+                            message is stored to the image's metadata, which
+                            <i>is</i> temporarily hosted on our servers. This novel
+                            app is meant for educational and entertainment purposes.
+                            That being said, it uses 128-bit AES encryption, so it's
+                            about as secure as you can get.
+                        </Trans>
                     </p>
                 </Modal.Body>
                 {/* <Modal.Footer>
@@ -173,7 +171,7 @@ export const TextArea: React.FC = () => {
                             maxLength={254}
                             tabIndex={0}
                             className="block h-full min-h-28 w-full border-0 bg-white px-0 text-base text-gray-800 focus:ring-0 dark:!bg-slate-700 dark:text-white dark:placeholder-gray-400"
-                            placeholder={`${decryptedText ? decryptedText : "Type your thoughts"}`}
+                            placeholder={`${decryptedText ? decryptedText : t("encrypt.placeholder")}`}
                             required
                         ></textarea>
                     </div>
