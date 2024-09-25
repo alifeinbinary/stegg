@@ -16,7 +16,7 @@
  */
 
 import { useQuery } from "@apollo/client";
-import { LIST_BINARYIMAGEPOSTS } from "./api";
+import { LIST_BINARYIMAGEPOSTS } from "../api/api";
 
 /*
  * List binary image posts
@@ -24,11 +24,36 @@ import { LIST_BINARYIMAGEPOSTS } from "./api";
  * @example
  * const { data, loading, error } = useListBinaryImagePosts();
  */
-export const useListBinaryImagePosts = () => {
-    return useQuery(LIST_BINARYIMAGEPOSTS, {
+export const useListBinaryImagePosts = (cursor: string) => {
+    const { refetch } = useQuery(LIST_BINARYIMAGEPOSTS, {
         context: {
             apiName: "read",
         },
-        fetchPolicy: "cache-first",
+        fetchPolicy: "cache-and-network",
+        nextFetchPolicy: "cache-first",
+        returnPartialData: false,
+        variables: {
+            cursor: cursor,
+        },
     });
+    const listBinaryImagePosts = async (
+        cursor: string,
+    ): Promise<{
+        data: any;
+        loading: boolean;
+        error: any;
+    }> => {
+        console.debug("cursor", cursor);
+        const {
+            data: refetchedData,
+            loading: refetchedLoading,
+            error: refetchedError,
+        } = await refetch({ cursor: cursor });
+        return {
+            data: refetchedData,
+            loading: refetchedLoading,
+            error: refetchedError,
+        } as any;
+    };
+    return { listBinaryImagePosts };
 };

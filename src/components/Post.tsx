@@ -26,6 +26,7 @@ import { usePostState } from "../utils/stores";
 import { useEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "flowbite-react";
 
 function Post({ id, author, posted, image }: PostProps) {
 
@@ -79,14 +80,8 @@ function Post({ id, author, posted, image }: PostProps) {
         if (postState?.password) convertImage();
     }, [postState?.password, id, postState?.image, setPostState]);
 
-    useEffect(() => {
-        if (postState?.decryptedText) {
-            console.log("decryptedText: ", postState.decryptedText);
-        }
-    }, [postState?.decryptedText]);
-
     return (
-        <div className="group/image transition duration-350 ease-out pb-4" id={id}>
+        <div className="group/image transition duration-350 ease-out pb-4" id={id} key={id}>
             <div className="flex flex-shrink-0 pb-0">
                 <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 rounded-t-lg">
                     <div className="px-3">
@@ -98,15 +93,16 @@ function Post({ id, author, posted, image }: PostProps) {
                             </span>
                             <br />
                             <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">
-                                ID: {id.toString().match(/^[^#]+/)![0]}
+                                ID: {id.toString().match(/^[^#]+/)![0].slice(0, 9)}
                             </span>
                         </p>
                     </div>
                 </div>
             </div>
             <div>
-                <div>
-                    <div className="flex pt-10 px-7 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
+                <div className="">
+                    <div className="flex items-center justify-center pt-10 px-7 bg-gray-50 min-h-[190px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
+                        {!postState?.image ? <Spinner color="gray" aria-label="Loading" /> : null}
                         {postState?.decryptedText ? (
                             <p className="text-xl text-left width-auto font-medium text-gray-900 dark:text-white flex-shrink pb-10">
                                 {postState.decryptedText}

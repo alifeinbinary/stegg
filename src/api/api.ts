@@ -18,13 +18,18 @@
 import { gql } from "@apollo/client";
 
 export const LIST_BINARYIMAGEPOSTS = gql`
-    query ListBinaryImagePosts {
-        listBinaryImagePosts {
+    query ListBinaryImagePosts($cursor: String) {
+        listBinaryImagePosts(limit: 3, sort: createdOn_DESC, after: $cursor) {
             data {
                 id
                 author
                 image
                 posted
+            }
+            meta {
+                cursor
+                hasMoreItems
+                totalCount
             }
         }
     }

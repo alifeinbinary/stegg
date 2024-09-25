@@ -15,20 +15,22 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { faTerminal } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { lazy } from "react";
+// import { faTerminal } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Hook, Unhook } from "console-feed";
 import { Message } from "console-feed/lib/definitions/Component";
 import { useEffect } from "react";
 import { Flowbite } from "flowbite-react";
 import "./App.css";
-import LogsContainer from "./components/DebugConsole";
-import Feed from "./components/Feed";
+// import LogsContainer from "./components/DebugConsole";
+// import Feed from "./components/Feed";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Translate from "./components/Translate";
 import { useAppState, useImageState } from "./utils/stores";
 
+const Feed = lazy(() => import("./components/Feed"));
 function App() {
   const { debugMode, setDebugMode, logs, setLogs } = useAppState();
 
@@ -80,7 +82,7 @@ function App() {
   // Keeping it fresh in the console
   useEffect(() => {
     if (!DEBUG) {
-      // console.clear();
+      console.clear();
     }
 
     // Debug console
@@ -134,7 +136,7 @@ function App() {
             <Header />
             <Translate />
             <Feed />
-            {debugMode && <LogsContainer logs={logs} />}
+            {/* {debugMode && <LogsContainer logs={logs} />}
             <button
               className="text-sm font-light text-gray-100 hover:text-gray-300 hover:underline"
               onClick={handleDebugMode}
@@ -144,7 +146,7 @@ function App() {
                 className="text-sm pr-2 font-light text-gray-100 hover:text-gray-300 hover:underline"
               />
               {debugMode ? "Disable" : "Enable"} debug console
-            </button>
+            </button> */}
           </div>
         </div>
         <Footer />
