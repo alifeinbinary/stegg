@@ -32,7 +32,8 @@ import { useAppState, useImageState } from "./utils/stores";
 
 const Feed = lazy(() => import("./components/Feed"));
 function App() {
-  const { debugMode, setDebugMode, logs, setLogs } = useAppState();
+  // const { debugMode, setDebugMode, logs, setLogs } = useAppState();
+  const { debugMode, setLogs } = useAppState();
 
   const {
     input,
@@ -49,9 +50,9 @@ function App() {
 
   const DEBUG = debugMode ? debugMode : import.meta.env.MODE === "development";
 
-  const handleDebugMode = () => {
-    setDebugMode(!debugMode);
-  };
+  // const handleDebugMode = () => {
+  //   setDebugMode(!debugMode);
+  // };
 
   // Loading the console
   useEffect(() => {
