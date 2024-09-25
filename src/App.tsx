@@ -15,25 +15,26 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 // import { faTerminal } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Hook, Unhook } from "console-feed";
-import { Message } from "console-feed/lib/definitions/Component";
+// import { Hook, Unhook } from "console-feed";
+// import { Message } from "console-feed/lib/definitions/Component";
 import { useEffect } from "react";
-import { Flowbite } from "flowbite-react";
+import { Flowbite, Spinner } from "flowbite-react";
 import "./App.css";
 // import LogsContainer from "./components/DebugConsole";
 // import Feed from "./components/Feed";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Translate from "./components/Translate";
+// import Translate from "./components/Translate";
 import { useAppState, useImageState } from "./utils/stores";
 
 const Feed = lazy(() => import("./components/Feed"));
+const Translate = lazy(() => import("./components/Translate"));
 function App() {
   // const { debugMode, setDebugMode, logs, setLogs } = useAppState();
-  const { debugMode, setLogs } = useAppState();
+  const { debugMode } = useAppState();
 
   const {
     input,
@@ -55,30 +56,30 @@ function App() {
   // };
 
   // Loading the console
-  useEffect(() => {
-    function handleCallback(logItems: Message[]) {
-      setLogs(logItems);
-    }
-    function transpose(matrix: Message[][]) {
-      if (!matrix || matrix.length === 0) return [];
-      const table = matrix[0];
-      return table;
-    }
-    const hookedConsole = Hook(
-      window.console,
-      (logItems) =>
-        handleCallback([
-          { ...logItems, data: [transpose(logItems.data as Message[][])] },
-        ] as Message[]),
-      false,
-    );
+  // useEffect(() => {
+  //   function handleCallback(logItems: Message[]) {
+  //     setLogs(logItems);
+  //   }
+  //   function transpose(matrix: Message[][]) {
+  //     if (!matrix || matrix.length === 0) return [];
+  //     const table = matrix[0];
+  //     return table;
+  //   }
+  //   const hookedConsole = Hook(
+  //     window.console,
+  //     (logItems) =>
+  //       handleCallback([
+  //         { ...logItems, data: [transpose(logItems.data as Message[][])] },
+  //       ] as Message[]),
+  //     false,
+  //   );
 
-    return () => {
-      if (hookedConsole) {
-        Unhook(hookedConsole);
-      }
-    };
-  }, [setLogs]);
+  //   return () => {
+  //     if (hookedConsole) {
+  //       Unhook(hookedConsole);
+  //     }
+  //   };
+  // }, [setLogs]);
 
   // Keeping it fresh in the console
   useEffect(() => {
@@ -135,8 +136,12 @@ function App() {
         <div id="app" className="bg-forestgreen/[0.5] dark:bg-slate-600 transition-colors duration-500 ease-in-out">
           <div className="container px-4 mx-auto max-w-6xl">
             <Header />
-            <Translate />
-            <Feed />
+            <Suspense fallback={<span className="w-full min-h-52 flex items-center justify-center"><Spinner /></span>}>
+              <Translate />
+            </Suspense>
+            <Suspense fallback={<span className="w-full min-h-52 flex items-center justify-center"><Spinner /></span>}>
+              <Feed />
+            </Suspense>
             {/* {debugMode && <LogsContainer logs={logs} />}
             <button
               className="text-sm font-light text-gray-100 hover:text-gray-300 hover:underline"

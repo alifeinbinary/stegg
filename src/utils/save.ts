@@ -35,11 +35,6 @@ function returnBlob(blobWithMetadata: Blob, fileName: string) {
     link.href = url;
     link.download = fileName;
 
-    // document.body.appendChild(link);
-    // link.click();
-
-    // document.body.removeChild(link);
-
     return { fileName, url };
 }
 

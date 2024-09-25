@@ -43,7 +43,6 @@ export const useListBinaryImagePosts = (cursor: string) => {
         loading: boolean;
         error: any;
     }> => {
-        console.debug("cursor", cursor);
         const {
             data: refetchedData,
             loading: refetchedLoading,

@@ -73,7 +73,7 @@ const Header: React.FC = () => {
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
                         <Navbar fluid rounded theme={customNavbarTheme}>
                             <Navbar.Brand href="/">
-                                <img width={"100%"} height={"100%"} src="./public/binary-translate.png" className="mr-3 h-12 sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
+                                <img width={"100%"} height={"100%"} src="./binary-translate.png" className="mr-3 h-12 sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
                                 <span className="self-center whitespace-nowrap text-2xl xs:text-sm tracking-tight font-bold text-gray-900 dark:text-white">{t('title')}</span>
                             </Navbar.Brand>
                             <menu className='flex items-end list-none'>
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
                                         <p className="text-xl font-semibold text-gray-900 dark:text-white">{t('review')}</p>
                                     </blockquote>
                                     <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
-                                        <img className="w-6 h-6 rounded-full" src="diane.webp" alt="profile picture" />
+                                        <img className="w-6 h-6 rounded-full" src="./diane.webp" alt="profile picture" />
                                         <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-300 dark:divide-gray-700">
                                             <cite className="pe-3 font-medium text-gray-900 dark:text-white">Diane</cite>
                                             <cite className="ps-3 text-sm text-gray-500 dark:text-gray-300">{t('byline')}</cite>
