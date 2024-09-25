@@ -99,12 +99,12 @@ export const FileUploader: React.FC<DropzoneProps> = ({ setInput, setEncryptionE
         })
     }
 
-    const { getRootProps, getInputProps, acceptedFiles } = useDropzone({ onDrop, noClick: true, noKeyboard: true, accept: { 'image/png': ['.png'] } })
+    const { getInputProps, acceptedFiles } = useDropzone({ onDrop, noClick: true, noKeyboard: true, accept: { 'image/png': ['.png'] } })
     return (
         <div className='w-full h-full pt-2 sm:pt-0 xs:pt-0'>
             <h4 className="mb-2 h4 text-2xl sm:hidden xs:hidden text-left font-bold dark:text-white">{t('decrypt.title')}</h4>
             <div className="flex items-center justify-center w-full h-[17em] xs:h-32 mb-4 sm:mb-0 xs:mb-0">
-                <label {...getRootProps()} onChange={() => onDrop(acceptedFiles)} tabIndex={0} htmlFor="dropzone-file" className="flex transition ease-in-out duration-300 flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+                <label onChange={() => onDrop(acceptedFiles)} tabIndex={0} htmlFor="dropzone-file" className="flex transition ease-in-out duration-300 flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
                     <div className="flex flex-col items-center justify-center ">
                         <FontAwesomeIcon icon={faUpload} className="w-10 h-10 mb-3 text-gray-400 sm:hidden xs:hidden" />
                         <Trans i18nKey="decrypt.description" components={{ span: <span />, p: <p /> }}><p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop to extract message</p>

@@ -16,36 +16,34 @@
  */
 
 import { AES, enc } from "crypto-js";
-import { toast } from "react-toastify";
 
 const handleEncrypt = (
-  input: string,
-  password: string,
-  setEncryptedText: React.Dispatch<string>
+    input: string,
+    password: string,
+    setEncryptedText: React.Dispatch<string>,
 ) => {
-  const encrypted = AES.encrypt(input, password).toString();
-  setEncryptedText(encrypted);
+    const encrypted = AES.encrypt(input, password).toString();
+    setEncryptedText(encrypted);
 };
 
 function handleDecrypt(
-  stringToDecrypt: string,
-  password: string,
-  setDecryptedText: React.Dispatch<string>
+    stringToDecrypt: string,
+    password: string,
+    setDecryptedText: React.Dispatch<string>,
 ) {
-  try {
-    const bytes = AES.decrypt(stringToDecrypt, password);
-    const originalText = bytes.toString(enc.Utf8);
+    try {
+        const bytes = AES.decrypt(stringToDecrypt, password);
+        const originalText = bytes.toString(enc.Utf8);
 
-    if (originalText.length === 0) {
-      setDecryptedText(stringToDecrypt);
-    } else {
-      setDecryptedText(originalText);
-      toast.success("Decryption successful");
+        if (originalText.length === 0) {
+            setDecryptedText(stringToDecrypt);
+        } else {
+            setDecryptedText(originalText);
+        }
+    } catch (error) {
+        console.info("Decryption failed", error);
+        return;
     }
-  } catch (error) {
-    console.info("Decryption failed", error);
-    return;
-  }
 }
 
-export { handleEncrypt, handleDecrypt };
+export { handleDecrypt, handleEncrypt };

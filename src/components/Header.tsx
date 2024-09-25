@@ -25,10 +25,6 @@ import { useTheme } from '../hooks/useTheme';
 const customNavbarTheme: CustomFlowbiteTheme["navbar"] = {
     root: {
         base: "w-full bg-white dark:bg-slate-900 px-0 py-2.5",
-        rounded: {
-            on: "rounded",
-            off: "rounded-none",
-        },
     },
     link: {
         base: "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent",
@@ -46,6 +42,12 @@ const customNavbarTheme: CustomFlowbiteTheme["navbar"] = {
 const customDropdownTheme: CustomFlowbiteTheme["dropdown"] = {
     arrowIcon: "xs:hidden w-4 h-4 ml-1 text-gray-500 dark:text-gray-400",
     inlineWrapper: "flex items-center rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700",
+}
+
+const customToggleTheme: CustomFlowbiteTheme["darkThemeToggle"] = {
+    root: {
+        icon: "w-6 h-6",
+    }
 }
 
 const Header: React.FC = () => {
@@ -69,31 +71,31 @@ const Header: React.FC = () => {
                 <div className="py-4 px-4 bg-white dark:bg-slate-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
                         <Navbar fluid rounded theme={customNavbarTheme}>
-                            <Navbar.Brand>
-                                <img src="./public/binary-translate.png" className="mr-3 h-12 sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
+                            <Navbar.Brand href="/">
+                                <img width={"100%"} height={"100%"} src="./public/binary-translate.png" className="mr-3 h-12 sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
                                 <span className="self-center whitespace-nowrap text-2xl xs:text-sm tracking-tight font-bold text-gray-900 dark:text-white">{t('title')}</span>
                             </Navbar.Brand>
-                            <div className='flex items-end list-none'>
-                                <Navbar.Link className='mr-2 xs:mr-0'>
-                                    <Dropdown inline label={<FontAwesomeIcon icon={faGlobe} className='w-5 h-5' />} dismissOnClick={true} floatingArrow={true} theme={customDropdownTheme}>
-                                        <Dropdown.Item onClick={() => changeLanguage('en')}>English 🇬🇧</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => changeLanguage('es')}>Spanish 🇪🇸</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => changeLanguage('fr')}>French 🇫🇷</Dropdown.Item>
+                            <menu className='flex items-end list-none'>
+                                <Navbar.Link className='mr-3 xs:mr-0' role='button' href='#' title='Change Language' aria-label='Change Language'>
+                                    <Dropdown inline label={<FontAwesomeIcon icon={faGlobe} aria-label='Language selection dropdown menu' title='Language selection dropdown menu' className='w-6 h-6 text-2xl' />} dismissOnClick={true} floatingArrow={true} theme={customDropdownTheme}>
+                                        <Dropdown.Item aria-label='English' onClick={() => changeLanguage('en')}>English 🇬🇧</Dropdown.Item>
+                                        <Dropdown.Item aria-label='Spanish' onClick={() => changeLanguage('es')}>Spanish 🇪🇸</Dropdown.Item>
+                                        <Dropdown.Item aria-label='French' onClick={() => changeLanguage('fr')}>French 🇫🇷</Dropdown.Item>
                                     </Dropdown>
                                 </Navbar.Link>
-                                <Navbar.Link>
-                                    <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} />
+                                <Navbar.Link href='#' aria-label='Change Theme'>
+                                    <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} theme={customToggleTheme} className='text-2xl' />
                                 </Navbar.Link>
-                            </div>
+                            </menu>
                         </Navbar>
                         <p className="mb-4 pt-2 font-bold dark:text-gray-100">{t('description.intro')}</p>
-                        <p className="mb-4 font-base dark:text-gray-200"><b>{t('description.howitworks')}</b> <Trans i18nKey="description.paragraph1" components={{ b: <b />, FontAwesomeIcon: <FontAwesomeIcon icon={faLock} /> }}>This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</Trans></p>
-                        <p className="mb-4 font-base dark:text-gray-200"><Trans i18nKey="description.paragraph2" components={{ b: <b />, }}>Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</Trans></p>
-                        <p className='mb-4 font-base dark:text-gray-200'><Trans i18nKey="description.paragraph3" components={{ b: <b />, a: <a /> }}>I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-blue-900 hover:underline dark:text-blue-300' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within.</Trans></p>
+                        <p className="mb-4 font-base dark:text-gray-100"><b>{t('description.howitworks')}</b> <Trans i18nKey="description.paragraph1" components={{ b: <b />, FontAwesomeIcon: <FontAwesomeIcon icon={faLock} /> }}>This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</Trans></p>
+                        <p className="mb-4 font-base dark:text-gray-100"><Trans i18nKey="description.paragraph2" components={{ b: <b />, }}>Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</Trans></p>
+                        <p className='mb-4 font-base dark:text-gray-100'><Trans i18nKey="description.paragraph3" components={{ b: <b />, a: <a /> }}>I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-blue-900 hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within.</Trans></p>
                         <div className='mb-4'>
                             <h2 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-100">Technology involved</h2>
                             <div className='grid grid-cols-2 xs:grid-cols-1 gap-4'>
-                                <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-200">
+                                <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-100">
                                     <Trans i18nKey="technology1" components={{ li: <li /> }}>
                                         <li>
                                             Typescript
@@ -112,7 +114,7 @@ const Header: React.FC = () => {
                                         </li>
                                     </Trans>
                                 </ul>
-                                <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-200">
+                                <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-100">
                                     <Trans i18nKey="technology2" components={{ li: <li /> }}>
                                         <li>
                                             Embedding metadata in files
@@ -179,8 +181,8 @@ const Header: React.FC = () => {
             </section >
             <span className='flex-row flex pt-2 px-6 justify-between text-white'>
                 <div className='grid grid-cols-2 xs:grid-cols-1 w-full'>
-                    <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> {t('forkthisproject')}<a className='text-blue-100 hover:text-blue-200 hover:underline dark:text-blue-300' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
-                    <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>{t('likemywork')}<a href='https://www.linkedin.com/in/alifeinbinary/' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline dark:text-blue-300'> {t('hireme')}</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
+                    <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> {t('forkthisproject')}<a className='text-blue-100 hover:text-blue-200 hover:underline dark:text-orange' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
+                    <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>{t('likemywork')} <a href='https://www.linkedin.com/in/alifeinbinary/' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline dark:text-orange'> {t('hireme')}</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>
                 </div>
             </span>
         </div >
