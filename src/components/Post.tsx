@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "flowbite-react";
 import { saveAs } from "file-saver";
 
-function Post({ id, author, posted, image }: PostProps) {
+function Post({ id, author, posted, image, width, height }: PostProps) {
 
     const { t } = useTranslation();
 
@@ -42,6 +42,8 @@ function Post({ id, author, posted, image }: PostProps) {
                 password: "",
                 output: [],
                 image: image as string,
+                width: width,
+                height: height,
                 encryptedText: "",
                 decryptedText: "",
                 author: author,
@@ -115,7 +117,7 @@ function Post({ id, author, posted, image }: PostProps) {
                 </div>
             </div>
             <div>
-                <div className="">
+                <div className="min-h-max">
                     <div className="flex items-center justify-center pt-10 px-7 bg-gray-50 min-h-[190px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
                         {!postState?.image ? <Spinner color="gray" aria-label="Loading" /> : null}
                         {postState?.decryptedText ? (
@@ -123,7 +125,7 @@ function Post({ id, author, posted, image }: PostProps) {
                                 {postState.decryptedText}
                             </p>
                         ) : (
-                            <img className="rounded-2xl feed-image" src={postState?.image} alt={"Binary image " + id} />
+                            <img className="rounded-2xl feed-image min-h-max" src={postState?.image} alt={"Binary image " + id} width={postState?.width} height={postState?.height} />
                         )}
                     </div>
                 </div>
@@ -147,7 +149,7 @@ function Post({ id, author, posted, image }: PostProps) {
                             </div> */}
                         </div>
                     </div>
-                    <div className="w-full h-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">
+                    <div className="w-full flex items-center justify-center width-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">
                         <Password
                             password={postState?.password || ""}
                             setPassword={(value) => setPostState(id, { password: value })}

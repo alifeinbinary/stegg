@@ -34,14 +34,33 @@ export const useCreateBinaryImagePost = () => {
         },
     });
 
-    const createBinaryImagePost = async (author: string, imageUrl: string) => {
+    // async function getSize(url: string) {
+    //     const img = new Image();
+    //     img.src = url;
+    //     img.onload = () => {
+    //         const width = img.naturalWidth;
+    //         const height = img.naturalHeight;
+    //         return { width, height };
+    //     };
+    //     return img;
+    // }
+
+    const createBinaryImagePost = async (
+        author: string,
+        imageUrl: string,
+        width: number,
+        height: number,
+    ) => {
         const timestamp = Date.now();
         const datePosted = new Date(timestamp).toISOString();
+        console.log("width", width, "height", height);
         const result = await createFileMutation({
             variables: {
                 author,
                 image: imageUrl,
                 posted: datePosted,
+                width: width,
+                height: height,
             },
         });
         return result.data.createBinaryImagePost.data.id;

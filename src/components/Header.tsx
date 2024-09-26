@@ -67,13 +67,13 @@ const Header: React.FC = () => {
     }
 
     return (
-        <div id="header">
+        <div id="header" className='lg:w-[1120px] lg:w-[1005px]'>
             <section className="px-6 sm:px-2 xs:px-1 pt-8">
                 <div className="py-4 px-4 bg-white dark:bg-slate-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
                         <Navbar fluid rounded theme={customNavbarTheme}>
                             <Navbar.Brand href="/">
-                                <img width={"100%"} height={"100%"} src="./binary-translate.png" className="mr-3 h-12 w-auto sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
+                                <img width={48} height={48} src="./binary-translate.webp" className="mr-3 h-12 w-auto sm:h-9 xs:h-7 xs:mr-2" alt="Binary Translate" />
                                 <span className="self-center whitespace-nowrap text-2xl xs:text-sm tracking-tight font-bold text-gray-900 dark:text-white">{t('title')}</span>
                             </Navbar.Brand>
                             <menu className='flex items-end list-none'>
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
                                         <p className="text-xl font-semibold text-gray-900 dark:text-white">{t('review')}</p>
                                     </blockquote>
                                     <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse">
-                                        <img className="w-6 h-6 rounded-full" src="./diane.webp" alt="profile picture" />
+                                        <img className="w-6 h-6 rounded-full" src="./diane.webp" alt="profile picture" width={75} height={75} />
                                         <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-300 dark:divide-gray-700">
                                             <cite className="pe-3 font-medium text-gray-900 dark:text-white">Diane</cite>
                                             <cite className="ps-3 text-sm text-gray-500 dark:text-gray-300">{t('byline')}</cite>
@@ -180,7 +180,7 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </section >
-            <span className='flex-row flex pt-2 px-6 justify-between text-white'>
+            <span className='flex-row flex items-center pt-2 px-6 justify-between text-white'>
                 <div className='grid grid-cols-2 xs:grid-cols-1 w-full'>
                     <p className='mb-4 ml-2 xs:ml-0 xs:mb-1 font-medium col-span-1 text-left xs:text-center'><FontAwesomeIcon className='text-sm' icon={faCodeFork} /> {t('forkthisproject')}<a className='text-blue-100 hover:text-blue-200 hover:underline dark:text-orange' href='https://github.com/alifeinbinary/binary-translate' target='_blank'>Github</a></p>
                     <p className='font-medium mr-2 xs:mr-0 col-span-1 text-right xs:text-center'>{t('likemywork')} <a href='https://www.linkedin.com/in/alifeinbinary/' target='_blank' className='text-blue-100 hover:text-blue-200 hover:underline dark:text-orange'> {t('hireme')}</a> <FontAwesomeIcon icon={faFaceSmile} className="ml-1 text-lg text-yellow-200" /></p>

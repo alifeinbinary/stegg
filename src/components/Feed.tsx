@@ -85,7 +85,7 @@ const Feed: FC = () => {
 
     if (loading) return (
         <div className="py-12 text-center">
-            <Post id="loading" author="" posted={new Date()} image={""} key={undefined} />
+            <Post id="loading" author="" posted={new Date()} image={""} key={undefined} width={1084} height={506} />
             <span className="sr-only">Loading...</span>
         </div>
     );
@@ -103,7 +103,7 @@ const Feed: FC = () => {
                     {t("feed.title")}
                 </h4>
                 {posts.map((post) => (
-                    <Post key={post.key} id={post.id} author={post.author} posted={post.posted} image={post.image} />
+                    <Post key={post.key} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
                 ))}
                 <div className="flex flex-col items-center">
                     <span className="text-sm text-gray-100 dark:text-gray-300">

@@ -24,6 +24,8 @@ export const LIST_BINARYIMAGEPOSTS = gql`
                 id
                 author
                 image
+                width
+                height
                 posted
             }
             meta {
@@ -95,14 +97,24 @@ export const CREATE_BINARYIMAGEPOST = gql`
         $author: String!
         $image: String!
         $posted: DateTime!
+        $width: Number!
+        $height: Number!
     ) {
         createBinaryImagePost(
-            data: { author: $author, image: $image, posted: $posted }
+            data: {
+                author: $author
+                image: $image
+                width: $width
+                height: $height
+                posted: $posted
+            }
         ) {
             data {
                 id
                 author
                 image
+                width
+                height
                 posted
             }
         }

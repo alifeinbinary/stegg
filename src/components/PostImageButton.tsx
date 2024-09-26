@@ -168,9 +168,11 @@ const PostImageButton: React.FC = () => {
                 })
 
                 // CREATE BINARY IMAGE POST ENTRY WITH IMAGE, AUTHOR, AND DATE
+                const width = canvasRef.current.width;
+                const height = canvasRef.current.height;
                 const authorOrAnon = author ? author : "Anon";
                 const imageUrl = "https://dj8rv0ejdatzv.cloudfront.net/files/" + preSignedPostPayload.file.key;
-                const postId = await createBinaryImagePost(authorOrAnon, imageUrl);
+                const postId = await createBinaryImagePost(authorOrAnon, imageUrl, width, height);
 
                 console.debug("Binary image post created.");
                 toast.update(toastId, {
