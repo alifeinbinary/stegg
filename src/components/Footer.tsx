@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
     const { t } = useTranslation();
 
     return (
-        <footer className="bg-white dark:bg-gray-900">
+        <footer className="bg-white dark:bg-gray-900 text-center">
             <div className="mx-auto p-2 md:flex md:items-center md:justify-between">
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                     &copy; 2024 <a className="hover:underline" href="https://www.alifeinbinary.com/">Andrew Halliwell</a>. {t('footer.rights')}. <br />{t('footer.license')} <a href="https://choosealicense.com/licenses/gpl-3.0/" target="_blank" className="hover:underline">GPLv3 license</a>.
