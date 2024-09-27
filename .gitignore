@@ -32,4 +32,5 @@ dist-ssr
 *.sw?
 
 .env
-tsconfig.app.tsbuildinfo
+*.tsbuildinfo
+localhost_2024-*
