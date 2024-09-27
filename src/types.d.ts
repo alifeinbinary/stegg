@@ -14,26 +14,8 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-// import { Message } from "console-feed/lib/definitions/Component";
 
-// export interface DownloadImageButtonProps {
-//   canvasRef: React.RefObject<HTMLCanvasElement>;
-//   // input: string;
-//   // setInput: React.Dispatch<React.SetStateAction<string>>;
-//   password: string;
-//   setPassword: React.Dispatch<React.SetStateAction<string>>;
-//   encryptedText: string;
-//   setEncryptedText: React.Dispatch<React.SetStateAction<string>>;
-//   setDecryptedText: React.Dispatch<React.SetStateAction<string>>;
-//   encryptionEnabled: boolean;
-//   setEncryptionEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-//   setOutput: React.Dispatch<React.SetStateAction<string[]>>;
-// }
-
-// export interface PostImageButtonProps {
-//   user: string;
-//   setUser: React.Dispatch<React.SetStateAction<string>>;
-// }
+import { Message } from "console-feed/lib/definitions/Component";
 
 export interface DropzoneProps {
     setInput: (input: string) => void;
@@ -48,59 +30,15 @@ export interface LogConainterProps {
     logs: Message[];
 }
 
-// export interface SliderProps {
-//   size: number;
-//   setSize: React.Dispatch<React.SetStateAction<number>>;
-// }
-
-// export interface TextAreaProps {
-//   encryptionEnabled: boolean;
-//   password: string;
-//   setPassword: React.Dispatch<React.SetStateAction<string>>;
-//   encryptedText: string;
-//   setEncryptedText: React.Dispatch<React.SetStateAction<string>>;
-//   setDecryptedText: React.Dispatch<React.SetStateAction<string>>;
-//   stringToDecrypt: string;
-//   setStringToDecrypt: React.Dispatch<React.SetStateAction<string>>;
-//   // input: string;
-//   // setInput: React.Dispatch<React.SetStateAction<string>>;
-//   setOutput: React.Dispatch<React.SetStateAction<string[]>>;
-//   setEncryptionEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-//   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
-//   handleDecrypt: (
-//     encryptedText: string,
-//     password: string,
-//     setDecryptedText: React.Dispatch<React.SetStateAction<string>>
-//   ) => void;
-//   decryptedText: string;
-//   size: number;
-//   setSize: React.Dispatch<React.SetStateAction<number>>;
-//   user: string;
-//   setUser: React.Dispatch<React.SetStateAction<string>>;
-// }
-
 export interface PostProps {
     key: Key | null | undefined;
     id: string;
     author: string;
     posted: Date;
     image: string;
+    width: number;
+    height: number;
 }
-
-// export interface PasswordProps {
-//   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
-//   encryptionEnabled: boolean;
-//   setEncryptionEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-//   setEncryptionEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-//   password: string;
-//   setPassword: React.Dispatch<React.SetStateAction<string>>;
-//   setOutput: React.Dispatch<React.SetStateAction<string[]>>;
-//   setEncryptedText: React.Dispatch<React.SetStateAction<string>>;
-//   decryptedText: string;
-//   setDecryptedText: React.Dispatch<React.SetStateAction<string>>;
-//   stringToDecrypt: string;
-//   setStringToDecrypt: React.Dispatch<React.SetStateAction<string>>;
-// }
 
 export interface PasswordProps {
     password: string;
@@ -113,4 +51,26 @@ export interface PasswordProps {
     setStringToDecrypt: (value: string) => void;
     stringToDecrypt: string;
     setEncryptedText: (value: string) => void;
+}
+
+export interface PreSignedPostPayloadProps {
+    data: {
+        fields: {
+            [key: string]: string;
+            "Content-Type": string;
+            policy: string;
+            "x-amz-algorithm": string;
+            "x-amz-credential": string;
+            "x-amz-date": string;
+            "x-amz-signature": string;
+        };
+        url: string;
+    };
+    file: {
+        id: string;
+        key: string;
+        name: string;
+        size: number;
+        type: string;
+    };
 }

@@ -15,27 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-interface PreSignedPostPayloadProps {
-    data: {
-        fields: {
-            [key: string]: string;
-            "Content-Type": string;
-            policy: string;
-            "x-amz-algorithm": string;
-            "x-amz-credential": string;
-            "x-amz-date": string;
-            "x-amz-signature": string;
-        };
-        url: string;
-    };
-    file: {
-        id: string;
-        key: string;
-        name: string;
-        size: number;
-        type: string;
-    };
-}
+import { PreSignedPostPayloadProps } from "../types.d";
 
 export const uploadFileToS3 = (
     presignedPostData: PreSignedPostPayloadProps,
