@@ -24,14 +24,13 @@ import { useEffect } from "react";
 import { Flowbite, Spinner } from "flowbite-react";
 import "./App.css";
 // import LogsContainer from "./components/DebugConsole";
-// import Feed from "./components/Feed";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-// import Translate from "./components/Translate";
 import { useAppState, useImageState } from "./utils/stores";
 
-const Feed = lazy(() => import("./components/Feed"));
+const Header = lazy(() => import("./components/Header"));
 const Translate = lazy(() => import("./components/Translate"));
+const Feed = lazy(() => import("./components/Feed"));
+const Footer = lazy(() => import("./components/Footer"));
+
 function App() {
   // const { debugMode, setDebugMode, logs, setLogs } = useAppState();
   const { debugMode } = useAppState();
@@ -100,22 +99,22 @@ function App() {
       encryptedText: [encryptedText],
       decryptedText: [decryptedText],
     };
-    if (DEBUG) {
-      console.table(items);
-      const msg = `%c Hi 👋! Hit me up at %s if you want to work together!`;
-      const styles = [
-        "font-size: 16px",
-        "font-family: monospace",
-        "background: rgb(68,34,51)",
-        "background: linear-gradient(90deg, rgba(68,34,51,1) 0%, rgba(153,170,187,1) 100%)",
-        "color: white",
-        "border-radius: 0.5rem",
-        "padding: 8px 19px",
-        "border: 1px dashed black",
-      ].join(";");
-      const urlString = "alifeinbinary.com/contact";
-      console.log(msg, styles, urlString);
-    }
+    // if (DEBUG) {
+    console.table(items);
+    const msg = `%c Hi 👋! Hit me up at %s if you want to work together!`;
+    const styles = [
+      "font-size: 16px",
+      "font-family: monospace",
+      "background: rgb(68,34,51)",
+      "background: linear-gradient(90deg, rgba(68,34,51,1) 0%, rgba(153,170,187,1) 100%)",
+      "color: white",
+      "border-radius: 0.5rem",
+      "padding: 8px 19px",
+      "border: 1px dashed black",
+    ].join(";");
+    const urlString = "alifeinbinary.com/contact";
+    console.log(msg, styles, urlString);
+    // }
   }, [
     DEBUG,
     input,
@@ -135,11 +134,18 @@ function App() {
       <Flowbite>
         <div id="app" className="bg-forestgreen/[0.5] dark:bg-slate-600 transition-colors duration-500 ease-in-out">
           <div className="container px-4 mx-auto max-w-6xl">
-            <Header />
-            <Suspense fallback={<span className="w-full min-h-52 flex items-center justify-center"><Spinner /></span>}>
+            {/* Header */}
+            <Suspense fallback={<span className="w-full xs:h-[1740px] sm:h-[1485px] md:h-[1190px] lg:h-[1005px] flex items-center justify-center"><Spinner /></span>}>
+              <Header />
+            </Suspense>
+
+            {/* Translate */}
+            <Suspense fallback={<span className="w-full md:h-[374px] sm:h-[486px] flex items-center justify-center"><Spinner /></span>}>
               <Translate />
             </Suspense>
-            <Suspense fallback={<span className="w-full min-h-52 flex items-center justify-center"><Spinner /></span>}>
+
+            {/* Feed */}
+            <Suspense fallback={<span className="w-full sm:h-[1422px] md:h-[2142px] lg:h-[2553px] flex items-center justify-center"><Spinner /></span>}>
               <Feed />
             </Suspense>
             {/* {debugMode && <LogsContainer logs={logs} />}
@@ -155,7 +161,10 @@ function App() {
             </button> */}
           </div>
         </div>
-        <Footer />
+        {/* Footer */}
+        <Suspense fallback={<span className="w-full h-16 flex items-center justify-center"><Spinner /></span>}>
+          <Footer />
+        </Suspense>
       </Flowbite>
     </>
   );

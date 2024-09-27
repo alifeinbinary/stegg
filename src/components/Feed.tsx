@@ -15,15 +15,15 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FC, useLayoutEffect, useState } from "react";
-import { Alert } from "flowbite-react";
+import { FC, useLayoutEffect, useState, lazy, Suspense } from "react";
+import { Alert, Spinner } from "flowbite-react";
 import { PostProps } from "../types";
 import { useListBinaryImagePosts } from "../hooks/useListBinaryImagePosts";
-import Post from "./Post";
 import { faCircleChevronDown, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 
+const Post = lazy(() => import("./Post"));
 
 const Feed: FC = () => {
     const [posts, setPosts] = useState<PostProps[]>([]);
@@ -103,7 +103,9 @@ const Feed: FC = () => {
                     {t("feed.title")}
                 </h4>
                 {posts.map((post) => (
-                    <Post key={post.key} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
+                    <Suspense fallback={<span className="w-full xs:h-[386px] sm:h-[430px] md:h-[645px] lg:h-[778px] flex items-center justify-center"><Spinner /></span>}>
+                        <Post key={post.key} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
+                    </Suspense>
                 ))}
                 <div className="flex flex-col items-center">
                     <span className="text-sm text-gray-100 dark:text-gray-300">

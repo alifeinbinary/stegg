@@ -58,7 +58,7 @@ const Translate: React.FC = () => {
                 (output.length > 128 && !encryptionEnabled)) {
                 setCanvasHeight(Math.ceil(output.length / 8) * (5 + size));
             } else {
-                setCanvasHeight(Math.ceil(output.length / 4) * (34 + size));
+                setCanvasHeight(Math.ceil(output.length / 4) * (35 + size));
             }
             setCanvasWidth(1024 + (size * 5));
 
@@ -136,8 +136,8 @@ const Translate: React.FC = () => {
                             <FileUploader setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
                         </div>
                     </div>
-                    {input && output.length > 0 && <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Canvas</h4>}
-                    <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100 dark:bg-slate-700' />
+                    <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Canvas</h4>
+                    <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100 dark:bg-slate-700 min-h-4' />
                 </div>
             </div>
             <ToastContainer
