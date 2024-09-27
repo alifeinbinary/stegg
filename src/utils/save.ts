@@ -95,9 +95,10 @@ async function createPngWithMetadata(
     );
 
     if (action === "download") {
+        console.log("Encrypted Text", encryptedText);
         saveBlob(
             blobWithMetadata,
-            `alifeinbinary_com-${encryptedText.slice(7, 15)}.png`,
+            `alifeinbinary_com-${encryptionEnabled ? encryptedText.slice(7, 15) : Math.floor(Math.random() * 10000)}.png`,
         );
     } else if (action === "post" && encryptedText) {
         const filename = `alifeinbinary_com-${encryptedText.slice(7, 15)}.png`;
