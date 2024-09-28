@@ -33,6 +33,8 @@ interface PostState {
     password: string;
     output: string[];
     image: string;
+    width: number;
+    height: number;
     encryptedText: string;
     decryptedText: string;
     author: string;
@@ -112,13 +114,13 @@ export const useImageState = create<ImageState>((set) => ({
     output: [],
     setOutput: (value: string[]) => set({ output: value }),
 
-    canvasHeight: 32,
+    canvasHeight: 48,
     setCanvasHeight: (value: number) => set({ canvasHeight: value }),
 
-    canvasWidth: 1024,
+    canvasWidth: 2800,
     setCanvasWidth: (value: number) => set({ canvasWidth: value }),
 
-    size: 12,
+    size: 46,
     setSize: (value: number) => set({ size: value }),
 
     password: "",

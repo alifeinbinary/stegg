@@ -56,11 +56,18 @@ const Translate: React.FC = () => {
             }
             if ((output.length > 64 && encryptionEnabled) ||
                 (output.length > 128 && !encryptionEnabled)) {
-                setCanvasHeight(Math.ceil(output.length / 8) * (5 + size));
+                setCanvasHeight(Math.ceil(output.length / 8) * (40 + size));
             } else {
-                setCanvasHeight(Math.ceil(output.length / 4) * (35 + size));
+                setCanvasHeight(Math.ceil(output.length / 4) * (80 + size));
             }
-            setCanvasWidth(1024 + (size * 5));
+            if (
+                (output.length > 64 && encryptionEnabled) ||
+                (output.length > 128 && !encryptionEnabled)
+            ) {
+                setCanvasWidth(3000 + (size * 9));
+            } else {
+                setCanvasWidth(3000 + (size * 5));
+            }
 
             if (canv.width !== canvasWidth || canv.height !== canvasHeight) {
                 canv.width = canvasWidth;
