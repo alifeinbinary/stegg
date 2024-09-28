@@ -99,22 +99,22 @@ function App() {
       encryptedText: [encryptedText],
       decryptedText: [decryptedText],
     };
-    // if (DEBUG) {
-    console.table(items);
-    const msg = `%c Hi 👋! Hit me up at %s if you want to work together!`;
-    const styles = [
-      "font-size: 16px",
-      "font-family: monospace",
-      "background: rgb(68,34,51)",
-      "background: linear-gradient(90deg, rgba(68,34,51,1) 0%, rgba(153,170,187,1) 100%)",
-      "color: white",
-      "border-radius: 0.5rem",
-      "padding: 8px 19px",
-      "border: 1px dashed black",
-    ].join(";");
-    const urlString = "alifeinbinary.com/contact";
-    console.log(msg, styles, urlString);
-    // }
+    if (!DEBUG) {
+      console.table(items);
+      const msg = `%c Hi 👋! Hit me up at %s if you want to work together!`;
+      const styles = [
+        "font-size: 16px",
+        "font-family: monospace",
+        "background: rgb(68,34,51)",
+        "background: linear-gradient(90deg, rgba(68,34,51,1) 0%, rgba(153,170,187,1) 100%)",
+        "color: white",
+        "border-radius: 0.5rem",
+        "padding: 8px 19px",
+        "border: 1px dashed black",
+      ].join(";");
+      const urlString = "alifeinbinary.com/contact";
+      console.log(msg, styles, urlString);
+    }
   }, [
     DEBUG,
     input,
