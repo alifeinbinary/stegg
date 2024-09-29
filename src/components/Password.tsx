@@ -75,7 +75,7 @@ export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEn
                 aria-checked={encryptionEnabled}
             />
             <div tabIndex={0} className='shadow-card p-1 flex h-[46px] items-center justify-center rounded-md text-gray-900 bg-gray-200 dark:bg-seablue'>
-                <Tooltip content={t('password.tooltip.content')} className='bg-gray-200 dark:bg-beige/[0.8] text-gray-900' trigger="hover" placement="top" theme={lockTooltop}>
+                <Tooltip content={t('password.tooltip.content')} trigger="hover" placement="top" theme={lockTooltop}>
                     <span
                         className={`flex h-9 w-9 items-center transition ease-in-out duration-300 justify-center rounded-l-md ${!encryptionEnabled ? 'text-sm text-gray-500 bg-gray-200' : 'bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] text-white'
                             }`}
