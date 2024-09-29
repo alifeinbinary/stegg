@@ -105,7 +105,6 @@ function Post({ id, author, posted, image, width, height }: PostProps) {
                     <div className="px-3">
                         <p className="items-center text-left text-base leading-6 font-medium text-gray-900 dark:text-white">
                             <span className="text-gray-900 dark:text-white xs:flex items-center">{author}<FontAwesomeIcon className="mx-2" icon={faUser} /></span>
-
                             <span className="dark:text-white text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">{t('post.posted')} {new Date(posted).toDateString()}
                             </span>
                             <br />
@@ -121,11 +120,11 @@ function Post({ id, author, posted, image, width, height }: PostProps) {
                     <div className="flex items-center justify-center pt-10 px-7 bg-gray-50 min-h-[190px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
                         {!postState?.image ? <Spinner color="gray" aria-label="Loading" /> : null}
                         {postState?.decryptedText ? (
-                            <p className="text-xl text-left width-auto font-medium text-gray-900 dark:text-white flex-shrink pb-10">
+                            <p className="flex break-words text-wrap items-center justify-center text-xl text-left w-full font-medium text-gray-900 dark:text-white flex-shrink pb-10 min-h-[544px]" style={{ overflowWrap: "anywhere" }}>
                                 {postState.decryptedText}
                             </p>
                         ) : (
-                            <img className="rounded-2xl feed-image min-h-max" src={postState?.image} alt={"Binary image " + id} width={postState?.width} height={postState?.height} />
+                            <img className="rounded-2xl feed-image min-h-[544px]" src={postState?.image} alt={"Binary image " + id} width={postState?.width} height={postState?.height} />
                         )}
                     </div>
                 </div>

@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FC, useLayoutEffect, useState, lazy, Suspense } from "react";
+import { FC, useLayoutEffect, useState, lazy, Suspense, ReactElement } from "react";
 import { Alert, Spinner } from "flowbite-react";
 import { PostProps } from "../types";
 import { useListBinaryImagePosts } from "../hooks/useListBinaryImagePosts";
@@ -25,7 +25,20 @@ import { useTranslation } from "react-i18next";
 
 const Post = lazy(() => import("./Post"));
 
-const Feed: FC = () => {
+/**
+ * @description
+ * The Feed component renders a list of binary image posts. It fetches the posts
+ * from the server and renders them in a list. It also provides a load more button
+ * to fetch more posts.
+ *
+ * @param {Object} props - The component props
+ * @param {string} [props.className] - The class name to be applied to the container element
+ * @returns {ReactElement} The Feed component
+ *
+ * @example
+ * <Feed />
+ */
+const Feed: FC = (): ReactElement => {
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -84,7 +97,7 @@ const Feed: FC = () => {
     }, []);
 
     if (loading) return (
-        <div className="py-12 text-center">
+        <div className="flex-inline items-center justify-center lg:py-8 px-12 max-w-screen-lg mx-auto w-full xs:px-1 md:px-4 pb-1 pt-8">
             <Post id="loading" author="" posted={new Date()} image={""} key={undefined} width={1084} height={506} />
             <span className="sr-only">Loading...</span>
         </div>
@@ -98,12 +111,12 @@ const Feed: FC = () => {
 
     return (
         <div id="feed">
-            <div className="lg:py-8 px-12 max-w-screen-lg mx-auto w-full xs:px-1 md:px-4 pb-1 pt-8">
+            <div className="flex-inline items-center justify-center lg:py-8 px-12 max-w-screen-lg mx-auto w-full xs:px-1 md:px-4 pb-1 pt-8">
                 <h4 className="h4 sm:hidden mb-2 text-left text-2xl font-bold dark:text-white xs:hidden">
                     {t("feed.title")}
                 </h4>
                 {posts.map((post) => (
-                    <Suspense fallback={<span className="w-full xs:h-[386px] sm:h-[430px] md:h-[645px] lg:h-[778px] flex items-center justify-center"><Spinner /></span>}>
+                    <Suspense key={post.key} fallback={<span className="w-full xs:h-[386px] sm:h-[430px] md:h-[645px] lg:h-[778px] flex items-center justify-center"><Spinner /></span>}>
                         <Post key={post.key} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
                     </Suspense>
                 ))}
