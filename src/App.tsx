@@ -16,118 +16,32 @@
  */
 
 import { lazy, Suspense } from "react";
-// import { faTerminal } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { Hook, Unhook } from "console-feed";
-// import { Message } from "console-feed/lib/definitions/Component";
-import { useEffect } from "react";
 import { Flowbite, Spinner } from "flowbite-react";
 import "./App.css";
-// import LogsContainer from "./components/DebugConsole";
-import { useAppState, useImageState } from "./utils/stores";
 
 const Header = lazy(() => import("./components/Header"));
 const Translate = lazy(() => import("./components/Translate"));
 const Feed = lazy(() => import("./components/Feed"));
+const DebugConsole = lazy(() => import("./components/DebugConsole"));
 const Footer = lazy(() => import("./components/Footer"));
 
+/**
+ * The main entry point for the React application.
+ *
+ * This component renders the entire interface, including the header, the
+ * translate component, the feed, the debug console, and the footer.
+ *
+ * The Flowbite component is used to provide a layout and styling for the
+ * application.
+ *
+ * Each of the main components (Header, Translate, Feed, and DebugConsole) are
+ * rendered as a Suspense component, which allows them to be loaded lazily
+ * and provides a fallback loading indicator while they are loading.
+ *
+ * The Footer component is also rendered as a Suspense component, but it is
+ * not lazy-loaded, so it will always be rendered.
+ */
 function App() {
-  // const { debugMode, setDebugMode, logs, setLogs } = useAppState();
-  const { debugMode } = useAppState();
-
-  const {
-    input,
-    output,
-    canvasHeight,
-    canvasWidth,
-    size,
-    password,
-    encryptionEnabled,
-    stringToDecrypt,
-    encryptedText,
-    decryptedText,
-  } = useImageState();
-
-  const DEBUG = debugMode ? debugMode : import.meta.env.MODE === "development";
-
-  // const handleDebugMode = () => {
-  //   setDebugMode(!debugMode);
-  // };
-
-  // Loading the console
-  // useEffect(() => {
-  //   function handleCallback(logItems: Message[]) {
-  //     setLogs(logItems);
-  //   }
-  //   function transpose(matrix: Message[][]) {
-  //     if (!matrix || matrix.length === 0) return [];
-  //     const table = matrix[0];
-  //     return table;
-  //   }
-  //   const hookedConsole = Hook(
-  //     window.console,
-  //     (logItems) =>
-  //       handleCallback([
-  //         { ...logItems, data: [transpose(logItems.data as Message[][])] },
-  //       ] as Message[]),
-  //     false,
-  //   );
-
-  //   return () => {
-  //     if (hookedConsole) {
-  //       Unhook(hookedConsole);
-  //     }
-  //   };
-  // }, [setLogs]);
-
-  // Keeping it fresh in the console
-  useEffect(() => {
-    if (!DEBUG) {
-      console.clear();
-    }
-
-    // Debug console
-    const items = {
-      input: [input],
-      outputLength: [output.length], // output,
-      canvasHeight: [`${canvasHeight}px`], // canvasHeight,
-      canvasWidth: [`${canvasWidth}px`],
-      size: [size],
-      encryptionEnabled: [encryptionEnabled],
-      stringToDecrypt: [stringToDecrypt],
-      password: [password],
-      encryptedText: [encryptedText],
-      decryptedText: [decryptedText],
-    };
-    if (!DEBUG) {
-      console.table(items);
-      const msg = `%c Hi 👋! Hit me up at %s if you want to work together!`;
-      const styles = [
-        "font-size: 16px",
-        "font-family: monospace",
-        "background: rgb(68,34,51)",
-        "background: linear-gradient(90deg, rgba(68,34,51,1) 0%, rgba(153,170,187,1) 100%)",
-        "color: white",
-        "border-radius: 0.5rem",
-        "padding: 8px 19px",
-        "border: 1px dashed black",
-      ].join(";");
-      const urlString = "alifeinbinary.com/contact";
-      console.log(msg, styles, urlString);
-    }
-  }, [
-    DEBUG,
-    input,
-    size,
-    encryptionEnabled,
-    stringToDecrypt,
-    password,
-    encryptedText,
-    decryptedText,
-    output,
-    canvasHeight,
-    canvasWidth,
-  ]);
 
   return (
     <>
@@ -148,17 +62,11 @@ function App() {
             <Suspense fallback={<span className="w-full sm:h-[1422px] md:h-[2142px] lg:h-[2553px] flex items-center justify-center"><Spinner /></span>}>
               <Feed />
             </Suspense>
-            {/* {debugMode && <LogsContainer logs={logs} />}
-            <button
-              className="text-sm font-light text-gray-100 hover:text-gray-300 hover:underline"
-              onClick={handleDebugMode}
-            >
-              <FontAwesomeIcon
-                icon={faTerminal}
-                className="text-sm pr-2 font-light text-gray-100 hover:text-gray-300 hover:underline"
-              />
-              {debugMode ? "Disable" : "Enable"} debug console
-            </button> */}
+
+            {/* Debug console */}
+            <Suspense fallback={<span className="w-full h-16 flex items-center justify-center"><Spinner /></span>}>
+              <DebugConsole />
+            </Suspense>
           </div>
         </div>
         {/* Footer */}
