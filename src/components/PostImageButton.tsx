@@ -66,14 +66,16 @@ const PostImageButton: React.FC = () => {
         }
     };
 
-    const fetchBlobAndGetSize = async (url: string) => {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return { blob, size: blob.size };
-    };
+    // const fetchBlobAndGetSize = async (url: string) => {
+    //     const response = await fetch(url);
+    //     const blob = await response.blob();
+    //     return { blob, size: blob.size };
+    // };
 
-    const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handlePost = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
+
+        const action = "post";
         const toastId = toast(t("postimagebutton.toast.processing"), { autoClose: false, isLoading: true });
 
         if (canvasRef && canvasRef.current && input) {
@@ -89,9 +91,9 @@ const PostImageButton: React.FC = () => {
                 });
 
                 // CREATE PNG WITH METADATA
-                const { fileName, url } = await createPngWithMetadata(canvasRef.current, encryptedText, encryptionEnabled, password, "post");
+                const { payloadImage, filename } = await createPngWithMetadata(canvasRef.current, "968x544", action, encryptionEnabled, encryptedText, input, toastId);
 
-                console.debug("fileName", fileName, "url", url);
+                console.debug("fileName", filename, "url", payloadImage);
                 toast.update(toastId, {
                     render: t("postimagebutton.toast.size"),
                     type: "info",
@@ -101,9 +103,9 @@ const PostImageButton: React.FC = () => {
                 })
 
                 // GET BLOB FROM PNG AND FILE SIZE
-                const { blob, size } = await fetchBlobAndGetSize(url);
+                // const { blob, size } = await fetchBlobAndGetSize(payloadImage);
 
-                console.debug("blob", blob, "size", size);
+                console.debug("blob", payloadImage, "size", payloadImage.size);
                 toast.update(toastId, {
                     render: t("postimagebutton.toast.presignedpayload"),
                     type: "info",
@@ -114,9 +116,9 @@ const PostImageButton: React.FC = () => {
 
                 // GET PRE-SIGNED POST PAYLOAD
                 const { data } = await getPreSignedPostPayload({
-                    name: fileName,
+                    name: filename,
                     type: "image/png",
-                    size: size,
+                    size: payloadImage.size,
                 })
 
                 console.debug("data", data);
@@ -135,7 +137,7 @@ const PostImageButton: React.FC = () => {
                 // UPLOAD FILE TO STORAGE
                 await uploadFileToS3(
                     preSignedPostPayload,
-                    blob,
+                    payloadImage,
                 );
 
                 // CONNECT THE FILE UPLOAD TO THE DATABASE REFERENCE OF THE IMAGE FILE
@@ -226,7 +228,7 @@ const PostImageButton: React.FC = () => {
             }} data-testid="user-input" value={author} type="text" tabIndex={0} id="user-input" disabled={false} className={`text-base rounded-none rounded-l-lg max-w-40 bg-gray-100 dark:bg-gray-100 border text-gray-900 focus:ring-transparent focus:border-transparent block flex-1 min-w-0 transition-width ease-in-out duration-1000 ${handlePostVisibility() ? 'w-0 px-0 py-2.5' : 'w-full p-2.5'} border-gray-200 focus:border-gray-200 dark:bg-gray-200 dark:border-seablue dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-none dark:focus:border-none`} placeholder={"Author Name"} />
             <Tooltip content={password.length && input.length ? t("postimagebutton.tooltip.posttofeed") : t("postimagebutton.tooltip.entermessage")} placement="bottom">
                 <button onClick={(e) => {
-                    handleButtonClick(e)
+                    handlePost(e)
                 }} disabled={!password.length || !input.length} className={`flex p-2 h-full w-24 ml-1 items-center justify-center transition ease-in-out duration-300 rounded text-base ${handlePostVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200/[0.5] focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] focus:ring-blue-200 focus:ring-4'}`}>
                     {t("postimagebutton.label")} <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 pl-2" aria-hidden="true" />
                 </button>

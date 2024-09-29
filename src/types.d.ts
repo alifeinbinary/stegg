@@ -74,3 +74,8 @@ export interface PreSignedPostPayloadProps {
         type: string;
     };
 }
+
+export type Dimensions = {
+    width: number;
+    height: number;
+};

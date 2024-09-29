@@ -117,7 +117,7 @@ export const useImageState = create<ImageState>((set) => ({
     canvasHeight: 48,
     setCanvasHeight: (value: number) => set({ canvasHeight: value }),
 
-    canvasWidth: 2800,
+    canvasWidth: 3000,
     setCanvasWidth: (value: number) => set({ canvasWidth: value }),
 
     size: 46,
