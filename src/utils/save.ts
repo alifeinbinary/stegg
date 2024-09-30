@@ -18,7 +18,7 @@
 import { saveAs } from "file-saver";
 import { addMetadata } from "meta-png";
 import { Id, toast } from "react-toastify";
-import { Dimensions } from "../types";
+import { CreatePngWithMetadataResult, Dimensions } from "../types";
 
 // Common display dimensions
 const displayDimensions: { [key: string]: Dimensions } = {
@@ -36,150 +36,6 @@ const displayDimensions: { [key: string]: Dimensions } = {
 };
 
 /**
- * Given a trimmed canvas element and a string key into the display dimensions
- * map, scale the canvas to the appropriate size and return the blob.
- *
- * This function takes the original image dimensions and scales the height to
- * fit the display height, while maintaining the aspect ratio. The result is a
- * blob representing the resized image.
- *
- * @param trimmedCanvas The canvas element to scale.
- * @param key The string key into the display dimensions map.
- * @returns A promise resolving to a blob representing the resized image.
- */
-async function scaleCanvas(
-    trimmedCanvas: HTMLCanvasElement,
-    key: string,
-    action: string,
-): Promise<Blob> {
-    const fileAndFunction = "save.scaleCanvas: ";
-    const img = new Image();
-    const url = URL.createObjectURL(await getCanvasBlob(trimmedCanvas));
-    img.src = url;
-
-    return new Promise((resolve, reject) => {
-        img.onload = async () => {
-            console.debug(fileAndFunction, "img", img);
-            const originalWidth = img.width;
-            const originalHeight = img.height;
-
-            const { width, height } = displayDimensions[key];
-
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d")!;
-
-            await img.decode(); // Wait for the image to be decoded
-
-            const scaleFactor = width / originalWidth;
-            const newHeight = originalHeight * scaleFactor;
-
-            if (action === "download") {
-                console.debug(
-                    fileAndFunction + "img.dimensions start",
-                    img.width,
-                    img.height,
-                );
-
-                if (newHeight > height) {
-                    const newWidth = originalWidth * (height / originalHeight);
-                    const scaleFactor = newWidth / originalWidth;
-                    const newHeight = originalHeight * scaleFactor;
-                    img.height = newHeight - newHeight * 0.1;
-                    img.width = newWidth - newWidth * 0.1;
-                } else {
-                    // 0.1 for 10% padding
-                    img.height = newHeight - newHeight * 0.1;
-                    img.width = width - width * 0.1;
-                }
-                console.debug(
-                    fileAndFunction + "img.dimensions end",
-                    img.width,
-                    img.height,
-                );
-
-                canvas.width = width; // Display width
-                canvas.height = height; // Display height
-                console.debug(
-                    fileAndFunction + "canvas.dimensions final",
-                    canvas.width,
-                    canvas.height,
-                );
-                const posX = (width - img.width) / 2;
-                const posY = (height - img.height) / 2;
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = "high";
-                ctx.drawImage(img, posX, posY, img.width, img.height);
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        resolve(blob);
-                        URL.revokeObjectURL(url); // Clean up the object URL
-                    } else {
-                        reject(new Error("Failed to create blob"));
-                    }
-                }, "image/png");
-            } else if (action === "post") {
-                console.debug(
-                    fileAndFunction + "img.dimensions post",
-                    img.width,
-                    img.height,
-                );
-
-                img.width = width;
-                img.height = newHeight;
-                console.debug(
-                    fileAndFunction + "img.dimensions",
-                    img.width,
-                    img.height,
-                );
-
-                canvas.width = width; // Display width
-                canvas.height = newHeight; // Display height
-                console.debug(
-                    fileAndFunction + "img.dimensions:",
-                    canvas.width,
-                    canvas.height,
-                );
-                const posX = (width - img.width) / 2;
-                const posY = (newHeight - img.height) / 2;
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = "high";
-                ctx.drawImage(img, posX, posY, img.width, img.height);
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        resolve(blob);
-                        URL.revokeObjectURL(url); // Clean up the object URL
-                    } else {
-                        reject(new Error("Failed to create blob"));
-                    }
-                }, "image/png");
-            }
-        };
-    });
-}
-
-// function createCanvas(width: number, height: number): HTMLCanvasElement {
-//     const canvas = document.createElement("canvas");
-//     canvas.width = width;
-//     canvas.height = height;
-//     return canvas;
-// }
-
-// function drawImage(
-//     ctx: CanvasRenderingContext2D,
-//     img: HTMLImageElement,
-//     imgWidth: number,
-//     imgHeight: number,
-//     displayWidth: number,
-//     displayHeight: number,
-// ) {
-//     const posX = (displayWidth - imgWidth) / 2;
-//     const posY = (displayHeight - imgHeight) / 2;
-//     ctx.imageSmoothingEnabled = true;
-//     ctx.imageSmoothingQuality = "high";
-//     ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
-// }
-
-/**
  * Trim the transparent pixels from the edges of a canvas and draw a
  * watermark onto the trimmed image.
  *
@@ -188,7 +44,9 @@ async function scaleCanvas(
  */
 function trimImageFromCanvas(
     canvas: HTMLCanvasElement,
+    watermark: boolean,
 ): Promise<HTMLCanvasElement> {
+    if (!canvas) throw new Error("Canvas is not defined");
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Failed to get canvas context");
 
@@ -228,15 +86,22 @@ function trimImageFromCanvas(
     const trimmedCtx = trimmedCanvas.getContext("2d");
     if (!trimmedCtx) throw new Error("Failed to get trimmed canvas context");
 
-    // Draw a watermark onto the trimmed canvas
-    trimmedCtx.font = "100 18px Tahoma";
-    trimmedCtx.fontKerning = "none";
-    trimmedCtx.fillStyle = "#ffeedd";
-    trimmedCtx.fillText(
-        "Decode this image at feed.alifeinbinary.com",
-        trimmedWidth - 400,
-        trimmedHeight + 40,
-    );
+    trimmedCtx.imageSmoothingEnabled = true;
+    trimmedCtx.imageSmoothingQuality = "high";
+
+    if (watermark) {
+        // Draw a watermark onto the trimmed canvas
+        trimmedCtx.font = "normal 36px Tahoma";
+        trimmedCtx.fontKerning = "none";
+        trimmedCtx.textRendering = "geometricPrecision";
+        trimmedCtx.fillStyle = "#ffeedd";
+        trimmedCtx.fillText(
+            "Decode this image at feed.alifeinbinary.com",
+            trimmedWidth - 700,
+            trimmedHeight + 42,
+        );
+    }
+
     // Draw the trimmed content onto the new canvas
     trimmedCtx.putImageData(
         ctx.getImageData(left, top, trimmedWidth, trimmedHeight),
@@ -248,94 +113,144 @@ function trimImageFromCanvas(
 }
 
 /**
+ * Takes a trimmed canvas, a key (from displayDimensions), and an action (either "download" or "upload"), and returns a new canvas with the image scaled down to fit within the given dimensions.
+ * If the action is "download", the image is scaled down to fit within the given dimensions with 10% padding.
+ * If the action is "upload", the image is scaled down to fit within the given dimensions with no padding.
+ * @param trimmedCanvas The trimmed canvas containing the image to be scaled.
+ * @param key The key to use when looking up the display dimensions.
+ * @param action The action to take when scaling the image, either "download" or "upload".
+ * @returns A new canvas with the scaled image.
+ */
+async function scaleCanvas(
+    trimmedCanvas: HTMLCanvasElement,
+    key: string,
+    action: string,
+): Promise<HTMLCanvasElement> {
+    const img = new Image();
+    const url = URL.createObjectURL(await getCanvasBlob(trimmedCanvas));
+    img.src = url;
+
+    return new Promise((resolve, reject) => {
+        img.onload = async () => {
+            const { width: displayWidth, height: displayHeight } =
+                displayDimensions[key];
+            const originalWidth = img.width;
+            const originalHeight = img.height;
+
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d")!;
+            await img.decode();
+
+            let scaledWidth = displayWidth;
+            let scaledHeight = (originalHeight / originalWidth) * scaledWidth;
+
+            if (action === "download" && scaledHeight > displayHeight) {
+                scaledHeight = displayHeight;
+                scaledWidth = (originalWidth / originalHeight) * scaledHeight;
+            }
+
+            if (action === "download") {
+                scaledWidth *= 0.9; // Apply 10% padding
+                scaledHeight *= 0.9;
+            }
+
+            canvas.width = displayWidth;
+            canvas.height =
+                action === "download" ? displayHeight : scaledHeight;
+
+            const posX = (canvas.width - scaledWidth) / 2;
+            const posY = (canvas.height - scaledHeight) / 2;
+
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, posX, posY, scaledWidth, scaledHeight);
+
+            URL.revokeObjectURL(url);
+
+            if (canvas) {
+                resolve(canvas);
+            } else {
+                reject(new Error("Failed to create canvas"));
+            }
+        };
+        img.onerror = () => {
+            URL.revokeObjectURL(url); // Clean up on error
+            reject(new Error("Failed to load image"));
+        };
+    });
+}
+// For refactoring
+// function createCanvas(width: number, height: number): HTMLCanvasElement {
+//     const canvas = document.createElement("canvas");
+//     canvas.width = width;
+//     canvas.height = height;
+//     return canvas;
+// }
+
+// function drawImage(
+//     ctx: CanvasRenderingContext2D,
+//     img: HTMLImageElement,
+//     imgWidth: number,
+//     imgHeight: number,
+//     displayWidth: number,
+//     displayHeight: number,
+// ) {
+//     const posX = (displayWidth - imgWidth) / 2;
+//     const posY = (displayHeight - imgHeight) / 2;
+//     ctx.imageSmoothingEnabled = true;
+//     ctx.imageSmoothingQuality = "high";
+//     ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
+// }
+
+/**
  * Saves a blob to disk with the given filename.
  * @param {Blob} blob The blob to save to disk.
  * @param {string} fileName The filename to save the blob as.
  */
 function saveToDisk(blob: Blob, fileName: string) {
+    const fileAndFunction = "save.saveToDisk: ";
     const blobUrl = URL.createObjectURL(blob);
 
-    console.debug("save: Scaled image Blob:", blobUrl);
+    console.debug(fileAndFunction + "blobUrl: ", blobUrl);
     if (fileName) {
         fetch(blobUrl)
             .then((response) => response.blob())
             .then((blob) => saveAs(blob, fileName));
         // URL.revokeObjectURL(blobUrl); // Clean up the object URL
     } else {
-        console.error("save: Failed to get filename");
+        console.error(fileAndFunction + "Failed to get filename");
     }
 }
 
 /**
- * Take a blob with metadata and return a new blob scaled to the desired
- * width, with the original height scaled accordingly.
- * @param {Blob} blobWithMetadata The blob with image data and metadata.
- * @param {string} fileName The filename to save the blob as.
- * @returns {Promise<{fileName: string, scaledDataURL: string}>} A promise
- * that resolves with an object containing the filename and a data URL for
- * the scaled image.
- */
-// function postToServer(blobWithMetadata: Blob, fileName: string) {
-//     const img = new Image();
-//     const url = URL.createObjectURL(blobWithMetadata);
-//     img.src = url;
-
-//     img.onload = async () => {
-//         console.debug("save.returbBlob: Image: ", img);
-//         const originalWidth = img.width;
-//         const originalHeight = img.height;
-
-//         const newWidth = 968;
-//         const scaleFactor = newWidth / originalWidth;
-
-//         await img.decode(); // Wait for the image to be decoded
-
-//         const canvas = document.createElement("canvas");
-//         const ctx = canvas.getContext("2d")!;
-
-//         canvas.width = newWidth; // New width
-//         canvas.height = originalHeight * scaleFactor; // New height
-//         console.debug(
-//             "returnBlob: Scaled image dimensions:",
-//             canvas.width,
-//             canvas.height,
-//         );
-
-//         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-//         const scaledDataURL = canvas.toDataURL("image/png");
-//         URL.revokeObjectURL(url); // Clean up the object URL
-
-//         // console.debug("Scaled image Blob:", scaledDataURL);
-//         if (fileName) {
-//             const link = document.createElement("a");
-//             link.href = scaledDataURL;
-//             link.download = fileName;
-//             console.debug("save: ", "fileName", fileName, "url", url);
-//             return { fileName, scaledDataURL };
-//         } else {
-//             console.error("save: Failed to get filename");
-//         }
-//     };
-//     console.debug("save: ", "fileName", fileName, "url", url);
-//     return { fileName, url };
-// }
-
-/**
- * Takes a PNG blob and adds two metadata chunks to it: "Message" containing
- * the given string, and "Encrypted" containing a boolean indicating whether
- * the message is encrypted.
- *
- * @param blob The source PNG blob.
- * @param message The string to add as a metadata chunk.
- * @param encryptionEnabled Whether the message is encrypted.
- * @returns A new blob with the added metadata chunks.
+ * Takes a canvas, a string message, and a boolean encryptionEnabled, and returns a new PNG blob with the message and encryptionEnabled set as metadata.
+ * @param {HTMLCanvasElement} canvas The canvas to get the PNG data from.
+ * @param {string} message The message to add to the PNG metadata.
+ * @param {boolean} encryptionEnabled The boolean to add to the PNG metadata, indicating whether the message is encrypted or not.
+ * @returns {Promise<Blob>} A promise resolving to a new PNG blob with the metadata added.
  */
 async function addMetadataToPng(
-    blob: Blob,
+    canvas: HTMLCanvasElement,
     message: string,
     encryptionEnabled: boolean,
 ): Promise<Blob> {
+    if (!canvas) {
+        throw new Error("Canvas is not defined");
+    }
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+        throw new Error("Failed to get canvas context");
+    }
+    // Get the binary data of the PNG blob
+    const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+            if (blob) {
+                resolve(blob);
+            } else {
+                reject(new Error("Failed to create blob"));
+            }
+        }, "image/png");
+    });
     const buffer = await blob.arrayBuffer();
     const pngData = new Uint8Array(buffer);
 
@@ -345,7 +260,7 @@ async function addMetadataToPng(
         "Encrypted",
         encryptionEnabled.toString(),
     );
-    return Promise.resolve(new Blob([withBoolean], { type: "image/png" }));
+    return Promise.resolve(new Blob([withBoolean]));
 }
 
 /**
@@ -393,22 +308,12 @@ function getCanvasBlob(canvas: HTMLCanvasElement): Promise<Blob> {
 }
 
 /**
- * Given a canvas, key, action, encryptionEnabled, encryptedText, input, and
- * toastId, creates a PNG blob with the image data and the encrypted text or
- * input as metadata.
- *
- * If the action is "download", the function will trim the canvas, scale the
- * image to the selected dimensions, add metadata to the image, and then
- * download the image to the user's disk.
- *
- * If the action is "post", the function will scale the canvas, add metadata to
- * the image, and then return a promise that resolves with a blob and a
- * filename.
+ * Creates a PNG blob from a canvas with metadata and either downloads the image
+ * or returns a blob and filename for posting.
  *
  * @param {HTMLCanvasElement} canvas The canvas to get a blob from.
  * @param {string} key The string key into the display dimensions map.
- * @param {string} action The action to perform. Can be either "download" or
- * "post".
+ * @param {string} action The action to perform: 'download' or 'post'.
  * @param {boolean} encryptionEnabled Whether the text is encrypted.
  * @param {string} encryptedText The encrypted text.
  * @param {string} input The input text.
@@ -424,213 +329,135 @@ function createPngWithMetadata(
     encryptedText: string,
     input: string,
     toastId: Id,
-): Promise<{ payloadImage: Blob; filename: string }> {
-    return new Promise((resolve, reject) => {
-        if (action === "download" && canvas instanceof HTMLCanvasElement) {
-            const fileAndFunction = "save.createPngWithMetadata[download]: ";
-            console.debug(fileAndFunction + "canvas", canvas);
-            toast.update(toastId, {
-                render: "Trimming canvas",
-                type: "info",
-                isLoading: false,
-                autoClose: 2000,
-                progress: 0.14,
-            });
-            trimImageFromCanvas(canvas).then(async function (trimmedCanvas) {
-                console.debug(fileAndFunction + "trimmedCanvas", trimmedCanvas);
-                if (trimmedCanvas instanceof HTMLCanvasElement) {
-                    toast.update(toastId, {
-                        render: "Scaling image to selected dimensions",
-                        type: "info",
-                        isLoading: false,
-                        autoClose: 2000,
-                        progress: 0.16,
-                    });
-                    scaleCanvas(trimmedCanvas, key, action).then(
-                        async function (scaledCanvas) {
-                            console.debug(
-                                fileAndFunction + "scaledCanvas",
-                                scaledCanvas,
-                            );
-                            if (scaledCanvas instanceof Blob) {
-                                toast.update(toastId, {
-                                    render: "Adding metadata to image",
-                                    type: "info",
-                                    isLoading: false,
-                                    autoClose: 2000,
-                                    progress: 0.18,
-                                });
-                                const message = encryptionEnabled
-                                    ? encryptedText
-                                    : input;
-                                addMetadataToPng(
-                                    scaledCanvas,
-                                    message,
-                                    encryptionEnabled,
-                                ).then(function (payloadImage) {
-                                    console.debug(
-                                        fileAndFunction + "payloadImage",
-                                        payloadImage,
-                                    );
-                                    if (payloadImage instanceof Blob) {
-                                        toast.update(toastId, {
-                                            render: "Creating filename",
-                                            type: "info",
-                                            isLoading: false,
-                                            autoClose: 2000,
-                                            progress: 0.2,
-                                        });
-                                        getFilename(
-                                            encryptionEnabled,
-                                            message,
-                                        ).then(function (filename) {
-                                            console.debug(
-                                                fileAndFunction + "filename",
-                                                filename,
-                                            );
-                                            if (filename) {
-                                                toast.update(toastId, {
-                                                    render: "Saving image to disk",
-                                                    type: "success",
-                                                    isLoading: false,
-                                                    autoClose: 2000,
-                                                    progress: 1.0,
-                                                });
-                                                saveToDisk(
-                                                    payloadImage,
-                                                    filename,
-                                                );
-                                            }
-                                        });
-                                    } else {
-                                        toast.update(toastId, {
-                                            render: "Blob is not a Blob",
-                                            type: "error",
-                                            isLoading: false,
-                                            autoClose: 2000,
-                                        });
-                                        throw new Error("Blob is not a Blob");
-                                    }
-                                });
-                            } else {
-                                toast.update(toastId, {
-                                    render: "Blob is not a Blob",
-                                    type: "error",
-                                    isLoading: false,
-                                    autoClose: 2000,
-                                });
-                                throw new Error("Blob is not a Blob");
-                            }
-                        },
-                    );
-                } else {
-                    toast.update(toastId, {
-                        render: "Canvas is not a HTMLCanvasElement",
-                        type: "error",
-                        isLoading: false,
-                        autoClose: 2000,
-                    });
-                    throw new Error("Canvas is not a HTMLCanvasElement");
-                }
-            });
-        } else if (action === "post") {
-            const fileAndFunction = "save.createPngWithMetadata[post]: ";
-            console.debug(fileAndFunction + "canvas", canvas);
-            toast.update(toastId, {
-                render: "Scaling canvas",
-                type: "info",
-                isLoading: false,
-                autoClose: 2000,
-                progress: 0.14,
-            });
-            scaleCanvas(canvas, key, action).then(
-                async function (scaledCanvas) {
-                    console.debug(
-                        fileAndFunction + "scaledCanvas",
-                        scaledCanvas,
-                    );
-                    if (scaledCanvas instanceof Blob) {
-                        toast.update(toastId, {
-                            render: "Adding metadata to image",
-                            type: "info",
-                            isLoading: false,
-                            autoClose: 2000,
-                            progress: 0.18,
-                        });
-                        addMetadataToPng(
-                            scaledCanvas,
-                            encryptedText,
-                            encryptionEnabled,
-                        ).then(function (payloadImage) {
-                            console.debug(
-                                fileAndFunction + "payloadImage",
-                                payloadImage,
-                            );
-                            if (payloadImage instanceof Blob) {
-                                toast.update(toastId, {
-                                    render: "Creating file name",
-                                    type: "info",
-                                    isLoading: false,
-                                    autoClose: 2000,
-                                    progress: 0.2,
-                                });
-                                getFilename(
-                                    encryptionEnabled,
-                                    encryptedText,
-                                ).then(function (filename) {
-                                    console.debug(
-                                        fileAndFunction + "filename",
-                                        filename,
-                                    );
-                                    if (filename) {
-                                        toast.update(toastId, {
-                                            render: "Saving image to disk",
-                                            type: "info",
-                                            isLoading: false,
-                                            autoClose: 2000,
-                                            progress: 0.22,
-                                        });
+): Promise<{
+    payloadImage: Blob;
+    filename: string;
+    outputWidth: number;
+    outputHeight: number;
+}> {
+    const message = encryptionEnabled ? encryptedText : input;
+    // const fileAndFunction = `save.createPngWithMetadata[${action}]: `;
 
-                                        resolve({ payloadImage, filename });
-                                    } else {
-                                        toast.update(toastId, {
-                                            render: "No file name",
-                                            type: "error",
-                                            isLoading: false,
-                                            autoClose: 2000,
-                                        });
-                                        reject(new Error("No file name"));
-                                    }
-                                });
-                            } else {
-                                toast.update(toastId, {
-                                    render: "Blob is not a Blob",
-                                    type: "error",
-                                    isLoading: false,
-                                    autoClose: 2000,
-                                });
-                                throw new Error("Blob is not a Blob");
-                            }
-                        });
-                    } else {
-                        toast.update(toastId, {
-                            render: "Blob is not a Blob",
-                            type: "error",
-                            isLoading: false,
-                            autoClose: 2000,
-                        });
-                        throw new Error("Blob is not a Blob");
-                    }
-                },
-            );
-        } else {
-            toast.update(toastId, {
-                render: "Invalid action",
-                type: "error",
-                isLoading: false,
-                autoClose: 2000,
-            });
-            reject(new Error("Invalid action: " + action));
+    /**
+     * Update the toast message with the given error message and set the type
+     * to "error". Returns the error message as an Error object.
+     * @param {string} errMsg The error message to display in the toast.
+     * @returns {Error} The error message as an Error object.
+     */
+    const handleBlobError = (errMsg: string) => {
+        toast.update(toastId, {
+            render: errMsg,
+            type: "error",
+            isLoading: false,
+            autoClose: 2000,
+        });
+        return new Error(errMsg);
+    };
+
+    /**
+     * Update the toast message with the given text and progress value.
+     * @param {string} infoMsg The text to display in the toast.
+     * @param {number} progress The progress value to display in the toast.
+     */
+    const handleBlobInfo = (infoMsg: string, progress: number) => {
+        toast.update(toastId, {
+            render: infoMsg,
+            type: "info",
+            isLoading: false,
+            autoClose: 2000,
+            progress: progress,
+        });
+    };
+
+    /**
+     * Adds metadata to the blob and resolves with an object containing the
+     * modified blob and a filename.
+     * @param {Blob} blob The blob to modify.
+     * @returns {Promise<{ payloadImage: Blob; filename: string }>} A promise
+     * that resolves with an object containing the modified blob and a
+     * filename.
+     */
+    const handleMetadataAndResolve = async (
+        canvas: HTMLCanvasElement,
+    ): Promise<CreatePngWithMetadataResult> => {
+        const fileAndFunction = "save.handleMetadataAndResolve: ";
+
+        if (!(canvas instanceof HTMLCanvasElement))
+            throw handleBlobError("Canvas is not a canvas");
+
+        handleBlobInfo("Adding metadata to image", 0.18);
+        const payloadImage = await addMetadataToPng(
+            canvas,
+            message,
+            encryptionEnabled,
+        );
+
+        console.debug(
+            fileAndFunction + "canvasDimensions",
+            canvas.width,
+            canvas.height,
+        );
+
+        if (!(payloadImage instanceof Blob))
+            throw handleBlobError("Payload is not a Blob");
+
+        handleBlobInfo("Creating filename", 0.2);
+        const filename = await getFilename(encryptionEnabled, message);
+        if (!filename) throw handleBlobError("No filename");
+
+        return {
+            payloadImage,
+            filename,
+            outputWidth: canvas.width,
+            outputHeight: canvas.height,
+        };
+    };
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (action === "download") {
+                handleBlobInfo("Trimming and scaling canvas", 0.14);
+
+                const trimmedCanvas = await trimImageFromCanvas(canvas, false);
+                const scaledCanvas = await scaleCanvas(
+                    trimmedCanvas,
+                    key,
+                    action,
+                );
+
+                const { payloadImage, filename } =
+                    await handleMetadataAndResolve(scaledCanvas);
+                handleBlobInfo("Saving image to disk", 1.0);
+
+                saveToDisk(payloadImage, filename);
+            } else if (action === "post") {
+                handleBlobInfo("Scaling canvas", 0.14);
+
+                const trimmedCanvas = await trimImageFromCanvas(canvas, true);
+                const scaledCanvas = await scaleCanvas(
+                    trimmedCanvas,
+                    key,
+                    action,
+                );
+                console.debug(
+                    "save.createPngWithMetadata: scaledCanvas",
+                    scaledCanvas,
+                );
+                const { payloadImage, filename, outputWidth, outputHeight } =
+                    await handleMetadataAndResolve(scaledCanvas);
+
+                handleBlobInfo("Returning payload for post", 0.22);
+                resolve({
+                    payloadImage,
+                    filename,
+                    outputWidth: outputWidth,
+                    outputHeight: outputHeight,
+                });
+            } else {
+                throw handleBlobError("Invalid action");
+            }
+        } catch (error) {
+            reject(error);
         }
     });
 }

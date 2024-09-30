@@ -18,7 +18,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { Tooltip } from "flowbite-react";
+import { Tooltip } from "flowbite-react/components/Tooltip";
 import { useCreateBinaryFeedImage } from "../hooks/useCreateBinaryFeedImage";
 import { useCreateBinaryImagePost } from "../hooks/useCreateBinaryImagePost";
 import { useGetPreSignedPostPayload } from "../hooks/useGetPreSignedPostPayload";
@@ -91,7 +91,7 @@ const PostImageButton: React.FC = () => {
                 });
 
                 // CREATE PNG WITH METADATA
-                const { payloadImage, filename } = await createPngWithMetadata(canvasRef.current, "968x544", action, encryptionEnabled, encryptedText, input, toastId);
+                const { payloadImage, filename, outputWidth, outputHeight } = await createPngWithMetadata(canvasRef.current, "968x544", action, encryptionEnabled, encryptedText, input, toastId);
 
                 console.debug("fileName", filename, "url", payloadImage);
                 toast.update(toastId, {
@@ -170,11 +170,9 @@ const PostImageButton: React.FC = () => {
                 })
 
                 // CREATE BINARY IMAGE POST ENTRY WITH IMAGE, AUTHOR, AND DATE
-                const width = canvasRef.current.width;
-                const height = canvasRef.current.height;
                 const authorOrAnon = author ? author : "Anon";
                 const imageUrl = "https://dj8rv0ejdatzv.cloudfront.net/files/" + preSignedPostPayload.file.key;
-                const postId = await createBinaryImagePost(authorOrAnon, imageUrl, width, height);
+                const postId = await createBinaryImagePost(authorOrAnon, imageUrl, outputWidth, outputHeight);
 
                 console.debug("Binary image post created.");
                 toast.update(toastId, {

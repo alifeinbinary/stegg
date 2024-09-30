@@ -30,6 +30,13 @@ export interface LogConainterProps {
     logs: Message[];
 }
 
+export interface CreatePngWithMetadataResult {
+    payloadImage: Blob;
+    filename: string;
+    outputWidth: number;
+    outputHeight: number;
+}
+
 export interface PostProps {
     key: Key | null | undefined;
     id: string;

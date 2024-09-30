@@ -97,6 +97,8 @@ function plot(
 
     const contx = canv.getContext("2d");
     if (!contx) return;
+    contx.imageSmoothingEnabled = true;
+    contx.imageSmoothingQuality = "high";
 
     clearContx(canvasRef);
 
