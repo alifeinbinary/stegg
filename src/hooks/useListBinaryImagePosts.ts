@@ -36,6 +36,14 @@ export const useListBinaryImagePosts = (cursor: string) => {
             cursor: cursor,
         },
     });
+
+    /**
+     * Fetches the list of binary image posts
+     * @param cursor The cursor to use when fetching the posts
+     * @returns An object with three properties: data, loading, and error.
+     * data is the list of binary image posts, loading is a boolean indicating whether the data is being fetched,
+     * and error is an object containing any error message.
+     */
     const listBinaryImagePosts = async (
         cursor: string,
     ): Promise<{

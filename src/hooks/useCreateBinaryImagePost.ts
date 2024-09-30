@@ -18,8 +18,11 @@
 import { useMutation } from "@apollo/client";
 import { CREATE_BINARYIMAGEPOST, PUBLISH_BINARYIMAGEPOST } from "../api/api";
 
-/*
- * Create a binary image post for the feed
+/**
+ * Provides a mutation that can be used to create a binary image post in the database.
+ * @returns An object containing two functions: createBinaryImagePost and publishBinaryImagePost.
+ * createBinaryImagePost creates a binary image post in the database and returns the ID of the newly created post.
+ * publishBinaryImagePost publishes a binary image post.
  */
 export const useCreateBinaryImagePost = () => {
     const [createFileMutation] = useMutation(CREATE_BINARYIMAGEPOST, {
@@ -34,17 +37,14 @@ export const useCreateBinaryImagePost = () => {
         },
     });
 
-    // async function getSize(url: string) {
-    //     const img = new Image();
-    //     img.src = url;
-    //     img.onload = () => {
-    //         const width = img.naturalWidth;
-    //         const height = img.naturalHeight;
-    //         return { width, height };
-    //     };
-    //     return img;
-    // }
-
+    /**
+     * Creates a binary image post for the feed.
+     * @param author The author of the post
+     * @param imageUrl The URL of the image to be posted
+     * @param width The width of the image
+     * @param height The height of the image
+     * @returns The ID of the newly created post
+     */
     const createBinaryImagePost = async (
         author: string,
         imageUrl: string,
@@ -66,6 +66,11 @@ export const useCreateBinaryImagePost = () => {
         return result.data.createBinaryImagePost.data.id;
     };
 
+    /**
+     * Publishes a binary image post.
+     * @param id The ID of the post to be published
+     * @returns The result of the mutation
+     */
     const publishBinaryImagePost = async (id: string) => {
         return publishMutation({
             variables: {

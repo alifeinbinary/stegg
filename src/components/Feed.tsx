@@ -16,7 +16,8 @@
  */
 
 import { FC, useLayoutEffect, useState, lazy, Suspense, ReactElement } from "react";
-import { Alert, Spinner } from "flowbite-react";
+import { Spinner } from "flowbite-react/components/Spinner";
+import { Alert } from "flowbite-react/components/Alert";
 import { PostProps } from "../types";
 import { useListBinaryImagePosts } from "../hooks/useListBinaryImagePosts";
 import { faCircleChevronDown, faInfo } from "@fortawesome/free-solid-svg-icons";

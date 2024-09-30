@@ -17,14 +17,30 @@
 
 import { useRef } from 'react'
 import { toast } from 'react-toastify';
-import { CustomFlowbiteTheme, Tooltip } from 'flowbite-react';
+import { Tooltip } from 'flowbite-react/components/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { clearContx } from '../utils/translate';
-// import { useAppState } from '../utils/stores';
 import { PasswordProps } from '../types';
 import { useTranslation } from "react-i18next";
+import { lockTooltip } from '../utils/customTheme';
 
+/**
+ * A component for encrypting and decrypting text using a password.
+ * It is a toggleable input field which can be used to encrypt text
+ * into an image and decrypt text from an image.
+ * @param {PasswordProps} props - The properties for the component.
+ * @param {string} props.password - The password for decryption.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setPassword - The function to set the password.
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} props.setEncryptionEnabled - The function to set the encryption state.
+ * @param {boolean} props.encryptionEnabled - The encryption state.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setDecryptedText - The function to set the decrypted text.
+ * @param {string} props.decryptedText - The decrypted text.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setStringToDecrypt - The function to set the string to decrypt.
+ * @param {string} props.stringToDecrypt - The string to decrypt.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setEncryptedText - The function to set the encrypted text.
+ * @return {JSX.Element} - The component.
+ */
 export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEncryptionEnabled, encryptionEnabled, setOutput, setDecryptedText, decryptedText, setStringToDecrypt, stringToDecrypt, setEncryptedText }) => {
 
     const { t } = useTranslation();
@@ -58,10 +74,6 @@ export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEn
         }
     }
 
-    const lockTooltop: CustomFlowbiteTheme["tooltip"] = {
-        target: "flex",
-    }
-
     return (
         <label className='relative inline-flex cursor-pointer select-none items-center'>
             <input
@@ -75,7 +87,7 @@ export const Password: React.FC<PasswordProps> = ({ password, setPassword, setEn
                 aria-checked={encryptionEnabled}
             />
             <div tabIndex={0} className='shadow-card p-1 flex h-[46px] items-center justify-center rounded-md text-gray-900 bg-gray-200 dark:bg-seablue'>
-                <Tooltip content={t('password.tooltip.content')} trigger="hover" placement="top" theme={lockTooltop}>
+                <Tooltip content={t('password.tooltip.content')} trigger="hover" placement="top" theme={lockTooltip}>
                     <span
                         className={`flex h-9 w-9 items-center transition ease-in-out duration-300 justify-center rounded-l-md ${!encryptionEnabled ? 'text-sm text-gray-500 bg-gray-200' : 'bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] text-white'
                             }`}

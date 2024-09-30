@@ -18,6 +18,12 @@
 import { useImageState } from '../utils/stores';
 import { useTranslation } from 'react-i18next';
 
+/**
+ * Slider component to select the size of the nodes in the graph.
+ * 
+ * @returns A div containing a range input and four labels 
+ * that indicate the size of the nodes for different screen sizes.
+ */
 const Slider: React.FC = () => {
 
     const { t } = useTranslation();

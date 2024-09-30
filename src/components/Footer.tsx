@@ -17,6 +17,11 @@
 
 import { useTranslation } from "react-i18next";
 
+/**
+ * A simple footer component displaying the copyright and license information.
+ *
+ * @returns The footer component.
+ */
 const Footer: React.FC = () => {
 
     const { t } = useTranslation();

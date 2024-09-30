@@ -17,40 +17,20 @@
 
 import { useTranslation, Trans } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CustomFlowbiteTheme, DarkThemeToggle, Dropdown, Navbar } from 'flowbite-react';
+import { DarkThemeToggle, Dropdown, Navbar } from 'flowbite-react';
 import { faAsterisk, faCodeFork, faFaceSmile, faGlobe, faLock, faStar } from '@fortawesome/free-solid-svg-icons'
 import { faReact, faFontAwesome, faNodeJs, faNpm, faAws, faFirefoxBrowser } from '@fortawesome/free-brands-svg-icons'
 import { useTheme } from '../hooks/useTheme';
+import { customNavbarTheme, customLngDropdownTheme, customToggleTheme } from '../utils/customTheme';
 
-const customNavbarTheme: CustomFlowbiteTheme["navbar"] = {
-    root: {
-        base: "w-full bg-white dark:bg-slate-900 px-0 py-2.5",
-    },
-    link: {
-        base: "block py-1 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent",
-        active: {
-            on: "bg-blue-700 text-white md:bg-transparent md:text-blue-700",
-            off: "",
-        },
-        disabled: {
-            on: "text-gray-400 hover:cursor-not-allowed",
-            off: "",
-        },
-    },
-};
-
-const customDropdownTheme: CustomFlowbiteTheme["dropdown"] = {
-    arrowIcon: "xs:hidden w-4 h-4 ml-1 text-gray-500 dark:text-gray-400",
-    inlineWrapper: "flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700",
-}
-
-const customToggleTheme: CustomFlowbiteTheme["darkThemeToggle"] = {
-    root: {
-        base: "rounded-lg p-2 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700 text-2xl",
-        icon: "w-6 h-6",
-    }
-}
-
+/**
+ * The Header component is a React functional component that renders the main header of the app.
+ * It is responsible for rendering the navigation menu and the main header content.
+ * The Header component is the main entry point for the app and is responsible for routing the user to the correct page.
+ * The Header component is also responsible for managing the app's state and passing it down to its child components.
+ * @function
+ * @returns {ReactElement} The rendered Header component.
+ */
 const Header: React.FC = () => {
     const { theme, toggleTheme } = useTheme();
     const { t, i18n } = useTranslation();
@@ -78,7 +58,7 @@ const Header: React.FC = () => {
                             </Navbar.Brand>
                             <menu className='flex items-end list-none'>
                                 <Navbar.Link className='mr-2 xs:mr-0' role='button' href='#' title='Change Language' aria-label='Change Language'>
-                                    <Dropdown inline label={<FontAwesomeIcon icon={faGlobe} aria-label='Language selection dropdown menu' title='Language selection dropdown menu' className='w-6 h-6 text-2xl' />} dismissOnClick={true} floatingArrow={true} theme={customDropdownTheme}>
+                                    <Dropdown inline label={<FontAwesomeIcon icon={faGlobe} aria-label='Language selection dropdown menu' title='Language selection dropdown menu' className='w-6 h-6 text-2xl' />} dismissOnClick={true} floatingArrow={true} theme={customLngDropdownTheme}>
                                         <Dropdown.Item aria-label='English' onClick={() => changeLanguage('en')}>English 🇬🇧</Dropdown.Item>
                                         <Dropdown.Item aria-label='Spanish' onClick={() => changeLanguage('es')}>Spanish 🇪🇸</Dropdown.Item>
                                         <Dropdown.Item aria-label='French' onClick={() => changeLanguage('fr')}>French 🇫🇷</Dropdown.Item>

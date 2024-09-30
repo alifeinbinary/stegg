@@ -15,15 +15,42 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { Slide, ToastContainer } from "react-toastify"
-import { FileUploader } from './Decrypt';
-import { TextArea } from './Encrypt';
+// import { Decrypt } from './Decrypt';
+// import { TextArea } from './Encrypt';
 import 'react-toastify/dist/ReactToastify.css';
 import { useImageState } from '../utils/stores';
+import { Spinner } from 'flowbite-react/components/Spinner';
 
+const Decrypt = lazy(() => import('./Decrypt'));
+const Encrypt = lazy(() => import('./Encrypt'));
+
+/**
+ * This component is the top-level component for the image translation tool.
+ * It contains a text area for inputting text, a decrypt component for decrypting PNG files,
+ * and a canvas for rendering the translated image.
+ *
+ * This component uses the useImageState hook to store and retrieve the canvas reference,
+ * the current input text, the output text, the canvas height and width, the size of the canvas,
+ * the password for encryption, the encryption state, the string to decrypt, the encrypted text,
+ * and the decrypted text.
+ *
+ * The component also uses the useEffect hook to handle the following side effects:
+ * - Send the canvas to the store
+ * - Paint the canvas
+ * - Change the canvas height if necessary
+ * - Encrypt the input text when the encryption state is enabled
+ * - Decrypt the input text when the encryption state is disabled
+ * - Convert the input text to binary when the encryption state is disabled
+ * - Convert the encrypted text to binary when the encryption state is enabled
+ * - Convert the decrypted text to binary when the encryption state is disabled
+ *
+ * The component also uses the useCallback hook to create a memoized version of the handleResize
+ * function, which is used to resize the canvas when more data is added.
+ */
 const Translate: React.FC = () => {
 
     const {
@@ -137,10 +164,14 @@ const Translate: React.FC = () => {
                 <div className='max-w-5xl mx-auto'>
                     <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
                         <div className='col-span-3 md:col-span-3 sm:col-span-3 xs:col-span-1'>
-                            <TextArea />
+                            <Suspense fallback={<Spinner />}>
+                                <Encrypt />
+                            </Suspense>
                         </div>
                         <div className='col-span-1 md:col-span-1 sm:col-span-1 xs:col-span-1'>
-                            <FileUploader setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
+                            <Suspense fallback={<Spinner />}>
+                                <Decrypt setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
+                            </Suspense>
                         </div>
                     </div>
                     <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Canvas</h4>

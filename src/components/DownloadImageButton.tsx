@@ -17,47 +17,36 @@
 
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CustomFlowbiteTheme, Dropdown, Tooltip } from "flowbite-react";
+import { Dropdown, Tooltip } from "flowbite-react";
 import { useTranslation } from "react-i18next";
 import { displayDimensions, createPngWithMetadata } from "../utils/save";
 import { useImageState } from "../utils/stores";
 import { clearContx } from "../utils/translate";
 import { toast } from "react-toastify";
+import { customDropdownTheme } from "../utils/customTheme";
 
-const customDropdownTheme: CustomFlowbiteTheme["dropdown"] = {
-    arrowIcon: "ml-2 h-4 w-4",
-    content: "py-1 focus:outline-none",
-    floating: {
-        animation: "transition-opacity",
-        arrow: {
-            base: "absolute z-10 h-2 w-2 rotate-45",
-            style: {
-                dark: "bg-gray-900 dark:bg-gray-700",
-                light: "bg-white",
-                auto: "bg-white dark:bg-gray-700",
-            },
-            placement: "-4px",
-        },
-        base: "z-10 w-fit divide-y divide-gray-100 rounded shadow focus:outline-none",
-        content: "py-1 text-sm text-gray-700 dark:text-gray-200",
-        divider: "my-1 h-px bg-gray-100 dark:bg-slate-600",
-        header: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200",
-        hidden: "invisible opacity-0",
-        item: {
-            container: "",
-            base: "flex w-full cursor-pointer items-center justify-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-200 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:bg-slate-600 dark:focus:text-white",
-            icon: "mr-2 h-4 w-4",
-        },
-        style: {
-            dark: "bg-gray-900 text-white dark:bg-gray-700",
-            light: "border border-gray-200 bg-white text-gray-900",
-            auto: "border border-gray-200 bg-white text-gray-900 dark:border-none dark:bg-gray-700 dark:text-white",
-        },
-        target: "text-white bg-sagegreen/[0.8] dark:bg-sagegreen dark:text-slate-900 dark:hover:bg-slate-300 hover:bg-sagegreen/[1.0] enabled:hover:bg-sagegreen/[1.0] dark:enabled:bg-sagegreen/[0.8] dark:enabled:hover:bg-sagegreen/[1.0] focus:ring-blue-300 focus:ring-4 w-fit",
-    },
-    inlineWrapper: "flex items-center",
-};
-
+/**
+ * DownloadImageButton is a component that generates a dropdown menu with different image
+ * dimensions that can be downloaded with the input text embedded in the image.
+ *
+ * If the encryptionEnabled state is true, the component will only be clickable if the
+ * password and input states are not empty.
+ *
+ * When the user clicks the download button, the component will call the createPngWithMetadata
+ * function to generate a PNG image with the input text embedded in the image, and the
+ * image dimensions set to the selected value from the dropdown menu.
+ *
+ * The component will also call the clearContx function to clear the canvas context.
+ *
+ * The component will display a tooltip with the input length and the translation for
+ * "downloadimagebutton.tooltip.title" if the input length is greater than 0.
+ * Otherwise, the tooltip will display the translation for "downloadimagebutton.tooltip.hint".
+ *
+ * The component will also display a label with the translation for "downloadimagebutton.label".
+ * The label will be hidden from screen readers.
+ *
+ * The component will be disabled if the input length is 0.
+ */
 const DownloadImageButton: React.FC = () => {
     const { t } = useTranslation();
 

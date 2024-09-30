@@ -17,6 +17,12 @@
 
 import { AES, enc } from "crypto-js";
 
+/**
+ * Encrypts the given input text with the given password and sets the encrypted text state.
+ * @param {string} input The text to encrypt.
+ * @param {string} password The password to encrypt with.
+ * @param {React.Dispatch<string>} setEncryptedText The function to set the encrypted text state.
+ */
 const handleEncrypt = (
     input: string,
     password: string,
@@ -26,6 +32,13 @@ const handleEncrypt = (
     setEncryptedText(encrypted);
 };
 
+/**
+ * Decrypts the given string with the given password and sets the decrypted text state.
+ * If the decrypted string is empty, it sets the decrypted text state to the original string.
+ * @param {string} stringToDecrypt The string to decrypt.
+ * @param {string} password The password to decrypt with.
+ * @param {React.Dispatch<string>} setDecryptedText The function to set the decrypted text state.
+ */
 function handleDecrypt(
     stringToDecrypt: string,
     password: string,

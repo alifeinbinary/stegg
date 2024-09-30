@@ -15,7 +15,14 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Converting text input to an array of binary strings
+/**
+ * Converts a given string to a binary representation.
+ *
+ * @param {string} input - The string to be converted to binary.
+ * @param {React.Dispatch<string[]>} setOutput - A state setter that updates a state variable with the binary representation of the input string.
+ *
+ * @returns {void}
+ */
 function convertBinary(input: string, setOutput: React.Dispatch<string[]>) {
     if (input !== input) {
         return;
@@ -28,7 +35,24 @@ function convertBinary(input: string, setOutput: React.Dispatch<string[]>) {
     setOutput(binaryOutput);
 }
 
-// Draw nodes on the canvas
+/**
+ * Draws a shape on a canvas.
+ *
+ * This function draws a shape with the given number of points on a canvas. The shape is
+ * centered at (x, y) and has a radius of radius1 and radius2. The shape is rotated by
+ * alpha0 radians.
+ *
+ * The points of the shape alternate between the two radii. The first point is drawn at
+ * radius1, the second at radius2, the third at radius1, and so on.
+ *
+ * @param ctx - The canvas context to draw on.
+ * @param x - The x-coordinate of the center of the shape.
+ * @param y - The y-coordinate of the center of the shape.
+ * @param points - The number of points on the shape.
+ * @param radius1 - The radius of the first point.
+ * @param radius2 - The radius of the second point.
+ * @param alpha0 - The angle of rotation of the shape in radians.
+ */
 const drawShape = (
     ctx: CanvasRenderingContext2D,
     x: number,
@@ -45,14 +69,28 @@ const drawShape = (
     }
 };
 
-// Use a random number generator to select node colours
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ *
+ * @param {number} min - The minimum value.
+ * @param {number} max - The maximum value.
+ * @returns {number} A random integer between min and max.
+ */
 const getRandomInt = (min: number, max: number): number => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 };
 
-// Clear the canvas
+/**
+ * Clears a canvas context.
+ *
+ * This function takes a canvas reference and clears its context. If the canvas
+ * reference is null, the function does nothing.
+ *
+ * @param {React.RefObject<HTMLCanvasElement | null>} canvasRef - The
+ *     canvas reference to clear.
+ */
 const clearContx = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
     const canv = canvasRef.current;
     if (!canv) return;
@@ -61,15 +99,27 @@ const clearContx = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
     contx?.clearRect(0, 0, canv.width, canv.height);
 };
 
-// Draw the nodes on the canvas
+/**
+ * Draws a binary image on a canvas.
+ *
+ * This function takes a binary string array and draws it on the canvas as a
+ * series of shapes. The size of the shapes and the spacing between them is
+ * determined by the size parameter. The encryptionEnabled parameter
+ * determines which set of drawing parameters to use.
+ *
+ * @param {string[]} output - The binary string array to draw.
+ * @param {React.RefObject<HTMLCanvasElement | null>} canvasRef - The canvas
+ * to draw on.
+ * @param {number} size - The size of the shapes to draw.
+ * @param {boolean} encryptionEnabled - Whether to use the encryption drawing
+ * parameters.
+ */
 function plot(
     output: string[],
     canvasRef: React.RefObject<HTMLCanvasElement | null>,
     size: number,
     encryptionEnabled: boolean,
 ) {
-    // const size = 20;
-
     const colours: string[] = [
         "#ffeedd",
         "#ddeecc",
@@ -110,6 +160,17 @@ function plot(
     let lineHeight = 98;
     let columnDivider = 4;
 
+    /**
+     * Draw the translated binary image on the canvas.
+     *
+     * @param contx The canvas context to draw on.
+     * @param sizeModifier The size modifier to use for the calculation.
+     * @param sizeMultiplier The size multiplier to use for the calculation.
+     * @param columnWidth The width of each column.
+     * @param seedOffset The offset of the seed.
+     * @param lineHeight The height of each line.
+     * @param columnDivider The number of columns to divide the output into.
+     */
     async function doLoop(
         contx: CanvasRenderingContext2D,
         sizeModifier: number,

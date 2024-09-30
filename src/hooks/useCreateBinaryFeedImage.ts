@@ -47,8 +47,10 @@ interface FmFileResponse {
     error: string;
 }
 
-/*
- * Create a binary image for the post
+/**
+ * Creates a binary image for the post
+ * @param fileInput An array of strings, where each string is a binary representation of a file
+ * @returns A promise that resolves to an object with a file property, which is an object with properties id, createdOn, savedOn, createdBy, modifiedBy, savedBy, src, location, name, key, type, size, meta, tags, and aliases
  */
 export const useCreateBinaryFeedImage = () => {
     const [createFileMutation] = useMutation(CREATE_BINARYFEEDIMAGE, {
@@ -57,6 +59,11 @@ export const useCreateBinaryFeedImage = () => {
         },
     });
 
+    /**
+     * Creates a binary image for the post
+     * @param fileInput An array of strings, where each string is a binary representation of a file
+     * @returns A promise that resolves to an object with a file property, which is an object with properties id, createdOn, savedOn, createdBy, modifiedBy, savedBy, src, location, name, key, type, size, meta, tags, and aliases
+     */
     const createBinaryFeedImage = async (
         fileInput: string[],
     ): Promise<FmFileResponse> => {

@@ -27,6 +27,17 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "flowbite-react/components/Spinner";
 import { saveAs } from "file-saver";
 
+/**
+ * A single post in the feed, displaying the image and allowing the user to input a password to decrypt the image.
+ * 
+ * @param id The ID of the post
+ * @param author The author of the post
+ * @param posted The date the post was posted
+ * @param image The URL of the image in the post
+ * @param width The width of the image in the post
+ * @param height The height of the image in the post
+ * @returns A JSX element representing the post
+ */
 function Post({ id, author, posted, image, width, height }: PostProps) {
 
     const { t } = useTranslation();

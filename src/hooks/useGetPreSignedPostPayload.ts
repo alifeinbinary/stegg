@@ -32,6 +32,19 @@ export const useGetPreSignedPostPayload = () => {
         },
     });
 
+    /**
+     * Get a pre-signed post payload for uploading a file
+     * @param file The file to upload, with properties name, type, and size
+     * @returns The pre-signed post payload
+     * @example
+     * const { getPreSignedPostPayload } = useGetPreSignedPostPayload();
+     * const file = {
+     *     name: "example.jpg",
+     *     type: "image/jpeg",
+     *     size: 1024,
+     * };
+     * const payload = await getPreSignedPostPayload(file);
+     */
     const getPreSignedPostPayload = async (file: {
         name: string;
         type: string;

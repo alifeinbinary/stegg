@@ -23,7 +23,47 @@ import { toast } from "react-toastify"
 import { DropzoneProps } from "../types"
 import { Trans, useTranslation } from "react-i18next"
 
-export const FileUploader: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setStringToDecrypt, password, setPassword, setDecryptedText }) => {
+/**
+ * Component for decrypting PNG files containing a message.
+ * 
+ * The component contains a drop zone for the user to upload a PNG file containing a message.
+ * The component will automatically extract the message from the PNG file and set the state
+ * of the application to the extracted message.
+ * 
+ * If the PNG file contains an encryption state, the component will automatically set the
+ * state of the application to the extracted message and the encryption state.
+ * 
+ * If the user has not provided a password, the component will prompt the user to enter a
+ * password to decrypt the message.
+ * 
+ * The component will display an error message if the PNG file is not compatible with the
+ * translator or has had its metadata stripped in transit.
+ * 
+ * The component will display an error message if the PNG file contains an encryption state
+ * but no message.
+ * 
+ * The component will display an error message if the PNG file does not contain an encryption
+ * state but a message is present.
+ * 
+ * The component will display an error message if the PNG file contains an encryption state
+ * and a message, but the encryption state is invalid.
+ * 
+ * The component will display an error message if the PNG file contains an encryption state
+ * and a message, but the encryption state is valid, but the message is empty.
+ * 
+ * The component will display an error message if the PNG file contains an encryption state
+ * and a message, but the encryption state is valid, and the message is not empty, but the
+ * user has not provided a password.
+ * 
+ * @param {DropzoneProps} props - The properties for the component.
+ * @param {string} props.password - The password for decryption.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setDecryptedText - The function to set the decrypted text.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setStringToDecrypt - The function to set the string to decrypt.
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} props.setEncryptionEnabled - The function to set the encryption state.
+ * @param {React.Dispatch<React.SetStateAction<string>>} props.setInput - The function to set the input text.
+ * @return {JSX.Element} - The component.
+ */
+const Decrypt: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setStringToDecrypt, password, setPassword, setDecryptedText }) => {
 
     const { t } = useTranslation();
 
@@ -116,3 +156,5 @@ export const FileUploader: React.FC<DropzoneProps> = ({ setInput, setEncryptionE
         </div>
     )
 }
+
+export default Decrypt;

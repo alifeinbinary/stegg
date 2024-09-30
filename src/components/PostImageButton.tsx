@@ -29,6 +29,17 @@ import { toast } from "react-toastify";
 import { uploadFileToS3 } from "../api/uploadFileToS3";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Renders a button that allows the user to post the current image to their feed.
+ *
+ * @remarks
+ * The button is only visible if the user has entered a message and the image is not encrypted.
+ * If the button is clicked and the image is encrypted, the button creates a new binary image post in the database.
+ * If the button is clicked and the image is not encrypted, the button shows a toast message indicating that encryption is disabled.
+ * The button is disabled if the user has not entered a message or the image is not encrypted.
+ *
+ * @returns A JSX element containing a button that allows the user to post the current image to their feed.
+ */
 const PostImageButton: React.FC = () => {
 
     const { t } = useTranslation();
@@ -65,12 +76,6 @@ const PostImageButton: React.FC = () => {
             return false;
         }
     };
-
-    // const fetchBlobAndGetSize = async (url: string) => {
-    //     const response = await fetch(url);
-    //     const blob = await response.blob();
-    //     return { blob, size: blob.size };
-    // };
 
     const handlePost = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();

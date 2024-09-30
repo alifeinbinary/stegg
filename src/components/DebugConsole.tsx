@@ -23,8 +23,6 @@ import { useEffect } from 'react';
 import { useAppState, useImageState } from "../utils/stores";
 // import '../App.css';
 
-
-
 /**
  * A debug console that displays the current state of the application.
  *

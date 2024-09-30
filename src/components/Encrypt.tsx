@@ -28,7 +28,11 @@ import { Password } from "./Password";
 import PostImageButton from "./PostImageButton";
 import { useTranslation, Trans } from "react-i18next";
 
-export const TextArea: React.FC = () => {
+/**
+ * A textarea component for encrypting text into an image.
+ * @returns A JSX Element for a textarea component.
+ */
+const Encrypt: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const { t } = useTranslation();
@@ -187,3 +191,5 @@ export const TextArea: React.FC = () => {
         </div>
     );
 };
+
+export default Encrypt;
