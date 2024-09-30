@@ -47,7 +47,7 @@ function App() {
     <>
       <Flowbite>
         <div id="app" className="bg-forestgreen/[0.5] dark:bg-slate-600 transition-colors duration-500 ease-in-out">
-          <div className="container px-4 mx-auto max-w-6xl">
+          <div className="container px-4 xs:px-2 mx-auto max-w-6xl">
             {/* Header */}
             <Suspense fallback={<span className="w-full xs:h-[1740px] sm:h-[1485px] md:h-[1190px] lg:h-[1005px] flex items-center justify-center"><Spinner /></span>}>
               <Header />

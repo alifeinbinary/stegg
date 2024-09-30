@@ -21,10 +21,10 @@ import { getMetadata } from "meta-png";
 import { PostProps } from "../types";
 import Password from "./Password";
 import { usePostState } from "../utils/stores";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "flowbite-react";
+import { Spinner } from "flowbite-react/components/Spinner";
 import { saveAs } from "file-saver";
 
 function Post({ id, author, posted, image, width, height }: PostProps) {
@@ -101,11 +101,11 @@ function Post({ id, author, posted, image, width, height }: PostProps) {
     return (
         <div className="group/image transition duration-350 ease-out pb-4" id={id} key={id}>
             <div className="flex flex-shrink-0 pb-0">
-                <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 rounded-t-lg">
-                    <div className="px-3">
+                <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 xs:pb-0 rounded-t-lg">
+                    <div className="px-3 xs:px-0">
                         <p className="items-center text-left text-base leading-6 font-medium text-gray-900 dark:text-white">
                             <span className="text-gray-900 dark:text-white xs:flex items-center">{author}<FontAwesomeIcon className="mx-2" icon={faUser} /></span>
-                            <span className="dark:text-white text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">{t('post.posted')} {new Date(posted).toDateString()}
+                            <span className="dark:text-white text-sm xs:text-xs leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">{t('post.posted')} {new Date(posted).toDateString()}
                             </span>
                             <br />
                             <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">
@@ -117,21 +117,23 @@ function Post({ id, author, posted, image, width, height }: PostProps) {
             </div>
             <div>
                 <div className="min-h-max">
-                    <div className="flex items-center justify-center pt-10 px-7 bg-gray-50 min-h-[190px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
+                    <div className="flex items-center justify-center pt-5 pb-3 px-7 xs:px-4 xs:pt-5 xs:pb-0 bg-gray-50 xs:min-h-[140px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
                         {!postState?.image ? <Spinner color="gray" aria-label="Loading" /> : null}
                         {postState?.decryptedText ? (
-                            <p className="flex break-words text-wrap items-center justify-center text-xl text-left w-full font-medium text-gray-900 dark:text-white flex-shrink pb-10 min-h-[544px]" style={{ overflowWrap: "anywhere" }}>
+                            <p className="flex items-center justify-center break-words text-wrap text-xl text-left w-full font-medium text-gray-900 dark:text-white flex-shrink pb-10 min-h-[415px]" style={{ overflowWrap: "anywhere" }}>
                                 {postState.decryptedText}
                             </p>
                         ) : (
-                            <img className="rounded-2xl feed-image min-h-[544px]" src={postState?.image} alt={"Binary image " + id} width={postState?.width} height={postState?.height} />
+                            <Suspense fallback={<Spinner color="gray" aria-label="Loading" />}>
+                                <img className="remove-watermark" src={postState?.image} alt={"Binary image " + id} width={postState?.width} height={postState?.height} />
+                            </Suspense>
                         )}
                     </div>
                 </div>
                 <div className="flex justify-between">
                     <div className="max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-bl-lg">
                         <div className="flex items-center">
-                            <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-red-600 dark:hover:text-red-600 transition duration-350 ease-in-out">
+                            <div className="flex-1 flex items-center p-3 xs:px-1 xs:py-2 dark:text-white text-lg text-gray-400 hover:text-red-600 dark:hover:text-red-600 transition duration-350 ease-in-out">
                                 <button aria-label="Download image" title="Download image" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-lightgreen hover:text-white focus:ring-blue-200 focus:ring-4" onClick={handleImageDownload}>
                                     <FontAwesomeIcon icon={faDownload} />
                                 </button>
