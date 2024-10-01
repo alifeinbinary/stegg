@@ -1,0 +1,88 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About this app",
+    "faq": "FAQ"
+  },
+  "title": "Flib",
+  "description": {
+    "intro": "This is a full-stack React application written in Typescript.",
+    "howitworks": "How it works:",
+    "paragraph1": "This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.",
+    "paragraph2": "Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.",
+    "paragraph3": "I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within."
+  },
+  "technology1": "<li>Typescript</li><li>React</li><li>HTML Canvas</li><li>Cryptography in the browser</li><li>Image generation and consumption</li>",
+  "technology2": "<li>Embedding metadata in files</li><li>CRUD operations to a serverless API on AWS using GraphQL</li><li>File storage on AWS S3 managed by a cron job</li><li>Jest tests</li><li>Internationalisation</li>",
+  "review": "Is this like Twitter for robots? Why would anyone make this???",
+  "byline": "A newly retired, former part-time receptionist and recent grandmother of twins I showed this to on the ferry",
+  "createdwith": "Created with",
+  "forkthisproject": "Star this project on ",
+  "likemywork": "Like my work?",
+  "hireme": "Hire me",
+  "encrypt": {
+    "title": "Encrypt",
+    "modal": {
+      "title": "How to use this app",
+      "step1": "Type your message, click to encrypt if desired, and save/share - only those with the password can access it.",
+      "caveatstitle": "Caveats",
+      "step2": "Drop image in here and use the password given to decode the message.",
+      "caveatstext": "As a security measure, some operating systems, notably iOS, strip metadata from images to prevent malicious code from executing on your phone. This means that images you pass along to a third party won't be able to be decrypted if they have been sent from your iPhone.",
+      "securitytitle": "Security disclaimer",
+      "securitytext": "As a security measure, some operating systems, notably iOS, strip metadata from images to prevent malicious code from executing on your phone. This means that images you pass along to a third party won't be able to be decrypted if they have been sent from your iPhone."
+    },
+    "placeholder": "Type your thoughts"
+  },
+  "decrypt": {
+    "title": "Decrypt",
+    "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Click to upload</span> or drag and drop to extract message</p><p className='text-xs text-gray-500 dark:text-gray-400'>PNG format only</p>"
+  },
+  "downloadimagebutton": {
+    "tooltip": {
+      "title": "Download image",
+      "hint": "Enter a message before saving to disk"
+    },
+    "label": "Download"
+  },
+  "nodesize": {
+    "label": "Node size"
+  },
+  "password": {
+    "hint": "Enter a secret key",
+    "enable": "Enable encryption",
+    "tooltip": {
+      "content": "Enable AES 128-bit encryption"
+    }
+  },
+  "post": {
+    "posted": "Posted"
+  },
+  "postimagebutton": {
+    "toast": {
+      "processing": "Processing image...",
+      "embedding": "Embedding metadata...",
+      "size": "Determining the size of the image...",
+      "presignedpayload": "Getting presigned post payload...",
+      "uploading": "Uploading to S3 bucket...",
+      "createimage": "Creating binary feed image...",
+      "createimagepost": "Creating binary image post...",
+      "publishing": "Binary image post created.",
+      "success": "Image uploaded successfully!",
+      "noencryption": "Encryption disabled. Only encrypted messages can be posted.",
+      "nocanvasorinput": "No image to upload."
+    },
+    "tooltip": {
+      "posttofeed": "Post image to the feed",
+      "entermessage": "Please enter a message and password before posting"
+    },
+    "label": "Post"
+  },
+  "feed": {
+    "title": "Feed",
+    "loadmore": "Load more"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "license": "Released under the"
+  }
+}

@@ -40,7 +40,7 @@ i18n
         backend: {
             loadPath: "./locales/{{lng}}/{{ns}}.json",
         },
-        ns: ["translations"],
+        ns: ["translation"],
     });
 
 export default i18n;
