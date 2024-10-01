@@ -6,6 +6,8 @@ import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink } from '@apollo
 // import { persistCache } from 'apollo3-cache-persist';
 import './i18n.ts'
 import './index.css'
+// import router from './routes.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const readApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_READ_API_URL,
@@ -72,11 +74,12 @@ const client = new ApolloClient({
   connectToDevTools: true,
   cache
 });
-
+let router = createBrowserRouter([{ path: "*", element: <App /> }]);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      {/* <RouterProvider router={router} /> */}
+      <RouterProvider router={router} />
     </ApolloProvider>
   </StrictMode>,
 )

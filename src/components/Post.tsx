@@ -18,7 +18,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getMetadata } from "meta-png";
-import { PostProps } from "../types";
 import Password from "./Password";
 import { usePostState } from "../utils/stores";
 import { Suspense, useEffect } from "react";
@@ -26,6 +25,9 @@ import { handleDecrypt } from "../utils/encryption";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "flowbite-react/components/Spinner";
 import { saveAs } from "file-saver";
+import { Link, useNavigate } from 'react-router-dom';
+import { Clipboard } from "flowbite-react/components/Clipboard";
+import { PostProps } from "../types";
 
 /**
  * A single post in the feed, displaying the image and allowing the user to input a password to decrypt the image.
@@ -38,12 +40,13 @@ import { saveAs } from "file-saver";
  * @param height The height of the image in the post
  * @returns A JSX element representing the post
  */
-function Post({ id, author, posted, image, width, height }: PostProps) {
+const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }: PostProps) => {
 
     const { t } = useTranslation();
 
     const postState = usePostState((state) => state.posts[id]);
     const setPostState = usePostState((state) => state.setPostState);
+    const navigate = useNavigate();
 
     // Initialize the state for this post if it doesn't exist
     useEffect(() => {
@@ -88,6 +91,12 @@ function Post({ id, author, posted, image, width, height }: PostProps) {
         }
     };
 
+    const handleLinkClick = (event: React.MouseEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        console.log("id", id)
+        navigate(`/f/${id}`, { replace: false });
+    };
+
     const convertUrlToUint8Array = async (url: string) => {
         const response = await fetch(url);
         const blob = await response.blob();
@@ -109,20 +118,41 @@ function Post({ id, author, posted, image, width, height }: PostProps) {
         if (postState?.password) convertImage();
     }, [postState?.password, id, postState?.image, setPostState]);
 
+    const LinkIcon = () => (
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-auto" fill="currentColor" stroke="currentColor" viewBox="0 0 640 512"><path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z" /></svg>
+    );
+
     return (
         <div className="group/image transition duration-350 ease-out pb-4" id={id} key={id}>
             <div className="flex flex-shrink-0 pb-0">
                 <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 xs:pb-0 rounded-t-lg">
                     <div className="px-3 xs:px-0">
-                        <p className="items-center text-left text-base leading-6 font-medium text-gray-900 dark:text-white">
+                        <div className="items-center text-left text-base leading-6 font-medium text-gray-900 dark:text-white">
                             <span className="text-gray-900 dark:text-white xs:flex items-center">{author}<FontAwesomeIcon className="mx-2" icon={faUser} /></span>
                             <span className="dark:text-white text-sm xs:text-xs leading-5 font-medium text-gray-700 group-hover:text-gray-300 transition ease-out duration-150">{t('post.posted')} {new Date(posted).toDateString()}
                             </span>
                             <br />
-                            <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">
-                                ID: {id.toString().match(/^[^#]+/)![0].slice(0, 9)}
-                            </span>
-                        </p>
+                            <div className="pt-3">
+                                <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">
+                                    <div className="grid w-full">
+                                        <div className="relative">
+                                            <label htmlFor="post-link" className="sr-only">
+                                                ID:<Link to={import.meta.env.BASE_URL + "f/" + id} className="mx-2 hover:underline">{id}</Link>
+                                            </label>
+                                            <input
+                                                id="post-link"
+                                                type="button"
+                                                className="cursor-pointer col-span-6 block rounded-lg border border-gray-300 bg-gray-50 hover:underline py-2 px-2.5 text-sm text-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-400 dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 w-full text-left"
+                                                value={id}
+                                                readOnly
+                                                onClick={handleLinkClick}
+                                            />
+                                            <Clipboard.WithIcon icon={LinkIcon} className="dark:bg-gray-600 bg-gray-300 hover:bg-gray-200" valueToCopy={`${import.meta.env.BASE_URL}f/${id}`} />
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -121,6 +121,21 @@ export const CREATE_BINARYIMAGEPOST = gql`
     }
 `;
 
+export const GET_BINARYIMAGEPOST = gql`
+    query GetBinaryImagePost($id: ID) {
+        getBinaryImagePost(where: { id: $id }) {
+            data {
+                id
+                author
+                image
+                posted
+                width
+                height
+            }
+        }
+    }
+`;
+
 export const PUBLISH_BINARYIMAGEPOST = gql`
     mutation PublishBinaryImagePost($id: ID!) {
         publishBinaryImagePost(revision: $id) {
