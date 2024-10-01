@@ -15,29 +15,29 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { createBrowserRouter } from 'react-router-dom';
-import PostPage, { postLoader } from './routes/PostPage';
-import Root, { rootLoader } from "./routes/Root";
-import Faq, { faqLoader } from "./routes/Faq";
+// import { createBrowserRouter } from 'react-router-dom';
+// import PostPage, { postLoader } from './routes/PostPage';
+// import Root, { rootLoader } from "./routes/Root";
+// import Faq, { faqLoader } from "./routes/Faq";
 
-const router = createBrowserRouter([
-    {
-        path: "*",
-        element: <Root />,
-        loader: rootLoader,
-        children: [
-            {
-                path: "f/:id",
-                element: <PostPage key={undefined} id={''} author={''} posted={new Date()} image={''} width={0} height={0} />,
-                loader: postLoader,
-            },
-            {
-                path: "faq",
-                element: <Faq />,
-                loader: faqLoader,
-            },
-        ],
-    },
-]);
+// const router = createBrowserRouter([
+//     {
+//         path: "*",
+//         element: <Root />,
+//         loader: rootLoader,
+//         children: [
+//             {
+//                 path: "f/:id",
+//                 element: <PostPage />,
+//                 loader: postLoader,
+//             },
+//             {
+//                 path: "faq",
+//                 element: <Faq />,
+//                 loader: faqLoader,
+//             },
+//         ],
+//     },
+// ]);
 
-export default router
+// export default router
