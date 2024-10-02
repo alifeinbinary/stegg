@@ -99,7 +99,7 @@ const Feed: FC = (): ReactElement => {
 
     if (loading) return (
         <div className="flex-inline items-center justify-center lg:py-8 px-12 max-w-screen-lg mx-auto w-full xs:px-1 md:px-4 pb-1 pt-8">
-            <Post id="loading" author="" posted={new Date()} image={""} key={undefined} width={1084} height={506} />
+            <Post id="loading" entryId="" author="" posted={new Date()} image={""} key={undefined} width={1084} height={506} />
             <span className="sr-only">Loading...</span>
         </div>
     );
@@ -118,7 +118,7 @@ const Feed: FC = (): ReactElement => {
                 </h4>
                 {posts.map((post) => (
                     <Suspense key={post.key} fallback={<span className="w-full xs:h-[386px] sm:h-[430px] md:h-[645px] lg:h-[778px] flex items-center justify-center"><Spinner /></span>}>
-                        <Post key={post.key} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
+                        <Post key={post.key} entryId={post.entryId} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
                     </Suspense>
                 ))}
                 <div className="flex flex-col items-center">

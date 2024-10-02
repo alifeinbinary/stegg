@@ -22,6 +22,7 @@ export const LIST_BINARYIMAGEPOSTS = gql`
         listBinaryImagePosts(limit: 3, sort: createdOn_DESC, after: $cursor) {
             data {
                 id
+                entryId
                 author
                 image
                 width
@@ -122,10 +123,11 @@ export const CREATE_BINARYIMAGEPOST = gql`
 `;
 
 export const GET_BINARYIMAGEPOST = gql`
-    query GetBinaryImagePost($id: ID) {
-        getBinaryImagePost(where: { id: $id }) {
+    query GetBinaryImagePost($entryId: String!) {
+        getBinaryImagePost(where: { entryId: $entryId }) {
             data {
                 id
+                entryId
                 author
                 image
                 posted

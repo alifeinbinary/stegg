@@ -40,6 +40,7 @@ export interface CreatePngWithMetadataResult {
 export interface PostProps {
     key: Key | null | undefined;
     id: string;
+    entryId: string;
     author: string;
     posted: Date;
     image: string;

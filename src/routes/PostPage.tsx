@@ -23,15 +23,15 @@ import Post from "../components/Post";
 
 const PostPage: React.FC = () => {
     const { id: postId = '' } = useParams();
-    const { getBinaryImagePost } = useGetBinaryImagePost(postId + "#0001");
+    const { getBinaryImagePost } = useGetBinaryImagePost(postId);
     const [data, setData] = useState<{ getBinaryImagePost: { data: PostProps } | null }>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
-    console.log("postId", postId)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getBinaryImagePost(postId + "#0001");
+                const result = await getBinaryImagePost(postId);
                 setData(result.data);
             } catch (error) {
                 setError(error as Error);
@@ -53,9 +53,9 @@ const PostPage: React.FC = () => {
 
     }
     if (data && data.getBinaryImagePost && data.getBinaryImagePost.data) {
-        const { id, author, posted, image, width, height, key } = data.getBinaryImagePost.data;
+        const { id, entryId, author, posted, image, width, height, key } = data.getBinaryImagePost.data;
         console.log("data", data);
-        return <Post key={key} id={id} author={author} posted={posted} image={image} width={width} height={height} />;
+        return <Post key={key} id={id} entryId={entryId} author={author} posted={posted} image={image} width={width} height={height} />;
     }
 }
 

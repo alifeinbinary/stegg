@@ -33,6 +33,7 @@ import { PostProps } from "../types";
  * A single post in the feed, displaying the image and allowing the user to input a password to decrypt the image.
  * 
  * @param id The ID of the post
+ * @param entryId The ID of the post
  * @param author The author of the post
  * @param posted The date the post was posted
  * @param image The URL of the image in the post
@@ -40,7 +41,7 @@ import { PostProps } from "../types";
  * @param height The height of the image in the post
  * @returns A JSX element representing the post
  */
-const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }: PostProps) => {
+const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, height }: PostProps) => {
 
     const { t } = useTranslation();
 
@@ -93,8 +94,8 @@ const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }:
 
     const handleLinkClick = (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault();
-        console.log("id", id)
-        navigate(`/f/${id}`, { replace: false });
+        console.log("entryId", entryId)
+        navigate(`/@/${entryId}`, { replace: false });
     };
 
     const convertUrlToUint8Array = async (url: string) => {
@@ -123,7 +124,7 @@ const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }:
     );
 
     return (
-        <div className="group/image transition duration-350 ease-out pb-4" id={id} key={id}>
+        <div className="group/image transition duration-350 ease-out pb-4" id={entryId} key={entryId}>
             <div className="flex flex-shrink-0 pb-0">
                 <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 xs:pb-0 rounded-t-lg">
                     <div className="px-3 xs:px-0">
@@ -134,20 +135,20 @@ const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }:
                             <br />
                             <div className="pt-3">
                                 <span className="text-xs dark:text-gray-300 leading-5 font-medium text-gray-500 group-hover:text-gray-300 transition ease-out duration-150">
-                                    <div className="grid w-full">
+                                    <div className="grid w-40">
                                         <div className="relative">
                                             <label htmlFor="post-link" className="sr-only">
-                                                ID:<Link to={import.meta.env.BASE_URL + "f/" + id} className="mx-2 hover:underline">{id}</Link>
+                                                ID:<Link to={import.meta.env.BASE_URL + "@/" + entryId} className="mx-2 hover:underline">{entryId}</Link>
                                             </label>
                                             <input
                                                 id="post-link"
                                                 type="button"
                                                 className="cursor-pointer col-span-6 block rounded-lg border border-gray-300 bg-gray-50 hover:underline py-2 px-2.5 text-sm text-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-400 dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 w-full text-left"
-                                                value={id}
+                                                value={entryId}
                                                 readOnly
                                                 onClick={handleLinkClick}
                                             />
-                                            <Clipboard.WithIcon icon={LinkIcon} className="dark:bg-gray-600 bg-gray-300 hover:bg-gray-200" valueToCopy={`${import.meta.env.BASE_URL}f/${id}`} />
+                                            <Clipboard.WithIconText label="Copy link" icon={LinkIcon} className="py-1 dark:bg-gray-600 bg-gray-300 hover:bg-gray-200" valueToCopy={`${import.meta.env.BASE_URL}@/${entryId}`} />
                                         </div>
                                     </div>
                                 </span>
@@ -166,7 +167,7 @@ const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }:
                             </p>
                         ) : (
                             <Suspense fallback={<Spinner color="gray" aria-label="Loading" />}>
-                                <img className="remove-watermark" src={postState?.image} alt={"Binary image " + id} width={postState?.width} height={postState?.height} />
+                                <img className="remove-watermark" src={postState?.image} alt={"Binary image " + entryId} width={postState?.width} height={postState?.height} />
                             </Suspense>
                         )}
                     </div>
@@ -194,15 +195,15 @@ const Post: React.FC<PostProps> = ({ id, author, posted, image, width, height }:
                     <div className="w-full flex items-center justify-center width-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">
                         <Password
                             password={postState?.password || ""}
-                            setPassword={(value) => setPostState(id, { password: value })}
+                            setPassword={(value) => setPostState(entryId, { password: value })}
                             encryptionEnabled={postState?.encryptionEnabled || false}
-                            setEncryptionEnabled={(value) => setPostState(id, { encryptionEnabled: value })}
+                            setEncryptionEnabled={(value) => setPostState(entryId, { encryptionEnabled: value })}
                             decryptedText={postState?.decryptedText || ""}
-                            setDecryptedText={(value) => setPostState(id, { decryptedText: value })}
-                            setOutput={(value) => setPostState(id, { output: value })}
+                            setDecryptedText={(value) => setPostState(entryId, { decryptedText: value })}
+                            setOutput={(value) => setPostState(entryId, { output: value })}
                             stringToDecrypt={postState?.stringToDecrypt || ""}
-                            setStringToDecrypt={(value) => setPostState(id, { stringToDecrypt: value })}
-                            setEncryptedText={(value) => setPostState(id, { encryptedText: value })}
+                            setStringToDecrypt={(value) => setPostState(entryId, { stringToDecrypt: value })}
+                            setEncryptedText={(value) => setPostState(entryId, { encryptedText: value })}
                         />
                     </div>
                 </div>

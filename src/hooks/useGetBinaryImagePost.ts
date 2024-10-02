@@ -23,7 +23,7 @@ import { GET_BINARYIMAGEPOST } from "../api/api";
  * @param id The id of the post to fetch
  * @returns An object containing the function to fetch the post
  */
-export const useGetBinaryImagePost = (id: string) => {
+export const useGetBinaryImagePost = (entryId: string) => {
     const { refetch } = useQuery(GET_BINARYIMAGEPOST, {
         context: {
             apiName: "read",
@@ -32,7 +32,7 @@ export const useGetBinaryImagePost = (id: string) => {
         nextFetchPolicy: "cache-first",
         returnPartialData: false,
         variables: {
-            id: id,
+            entryId: entryId,
         },
     });
 
@@ -44,7 +44,7 @@ export const useGetBinaryImagePost = (id: string) => {
      * and error is an object containing any error message.
      */
     const getBinaryImagePost = async (
-        id: string,
+        entryId: string,
     ): Promise<{
         data: any;
         loading: boolean;
@@ -54,7 +54,7 @@ export const useGetBinaryImagePost = (id: string) => {
             data: refetchedData,
             loading: refetchedLoading,
             error: refetchedError,
-        } = await refetch({ id: id });
+        } = await refetch({ entryId: entryId });
         return {
             data: refetchedData,
             loading: refetchedLoading,
