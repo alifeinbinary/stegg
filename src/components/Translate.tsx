@@ -24,6 +24,9 @@ import { Slide, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import { useImageState } from '../utils/stores';
 import { Spinner } from 'flowbite-react/components/Spinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrow } from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from '../hooks/useTheme';
 
 const Decrypt = lazy(() => import('./Decrypt'));
 const Encrypt = lazy(() => import('./Encrypt'));
@@ -52,7 +55,7 @@ const Encrypt = lazy(() => import('./Encrypt'));
  * function, which is used to resize the canvas when more data is added.
  */
 const Translate: React.FC = () => {
-
+    const { theme } = useTheme();
     const {
         setCanvasRef,
         input, setInput,
@@ -174,7 +177,7 @@ const Translate: React.FC = () => {
                             </Suspense>
                         </div>
                     </div>
-                    <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white">Canvas</h4>
+                    <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white"><FontAwesomeIcon icon={faCrow} inverse /></h4>
                     <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100 dark:bg-slate-700 min-h-4' />
                 </div>
             </div>
@@ -188,8 +191,8 @@ const Translate: React.FC = () => {
                 rtl={false}
                 pauseOnFocusLoss={false}
                 draggable
+                theme={theme}
                 pauseOnHover={false}
-                theme="dark"
                 transition={Slide}
             />
         </section>

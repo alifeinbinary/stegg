@@ -15,29 +15,24 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json, LoaderFunction, Route, Routes } from 'react-router-dom';
-import Faq from './Faq';
-import Error from './Error';
+import { json, LoaderFunction, useRouteError } from "react-router-dom";
 
-/**
- * The main component for the root route.
- *
- * This component renders the main content for the root route, including the
- * introduction, how it works, and the technology involved.
- *
- * @returns The JSX element for the root route.
- */
-const Root = () => {
-
+const Error = () => {
+    const error = useRouteError();
+    console.error(error);
     return (
-        <Routes>
-            <Route path="/faq" element={<Faq />} errorElement={<Error />} />
-        </Routes>
+        <div>
+            <h1>Oops!</h1>
+            <p>We couldn't find the steg you are looking for. It's either expired (we delete stegs after one week) or the URL was malformed.</p>
+            {/* <p>
+                <i>{error?.statusText || error?.message}</i>
+            </p> */}
+        </div>
     );
-}
+};
 
-export const rootLoader: LoaderFunction = async () => {
+export const errorLoader: LoaderFunction = async () => {
     return json({});
 }
 
-export default Root;
+export default Error;

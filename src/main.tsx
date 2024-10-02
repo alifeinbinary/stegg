@@ -7,6 +7,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink } from '@apollo
 import './i18n.ts'
 import './index.css'
 // import router from './routes.tsx';
+import Error from './routes/Error.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const readApiHttpLink = createHttpLink({
@@ -74,11 +75,19 @@ const client = new ApolloClient({
   connectToDevTools: true,
   cache
 });
-let router = createBrowserRouter([{ path: "*", element: <App /> }]);
+let router = createBrowserRouter(
+  [
+    {
+      path: "*",
+      element: <App />,
+      errorElement: <Error />
+    }
+  ],
+  { basename: import.meta.env.BASE_URL }
+);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
-      {/* <RouterProvider router={router} /> */}
       <RouterProvider router={router} />
     </ApolloProvider>
   </StrictMode>,
