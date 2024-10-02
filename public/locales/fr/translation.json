@@ -1,88 +1,88 @@
 {
-  "menu": {
-    "home": "Accueil",
-    "about": "À propos de cette app",
-    "faq": "FAQ"
-  },
-  "title": "Flib",
-  "description": {
-    "intro": "Ceci est une application full-stack React écrite en Typescript.",
-    "howitworks": "Comment ça fonctionne :",
-    "paragraph1": "Cette application prend le texte saisi dans le champ <b>Chiffrer</b> et l'écrit dans les métadonnées d'un fichier PNG nouvellement créé, généré à partir de la <b>Canvas</b>. L'image du canvas représente le message sous forme de données binaires : les nœuds remplis représentent des 1 et les nœuds délimités représentent des 0. Si quelqu'un était assez patient, il pourrait traduire le message en texte simplement en interprétant l'image comme des valeurs unicode. C'est pourquoi il y a un <FontAwesomeIcon icon={faLock} className='px-1' /> bouton qui détermine si le message est intégré avec un cryptage AES 128 bits ou en tant que texte brut.",
-    "paragraph2": "Une fois que vous cliquez sur <b>Télécharger</b> ou <b>Poster</b>, le fichier sera téléchargé sur votre appareil ou posté dans le <b>Feed</b>, respectivement. Toute personne avec qui vous partagez l'image pourra extraire et déchiffrer le texte en glissant le fichier PNG dans la zone <b>Déchiffrer</b> et en entrant la clé que vous leur avez fournie, si c'est crypté. De la même manière, vous pourrez déchiffrer tous les messages pour lesquels vous avez le mot de passe.",
-    "paragraph3": "Je me rends compte que personne n'a demandé cela, je l'ai juste fait comme un moyen amusant d'envoyer des messages secrets aux gens qui visitent mon site <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> et j'ai pensé que ce serait un projet amusant à partager en open source pour ceux qui souhaitent en apprendre davantage sur la technologie utilisée."
-  },
-  "technology1": "<li>Typescript</li><li>React</li><li>Canvas HTML</li><li>Cryptographie dans le navigateur</li><li>Génération et consommation d'images</li>",
-  "technology2": "<li>Incorporation de métadonnées dans les fichiers</li><li>Opérations CRUD vers une API sans serveur sur AWS à l'aide de GraphQL</li><li>Stockage de fichiers sur AWS S3 géré par une tâche cron</li><li>Tests Jest</li><li>Internationalisation</li>",
-  "review": "Est-ce comme Twitter pour robots ? Pourquoi quelqu'un ferait-il cela ???",
-  "byline": "Une nouvelle retraitée, ancienne réceptionniste à temps partiel et grand-mère récente de jumeaux à qui j'ai montré cela sur le ferry",
-  "createdwith": "Créé avec",
-  "forkthisproject": "Donnez une étoile au projet à ",
-  "likemywork": "Aimez mon travail ?",
-  "hireme": "Engagez-moi",
-  "encrypt": {
-    "title": "Chiffrer",
-    "modal": {
-      "title": "Comment utiliser cette application",
-      "step1": "Tapez votre message, cliquez pour chiffrer si souhaité, puis sauvegardez/partagez - seuls ceux avec le mot de passe pourront y accéder.",
-      "caveatstitle": "Mises en garde",
-      "step2": "Déposez l'image ici et utilisez le mot de passe fourni pour décoder le message.",
-      "caveatstext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone.",
-      "securitytitle": "Avertissement de sécurité",
-      "securitytext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone."
+    "menu": {
+        "home": "Accueil",
+        "about": "À propos de cette app",
+        "faq": "FAQ"
     },
-    "placeholder": "Tapez vos pensées"
-  },
-  "decrypt": {
-    "title": "Déchiffrer",
-    "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Cliquez pour télécharger</span> ou glissez-déposez pour extraire le message</p><p className='text-xs text-gray-500 dark:text-gray-400'>Format PNG uniquement</p>"
-  },
-  "downloadimagebutton": {
-    "tooltip": {
-      "title": "Télécharger l'image",
-      "hint": "Entrez un message avant de sauvegarder sur le disque"
+    "title": "stegg",
+    "description": {
+        "intro": "Ceci est une application full-stack React écrite en Typescript.",
+        "howitworks": "Comment ça fonctionne :",
+        "paragraph1": "Cette application prend le texte saisi dans le champ <b>Chiffrer</b> et l'écrit dans les métadonnées d'un fichier PNG nouvellement créé, généré à partir de la <b>Canvas</b>. L'image du canvas représente le message sous forme de données binaires : les nœuds remplis représentent des 1 et les nœuds délimités représentent des 0. Si quelqu'un était assez patient, il pourrait traduire le message en texte simplement en interprétant l'image comme des valeurs unicode. C'est pourquoi il y a un <FontAwesomeIcon icon={faLock} className='px-1' /> bouton qui détermine si le message est intégré avec un cryptage AES 128 bits ou en tant que texte brut.",
+        "paragraph2": "Une fois que vous cliquez sur <b>Télécharger</b> ou <b>Poster</b>, le fichier sera téléchargé sur votre appareil ou posté dans le <b>Feed</b>, respectivement. Toute personne avec qui vous partagez l'image pourra extraire et déchiffrer le texte en glissant le fichier PNG dans la zone <b>Déchiffrer</b> et en entrant la clé que vous leur avez fournie, si c'est crypté. De la même manière, vous pourrez déchiffrer tous les messages pour lesquels vous avez le mot de passe.",
+        "paragraph3": "Je me rends compte que personne n'a demandé cela, je l'ai juste fait comme un moyen amusant d'envoyer des messages secrets aux gens qui visitent mon site <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> et j'ai pensé que ce serait un projet amusant à partager en open source pour ceux qui souhaitent en apprendre davantage sur la technologie utilisée."
     },
-    "label": "Télécharger"
-  },
-  "nodesize": {
-    "label": "Taille du nœud"
-  },
-  "password": {
-    "hint": "Entrez une clé secrète",
-    "enable": "Activer le chiffrement",
-    "tooltip": {
-      "content": "Activer le chiffrement AES 128 bits"
+    "technology1": "<li>Typescript</li><li>React</li><li>Canvas HTML</li><li>Cryptographie dans le navigateur</li><li>Génération et consommation d'images</li>",
+    "technology2": "<li>Incorporation de métadonnées dans les fichiers</li><li>Opérations CRUD vers une API sans serveur sur AWS à l'aide de GraphQL</li><li>Stockage de fichiers sur AWS S3 géré par une tâche cron</li><li>Tests Jest</li><li>Internationalisation</li>",
+    "review": "Est-ce comme Twitter pour robots ? Pourquoi quelqu'un ferait-il cela ???",
+    "byline": "Une nouvelle retraitée, ancienne réceptionniste à temps partiel et grand-mère récente de jumeaux à qui j'ai montré cela sur le ferry",
+    "createdwith": "Créé avec",
+    "forkthisproject": "Donnez une étoile au projet à ",
+    "likemywork": "Aimez mon travail ?",
+    "hireme": "Engagez-moi",
+    "encrypt": {
+        "title": "Créer",
+        "modal": {
+            "title": "Comment utiliser cette application",
+            "step1": "Tapez votre message, cliquez pour chiffrer si souhaité, puis sauvegardez/partagez - seuls ceux avec le mot de passe pourront y accéder.",
+            "caveatstitle": "Mises en garde",
+            "step2": "Déposez l'image ici et utilisez le mot de passe fourni pour décoder le message.",
+            "caveatstext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone.",
+            "securitytitle": "Avertissement de sécurité",
+            "securitytext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone."
+        },
+        "placeholder": "Tapez vos pensées"
+    },
+    "decrypt": {
+        "title": "Déchiffrer",
+        "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Cliquez pour télécharger</span> ou glissez-déposez pour extraire le message</p><p className='text-xs text-gray-500 dark:text-gray-400'>Format PNG uniquement</p>"
+    },
+    "downloadimagebutton": {
+        "tooltip": {
+            "title": "Télécharger l'image",
+            "hint": "Entrez un message avant de sauvegarder sur le disque"
+        },
+        "label": "Télécharger"
+    },
+    "nodesize": {
+        "label": "Taille du nœud"
+    },
+    "password": {
+        "hint": "Entrez une clé secrète",
+        "enable": "Activer le chiffrement",
+        "tooltip": {
+            "content": "Activer le chiffrement AES 128 bits"
+        }
+    },
+    "post": {
+        "posted": "Posté"
+    },
+    "postimagebutton": {
+        "toast": {
+            "processing": "Traitement de l'image...",
+            "embedding": "Incorporation des métadonnées...",
+            "size": "Détermination de la taille de l'image...",
+            "presignedpayload": "Récupération de la charge utile de post signé...",
+            "uploading": "Téléchargement dans le bucket S3...",
+            "createimage": "Création de l'image binaire du feed...",
+            "createimagepost": "Création du post d'image binaire...",
+            "publishing": "Post d'image binaire créé.",
+            "success": "Image téléchargée avec succès !",
+            "noencryption": "Chiffrement désactivé. Seuls les messages chiffrés peuvent être postés.",
+            "nocanvasorinput": "Aucune image à télécharger."
+        },
+        "tooltip": {
+            "posttofeed": "Poster l'image sur le feed",
+            "entermessage": "Veuillez entrer un message et un mot de passe avant de poster"
+        },
+        "label": "Poster"
+    },
+    "feed": {
+        "title": "Stegg publiques ",
+        "loadmore": "Charger plus"
+    },
+    "footer": {
+        "rights": "Tous droits réservés",
+        "license": "Publié sous la"
     }
-  },
-  "post": {
-    "posted": "Posté"
-  },
-  "postimagebutton": {
-    "toast": {
-      "processing": "Traitement de l'image...",
-      "embedding": "Incorporation des métadonnées...",
-      "size": "Détermination de la taille de l'image...",
-      "presignedpayload": "Récupération de la charge utile de post signé...",
-      "uploading": "Téléchargement dans le bucket S3...",
-      "createimage": "Création de l'image binaire du feed...",
-      "createimagepost": "Création du post d'image binaire...",
-      "publishing": "Post d'image binaire créé.",
-      "success": "Image téléchargée avec succès !",
-      "noencryption": "Chiffrement désactivé. Seuls les messages chiffrés peuvent être postés.",
-      "nocanvasorinput": "Aucune image à télécharger."
-    },
-    "tooltip": {
-      "posttofeed": "Poster l'image sur le feed",
-      "entermessage": "Veuillez entrer un message et un mot de passe avant de poster"
-    },
-    "label": "Poster"
-  },
-  "feed": {
-    "title": "Feed",
-    "loadmore": "Charger plus"
-  },
-  "footer": {
-    "rights": "Tous droits réservés",
-    "license": "Publié sous la"
-  }
 }

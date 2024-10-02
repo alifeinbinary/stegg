@@ -4,7 +4,7 @@
     "about": "About this app",
     "faq": "FAQ"
   },
-  "title": "Flib",
+  "title": "stegg",
   "description": {
     "intro": "This is a full-stack React application written in Typescript.",
     "howitworks": "How it works:",
@@ -21,7 +21,7 @@
   "likemywork": "Like my work?",
   "hireme": "Hire me",
   "encrypt": {
-    "title": "Encrypt",
+    "title": "Create",
     "modal": {
       "title": "How to use this app",
       "step1": "Type your message, click to encrypt if desired, and save/share - only those with the password can access it.",
@@ -34,7 +34,7 @@
     "placeholder": "Type your thoughts"
   },
   "decrypt": {
-    "title": "Decrypt",
+    "title": "Decode",
     "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Click to upload</span> or drag and drop to extract message</p><p className='text-xs text-gray-500 dark:text-gray-400'>PNG format only</p>"
   },
   "downloadimagebutton": {
@@ -78,7 +78,7 @@
     "label": "Post"
   },
   "feed": {
-    "title": "Feed",
+    "title": "Public steggs",
     "loadmore": "Load more"
   },
   "footer": {
