@@ -38,7 +38,7 @@ i18n
         fallbackLng: "en",
         debug: import.meta.env.MODE === "development",
         backend: {
-            loadPath: "./locales/{{lng}}/{{ns}}.json",
+            loadPath: "../locales/{{lng}}/{{ns}}.json",
         },
         ns: ["translation"],
     });

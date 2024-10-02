@@ -8,7 +8,7 @@ export default defineConfig({
     plugins: [
         react(),
         Sitemap({
-            hostname: "https://feed.alifeinbinary.com",
+            hostname: "https://stegg.alifeinbinary.com",
             i18n: {
                 defaultLanguage: "en",
                 languages: ["en", "es", "fr"],
