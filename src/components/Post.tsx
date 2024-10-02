@@ -124,7 +124,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
     );
 
     return (
-        <div className="group/image transition duration-350 ease-out pb-4" id={entryId} key={entryId}>
+        <div className="group/image transition duration-350 ease-out pb-4" id={entryId} key={id}>
             <div className="flex flex-shrink-0 pb-0">
                 <div className="flex items-top bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 p-4 xs:pb-0 rounded-t-lg">
                     <div className="px-3 xs:px-0">
@@ -195,15 +195,15 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                     <div className="w-full flex items-center justify-center width-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">
                         <Password
                             password={postState?.password || ""}
-                            setPassword={(value) => setPostState(entryId, { password: value })}
+                            setPassword={(value) => setPostState(id, { password: value })}
                             encryptionEnabled={postState?.encryptionEnabled || false}
-                            setEncryptionEnabled={(value) => setPostState(entryId, { encryptionEnabled: value })}
+                            setEncryptionEnabled={(value) => setPostState(id, { encryptionEnabled: value })}
                             decryptedText={postState?.decryptedText || ""}
-                            setDecryptedText={(value) => setPostState(entryId, { decryptedText: value })}
-                            setOutput={(value) => setPostState(entryId, { output: value })}
+                            setDecryptedText={(value) => setPostState(id, { decryptedText: value })}
+                            setOutput={(value) => setPostState(id, { output: value })}
                             stringToDecrypt={postState?.stringToDecrypt || ""}
-                            setStringToDecrypt={(value) => setPostState(entryId, { stringToDecrypt: value })}
-                            setEncryptedText={(value) => setPostState(entryId, { encryptedText: value })}
+                            setStringToDecrypt={(value) => setPostState(id, { stringToDecrypt: value })}
+                            setEncryptedText={(value) => setPostState(id, { encryptedText: value })}
                         />
                     </div>
                 </div>
