@@ -22,16 +22,16 @@ import { CreatePngWithMetadataResult, Dimensions } from "../types";
 
 // Common display dimensions
 const displayDimensions: { [key: string]: Dimensions } = {
-    "1920x1080": { width: 1920, height: 1080 },
-    "1366x768": { width: 1366, height: 768 },
     "3840x2160": { width: 3840, height: 2160 },
-    "2560x1440": { width: 2560, height: 1440 },
     "3200x1800": { width: 3200, height: 1800 },
     "2880x1620": { width: 2880, height: 1620 },
     "2560x1600": { width: 2560, height: 1600 },
+    "2560x1440": { width: 2560, height: 1440 },
     "2048x1536": { width: 2048, height: 1536 },
+    "1920x1080": { width: 1920, height: 1080 },
     "1680x1050": { width: 1680, height: 1050 },
     "1600x900": { width: 1600, height: 900 },
+    "1366x768": { width: 1366, height: 768 },
     "968x544": { width: 968, height: 544 },
 };
 
@@ -254,7 +254,9 @@ async function addMetadataToPng(
     const buffer = await blob.arrayBuffer();
     const pngData = new Uint8Array(buffer);
 
-    const withMessage = addMetadata(pngData, "Message", message);
+    const withVersion = addMetadata(pngData, "Stegversion", "1.0");
+
+    const withMessage = addMetadata(withVersion, "Message", message);
     const withBoolean = addMetadata(
         withMessage,
         "Encrypted",
