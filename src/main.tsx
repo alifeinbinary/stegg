@@ -83,7 +83,7 @@ let router = createBrowserRouter(
       errorElement: <Error />
     }
   ],
-  { basename: import.meta.env.BASE_URL }
+  { basename: import.meta.env.VITE_PUBLIC_URL }
 );
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -138,7 +138,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                                     <div className="grid w-40">
                                         <div className="relative">
                                             <label htmlFor="post-link" className="sr-only">
-                                                ID:<Link to={import.meta.env.BASE_URL + "#/" + entryId} className="mx-2 hover:underline">{entryId}</Link>
+                                                ID:<Link to={import.meta.env.VITE_PUBLIC_URL + "#/" + entryId} className="mx-2 hover:underline">{entryId}</Link>
                                             </label>
                                             <input
                                                 id="post-link"
@@ -148,7 +148,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                                                 readOnly
                                                 onClick={handleLinkClick}
                                             />
-                                            <Clipboard.WithIconText label="Copy link" icon={LinkIcon} className="py-1 dark:bg-gray-600 bg-gray-300 hover:bg-gray-200" valueToCopy={`${import.meta.env.BASE_URL}#/${entryId}`} />
+                                            <Clipboard.WithIconText label="Copy link" icon={LinkIcon} className="py-1 dark:bg-gray-600 bg-gray-300 hover:bg-gray-200" valueToCopy={`${import.meta.env.VITE_PUBLIC_URL}#/${entryId}`} />
                                         </div>
                                     </div>
                                 </span>
