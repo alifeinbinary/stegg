@@ -159,7 +159,7 @@ const Translate: React.FC = () => {
                 convertBinary(input, setOutput);
             }
         }
-    }, [input, password, encryptionEnabled, encryptedText, setOutput]);
+    }, [input, encryptionEnabled, encryptedText, setOutput]);
 
     return (
         <section id="translate" className="px-6 sm:px-2 xs:px-1">
