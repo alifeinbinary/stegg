@@ -44,18 +44,21 @@ function handleDecrypt(
     password: string,
     setDecryptedText: React.Dispatch<string>,
 ) {
+    let decryptionSuccessful = false;
+
     try {
         const bytes = AES.decrypt(stringToDecrypt, password);
         const originalText = bytes.toString(enc.Utf8);
 
-        if (originalText.length === 0) {
-            setDecryptedText(stringToDecrypt);
-        } else {
+        if (originalText.length > 0) {
             setDecryptedText(originalText);
+            decryptionSuccessful = true;
         }
-    } catch (error) {
-        console.info("Decryption failed", error);
-        return;
+    } catch (error) {}
+
+    // Only update the UI if decryption was successful
+    if (decryptionSuccessful) {
+        // Update UI logic here
     }
 }
 
