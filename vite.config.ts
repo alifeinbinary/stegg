@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
             }),
             purgeCss(),
         ],
-        base: mode === "production" ? "https://stegg.alifeinbinary.com/" : "/",
+        base: mode === "production" ? "stegg.alifeinbinary.com/" : "/",
         build: {
             assetsDir: "public",
             sourcemap: true,
