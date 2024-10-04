@@ -3,7 +3,7 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
-    "homepage": "stegg.alifeinbinary.com",
+    "homepage": "https://stegg.alifeinbinary.com/",
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
