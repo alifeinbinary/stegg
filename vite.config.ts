@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
         plugins: [
             react(),
             Sitemap({
-                hostname: "http://stegg.alifeinbinary.com",
+                hostname: "stegg.alifeinbinary.com",
                 i18n: {
                     defaultLanguage: "en",
                     languages: ["en", "es", "fr"],
@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
             }),
             purgeCss(),
         ],
-        base: mode === "production" ? "http://stegg.alifeinbinary.com/" : "/",
+        base: mode === "production" ? "stegg.alifeinbinary.com/" : "/",
         build: {
             assetsDir: "public",
             sourcemap: true,
