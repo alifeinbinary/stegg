@@ -52,7 +52,7 @@ const Header: React.FC = () => {
                         <Routes>
                             <Route path="/" element={<Root />} errorElement={<Error />} />
                             <Route path="/about" element={<About />} errorElement={<Error />} />
-                            <Route path='/@/:id' element={<PostPage />} errorElement={<Error />} />
+                            <Route path='/#/:id' element={<PostPage />} errorElement={<Error />} />
                         </Routes>
                         <Root />
                     </div>
