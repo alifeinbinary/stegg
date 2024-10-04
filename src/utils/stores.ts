@@ -15,7 +15,8 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Message } from "console-feed/lib/definitions/Component";
+// import { Message } from "console-feed/lib/definitions/Component";
+import { Canvas as Fabric } from "fabric";
 import { Dispatch, MutableRefObject } from "react";
 import { create } from "zustand";
 
@@ -24,8 +25,8 @@ interface AppState {
     debugMode: boolean;
     setDebugMode: (value: boolean) => void;
 
-    logs: Message[];
-    setLogs: (value: Message[]) => void;
+    // logs: Message[];
+    // setLogs: (value: Message[]) => void;
 }
 
 interface PostState {
@@ -50,6 +51,9 @@ interface PostStore {
 interface ImageState {
     canvasRef: MutableRefObject<HTMLCanvasElement | null> | null;
     setCanvasRef: (ref: MutableRefObject<HTMLCanvasElement | null>) => void;
+
+    canvas: Fabric | null;
+    setCanvas: (canvas: Fabric) => void;
 
     input: string;
     setInput: (value: string) => void;
@@ -86,8 +90,8 @@ export const useAppState = create<AppState>((set) => ({
     debugMode: false,
     setDebugMode: (value: boolean) => set({ debugMode: value }),
 
-    logs: [],
-    setLogs: (value: Message[]) => set({ logs: value }),
+    // logs: [],
+    // setLogs: (value: Message[]) => set({ logs: value }),
 }));
 
 export const usePostState = create<PostStore>((set) => ({
@@ -107,6 +111,9 @@ export const usePostState = create<PostStore>((set) => ({
 export const useImageState = create<ImageState>((set) => ({
     canvasRef: null, // Initialize with null
     setCanvasRef: (ref) => set(() => ({ canvasRef: ref })),
+
+    canvas: null, // Initialize with null
+    setCanvas: (canvas: Fabric) => set({ canvas }),
 
     input: "",
     setInput: (value: string) => set({ input: value }),
