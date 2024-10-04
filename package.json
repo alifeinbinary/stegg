@@ -17,7 +17,6 @@
         "@fortawesome/free-solid-svg-icons": "^6.6.0",
         "@fortawesome/react-fontawesome": "^0.2.2",
         "apollo3-cache-persist": "^0.15.0",
-        "console-feed": "git+https://github.com/alifeinbinary/console-feed.git#upgrade/console-feed-react-18",
         "crypto-js": "^4.2.0",
         "fabric": "^6.4.3",
         "fabricjs-react": "^2.0.0",
