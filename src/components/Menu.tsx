@@ -90,6 +90,7 @@ const Menu: React.FC = () => {
                     const randomColourIndex = Math.floor(Math.random() * colourList.length);
                     const randomColour = colourList[randomColourIndex];
                     if (path) {
+                        path.style.transition = 'fill 1s ease-in-out';
                         path.style.fill = randomColour;
                     }
                     letters?.forEach((letter, _index) => {
@@ -97,9 +98,10 @@ const Menu: React.FC = () => {
                         while (randomLetterColourIndex === randomColourIndex) {
                             randomLetterColourIndex = Math.floor(Math.random() * colourList.length);
                         }
+                        letter.style.transition = 'color 1.5s ease-in-out';
                         letter.style.color = colourList[randomLetterColourIndex];
                     });
-                }, 750);
+                }, 1000);
             };
 
             const handleMouseOver = () => {
@@ -107,7 +109,9 @@ const Menu: React.FC = () => {
             };
 
             const handleMouseOut = () => {
-                clearInterval(intervalId);
+                if (intervalId) {
+                    clearInterval(intervalId);
+                }
             };
 
             word.addEventListener('mouseover', handleMouseOver);
@@ -116,6 +120,9 @@ const Menu: React.FC = () => {
             return () => {
                 word.removeEventListener('mouseover', handleMouseOver);
                 word.removeEventListener('mouseout', handleMouseOut);
+                if (intervalId) {
+                    clearInterval(intervalId);
+                }
             };
         }
     }, [theme]);
