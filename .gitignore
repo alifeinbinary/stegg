@@ -34,3 +34,4 @@ dist-ssr
 .env
 *.tsbuildinfo
 localhost_2024-*
+.env.production
