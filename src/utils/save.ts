@@ -96,7 +96,7 @@ function trimImageFromCanvas(
         trimmedCtx.textRendering = "geometricPrecision";
         trimmedCtx.fillStyle = "#ffeedd";
         trimmedCtx.fillText(
-            "Decode this image at feed.alifeinbinary.com",
+            "Decode this image at stegg.alifeinbinary.com",
             trimmedWidth - 700,
             trimmedHeight + 42,
         );
