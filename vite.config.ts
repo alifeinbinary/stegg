@@ -1,5 +1,7 @@
 import react from "@vitejs/plugin-react";
+import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
+import viteCompression from "vite-plugin-compression";
 import Sitemap from "vite-plugin-sitemap";
 import { purgeCss } from "vite-plugin-tailwind-purgecss";
 
@@ -16,6 +18,11 @@ export default defineConfig({
             },
         }),
         purgeCss(),
+        viteCompression({ algorithm: "brotliCompress" }),
+        visualizer({
+            filename: "./dist/stats.html",
+            open: true,
+        }),
     ],
     base: "/",
     build: {
@@ -23,7 +30,13 @@ export default defineConfig({
         sourcemap: true,
         rollupOptions: {
             treeshake: "recommended",
+            output: {
+                manualChunks: {
+                    vendor: ["react", "react-dom"],
+                },
+            },
         },
         minify: "esbuild",
+        cssCodeSplit: true,
     },
 });
