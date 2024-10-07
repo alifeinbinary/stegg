@@ -84,5 +84,7 @@
   "footer": {
     "rights": "All rights reserved",
     "license": "Released under the"
-  }
+  },
+  "instructions": "Instructions",
+  "how-it-works": "How it works"
 }
