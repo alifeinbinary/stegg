@@ -17,16 +17,21 @@
 
 import { json, LoaderFunction, useRouteError } from "react-router-dom";
 
+interface RouteError {
+    statusText?: string;
+    message?: string;
+}
+
 const Error = () => {
-    const error = useRouteError();
-    console.error(error);
+    const error = useRouteError() as RouteError;
+
     return (
         <div>
             <h1>Oops!</h1>
             <p>We couldn't find the steg you are looking for. It's either expired (we delete stegs after one week) or the URL was malformed.</p>
-            {/* <p>
+            <p>
                 <i>{error?.statusText || error?.message}</i>
-            </p> */}
+            </p>
         </div>
     );
 };

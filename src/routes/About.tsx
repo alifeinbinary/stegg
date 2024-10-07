@@ -15,35 +15,35 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// import { useTranslation } from 'react-i18next';
-import { Link, Route, Routes } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { json, Link, LoaderFunction, Outlet } from 'react-router-dom';
 import { Navbar } from 'flowbite-react/components/Navbar';
-import Technical from './Technical';
-import Simple from './Simple';
+import { customNavbarTheme } from '../utils/customTheme';
+
 
 const About: React.FC = () => {
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
     return (
         <div>
-            <Navbar>
-                <Link to={"/about/"}>
+            <Navbar fluid rounded theme={customNavbarTheme}>
+                <Link to={"/about/instructions/"}>
                     <Navbar>
-                        Simple
+                        {t('instructions')}
                     </Navbar>
                 </Link>
-                <Link to={"/about/technical"}>
+                <Link to={"/about/how-it-works/"}>
                     <Navbar>
-                        Technical
+                        {t('how-it-works')}
                     </Navbar>
                 </Link>
             </Navbar>
-            <Routes>
-                <Route path='/about/' element={<Simple />} />
-                <Route path='/about/technical' element={<Technical />} />
-            </Routes>
-            <Simple />
+            <Outlet />
         </div>
     )
+}
+
+export const aboutLoader: LoaderFunction = async () => {
+    return json({});
 }
 
 export default About;

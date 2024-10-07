@@ -15,22 +15,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { lazy } from 'react'
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFaceSmile, faStar } from '@fortawesome/free-solid-svg-icons'
-// import { RouterProvider } from 'react-router-dom';
 import Menu from '../components/Menu';
-// import router from '../routes';
-// import { Spinner } from 'flowbite-react';
 import Root from '../routes/Root';
-import { Route, Routes } from 'react-router-dom';
-import Error from '../routes/Error';
-
-
-const About = lazy(() => import('../routes/About'))
-// const Faq = lazy(() => import('../routes/Faq'))
-const PostPage = lazy(() => import('../routes/PostPage'))
 
 /**
  * The Header component is a React functional component that renders the main header of the app.
@@ -49,11 +38,6 @@ const Header: React.FC = () => {
                 <Menu />
                 <div className="py-4 mt-3 px-4 bg-white dark:bg-slate-900 rounded-lg text-left mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                     <div className="relative max-w-screen-lg text-gray-800 sm:text-lg dark:text-gray-400">
-                        <Routes>
-                            <Route path="/" element={<Root />} errorElement={<Error />} />
-                            <Route path="/about" element={<About />} errorElement={<Error />} />
-                            <Route path='/#/:id' element={<PostPage />} errorElement={<Error />} />
-                        </Routes>
                         <Root />
                     </div>
                 </div>

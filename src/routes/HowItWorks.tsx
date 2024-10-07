@@ -20,8 +20,9 @@ import { faLock, faAsterisk, faStar, faFontAwesome } from "@fortawesome/free-sol
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { t } from "i18next";
 import { Trans } from "react-i18next";
+import { json, LoaderFunction } from "react-router-dom";
 
-const Technical: React.FC = () => {
+const HowItWorks: React.FC = () => {
     return (
         <div>
             <p className="mb-4 pt-2 font-bold dark:text-gray-100">{t('description.intro')}</p>
@@ -115,4 +116,8 @@ const Technical: React.FC = () => {
     );
 };
 
-export default Technical;
+export const howItWorksLoader: LoaderFunction = async () => {
+    return json({});
+}
+
+export default HowItWorks;

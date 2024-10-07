@@ -15,9 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json, LoaderFunction, Route, Routes } from 'react-router-dom';
-import Faq from './Faq';
-import Error from './Error';
+import { json, LoaderFunction, Outlet } from 'react-router-dom';
 
 /**
  * The main component for the root route.
@@ -30,9 +28,9 @@ import Error from './Error';
 const Root = () => {
 
     return (
-        <Routes>
-            <Route path="/faq" element={<Faq />} errorElement={<Error />} />
-        </Routes>
+        <>
+            <Outlet />
+        </>
     );
 }
 

@@ -18,7 +18,7 @@
 import { lazy, Suspense } from "react";
 import { Flowbite, Spinner } from "flowbite-react";
 import "./App.css";
-
+import { json, LoaderFunction } from "react-router-dom";
 const Header = lazy(() => import("./components/Header"));
 const Translate = lazy(() => import("./components/Translate"));
 const Feed = lazy(() => import("./components/Feed"));
@@ -75,6 +75,10 @@ function App() {
       </Flowbite>
     </>
   );
+}
+
+export const appLoader: LoaderFunction = async () => {
+  return json({});
 }
 
 export default App;

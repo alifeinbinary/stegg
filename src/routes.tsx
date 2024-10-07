@@ -15,29 +15,47 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// import { createBrowserRouter } from 'react-router-dom';
-// import PostPage, { postLoader } from './routes/PostPage';
-// import Root, { rootLoader } from "./routes/Root";
-// import Faq, { faqLoader } from "./routes/Faq";
+import { createHashRouter } from 'react-router-dom';
+import App, { appLoader } from './App';
+import Error from './routes/Error';
+import PostPage, { postPageLoader } from './routes/PostPage';
+import HowItWorks, { howItWorksLoader } from './routes/HowItWorks';
+import Instructions, { instructionsLoader } from './routes/Instructions';
+import About, { aboutLoader } from './routes/About';
 
-// const router = createBrowserRouter([
-//     {
-//         path: "*",
-//         element: <Root />,
-//         loader: rootLoader,
-//         children: [
-//             {
-//                 path: "f/:id",
-//                 element: <PostPage />,
-//                 loader: postLoader,
-//             },
-//             {
-//                 path: "faq",
-//                 element: <Faq />,
-//                 loader: faqLoader,
-//             },
-//         ],
-//     },
-// ]);
+const router = createHashRouter([
+    {
+        path: "/",
+        element: <App />,
+        loader: appLoader,
+        errorElement: <Error />,
+        children: [
+            {
+                path: "/:id",
+                element: <PostPage />,
+                loader: postPageLoader,
+            },
+            {
+                path: "/about",
+                element: <About />,
+                loader: aboutLoader,
+                children: [
+                    {
+                        path: "/about/instructions",
+                        element: <Instructions />,
+                        loader: instructionsLoader,
+                    },
+                    {
+                        path: "/about/how-it-works",
+                        element: <HowItWorks />,
+                        loader: howItWorksLoader,
+                    },
+                ],
+            },
+        ],
+    },
+],
+    { basename: import.meta.env.VITE_PUBLIC_URL }
+);
 
-// export default router
+export default router

@@ -95,7 +95,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
     const handleLinkClick = (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault();
         console.log("entryId", entryId)
-        navigate(`/#/${entryId}`, { replace: false });
+        navigate(`/${entryId}`);
     };
 
     const convertUrlToUint8Array = async (url: string) => {
@@ -138,7 +138,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                                     <div className="grid w-40">
                                         <div className="relative">
                                             <label htmlFor="post-link" className="sr-only">
-                                                ID:<Link to={import.meta.env.VITE_PUBLIC_URL + "#/" + entryId} className="mx-2 hover:underline">{entryId}</Link>
+                                                ID:<Link to={import.meta.env.VITE_PUBLIC_URL + entryId} className="mx-2 hover:underline">{entryId}</Link>
                                             </label>
                                             <input
                                                 id="post-link"

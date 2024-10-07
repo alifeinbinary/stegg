@@ -1,14 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createHttpLink } from '@apollo/client';
-import App from './App.tsx'
 import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink } from '@apollo/client'
 // import { persistCache } from 'apollo3-cache-persist';
 import './i18n.ts'
 import './index.css'
-// import router from './routes.tsx';
-import Error from './routes/Error.tsx';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
+import router from './routes.tsx';
 
 const readApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_READ_API_URL,
@@ -75,16 +73,9 @@ const client = new ApolloClient({
   connectToDevTools: true,
   cache
 });
-let router = createBrowserRouter(
-  [
-    {
-      path: "*",
-      element: <App />,
-      errorElement: <Error />
-    }
-  ],
-  { basename: import.meta.env.VITE_PUBLIC_URL }
-);
+
+const publicUrl = import.meta.env.VITE_PUBLIC_URL;
+console.log("publicUrl", publicUrl);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>

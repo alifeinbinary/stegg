@@ -15,12 +15,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Simple: React.FC = () => {
+import { json, LoaderFunction } from "react-router-dom";
+
+const Instructions: React.FC = () => {
     return (
         <div>
-            <h1>Simple</h1>
+            <h1>Instructions</h1>
         </div>
     );
 }
 
-export default Simple;
+export const instructionsLoader: LoaderFunction = async () => {
+    return json({});
+}
+
+export default Instructions;

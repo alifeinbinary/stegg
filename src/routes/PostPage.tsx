@@ -16,17 +16,19 @@
  */
 
 import { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import { LoaderFunction, LoaderFunctionArgs, useParams, useLocation } from "react-router-dom";
 import { PostProps } from "../types";
 import { useGetBinaryImagePost } from "../hooks/useGetBinaryImagePost";
 import Post from "../components/Post";
 
 const PostPage: React.FC = () => {
+
     const { id: postId = '' } = useParams();
     const { getBinaryImagePost } = useGetBinaryImagePost(postId);
     const [data, setData] = useState<{ getBinaryImagePost: { data: PostProps } | null }>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
+    const location = useLocation();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +42,7 @@ const PostPage: React.FC = () => {
             }
         };
         fetchData();
-    }, [postId, getBinaryImagePost]);
+    }, [location, postId, getBinaryImagePost]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -59,8 +61,8 @@ const PostPage: React.FC = () => {
     }
 }
 
-export function postLoader({ params }: { params: { id: string } }) {
-    return params.id;
+export const postPageLoader: LoaderFunction = async ({ params }: LoaderFunctionArgs) => {
+    return { id: params.id };
 }
 
 export default PostPage
