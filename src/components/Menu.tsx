@@ -129,10 +129,9 @@ const Menu: React.FC = () => {
 
     return (
         <div>
-            <Navbar id='navbar' fluid rounded className='rounded-lg px-1' theme={customNavbarTheme}>
+            <Navbar id='navbar' fluid rounded className='rounded-lg pl-1 pr-2.5' theme={customNavbarTheme}>
                 <Navbar className='bg-transparent px-2.5 py-0 dark:border-gray-700 dark:bg-transparent sm:px-4'>
-                    {/* <img width={48} height={48} src="../binary-translate.webp" className="mr-3 h-12 w-auto sm:h-9 xs:h-7 xs:mr-2" alt="Flib" /> */}
-                    <FontAwesomeIcon className="mr-3 h-8 w-auto sm:h-9 xs:h-7 xs:mr-2" icon={faEgg} />
+                    <FontAwesomeIcon className="mr-3 h-8 w-auto sm:h-9 xs:h-7 xs:mr-2 text-orange dark:text-lightorange" icon={faEgg} />
                     <span className="self-center whitespace-nowrap text-2xl xs:text-2xl tracking-tight font-bold text-gray-900 dark:text-white">
                         <Link to={"/"} id='stegg'>
                             <div id="stegg">
