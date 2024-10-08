@@ -15,14 +15,28 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Instructions: React.FC = () => {
-    return (
-        <div>
-            <h1 className="mb-4 mt-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white w-2/3">Instructions</h1>
+import { json, LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
 
-            <p className="mb-6 font-light text-gray-500 lg:text-lg dark:text-gray-400 w-2/3">Click on the "How it Works" tab to see how to use the image generator.</p>
-        </div>
-    );
-}
+const appLoader: LoaderFunction = async () => {
+    return json({});
+};
 
-export default Instructions;
+export const postPageLoader: LoaderFunction = async ({
+    params,
+}: LoaderFunctionArgs) => {
+    return { id: params.id };
+};
+
+export const howItWorksLoader: LoaderFunction = async () => {
+    return json({});
+};
+
+export const instructionsLoader: LoaderFunction = async () => {
+    return json({});
+};
+
+export const aboutLoader: LoaderFunction = async () => {
+    return json({});
+};
+
+export { appLoader };

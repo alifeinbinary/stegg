@@ -16,12 +16,13 @@
  */
 
 import { createHashRouter } from 'react-router-dom';
-import App, { appLoader } from './App';
+import App from './App';
 import Error from './routes/Error';
-import PostPage, { postPageLoader } from './routes/PostPage';
-import HowItWorks, { howItWorksLoader } from './routes/HowItWorks';
-import Instructions, { instructionsLoader } from './routes/Instructions';
-import About, { aboutLoader } from './routes/About';
+import PostPage from './routes/PostPage';
+import HowItWorks from './routes/HowItWorks';
+import Instructions from './routes/Instructions';
+import About from './routes/About';
+import { appLoader, postPageLoader, howItWorksLoader, instructionsLoader, aboutLoader } from './utils/loaders';
 
 const router = createHashRouter([
     {

@@ -17,7 +17,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { json, Link, LoaderFunction, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from 'flowbite-react/components/Navbar';
 import { CustomFlowbiteTheme } from 'flowbite-react/components/Flowbite';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -101,10 +101,6 @@ const About: React.FC = () => {
             </div>
         </div>
     )
-}
-
-export const aboutLoader: LoaderFunction = async () => {
-    return json({});
 }
 
 export default About;

@@ -22,7 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "flowbite-react";
 import { t } from "i18next";
 import { Trans } from "react-i18next";
-import { json, LoaderFunction } from "react-router-dom";
 
 const HowItWorks: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -163,9 +162,5 @@ const HowItWorks: React.FC = () => {
         </div>
     );
 };
-
-export const howItWorksLoader: LoaderFunction = async () => {
-    return json({});
-}
 
 export default HowItWorks;

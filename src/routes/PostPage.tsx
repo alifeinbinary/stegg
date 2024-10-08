@@ -17,7 +17,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion';
-import { LoaderFunction, LoaderFunctionArgs, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { PostProps } from "../types";
 import { useGetBinaryImagePost } from "../hooks/useGetBinaryImagePost";
 import Post from "../components/Post";
@@ -111,10 +111,6 @@ const PostPage: React.FC = () => {
             </div>
         );
     }
-}
-
-export const postPageLoader: LoaderFunction = async ({ params }: LoaderFunctionArgs) => {
-    return { id: params.id };
 }
 
 export default PostPage
