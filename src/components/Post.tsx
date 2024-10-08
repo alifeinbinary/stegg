@@ -94,7 +94,6 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
 
     const handleLinkClick = (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault();
-        console.log("entryId", entryId)
         navigate(`/${entryId}`);
     };
 

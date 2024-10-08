@@ -11,15 +11,14 @@ import router from './routes.tsx';
 const readApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_READ_API_URL,
 });
-console.log("readApiHttpLink", import.meta.env.VITE_READ_API_URL)
+
 const mainApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_MAIN_API_URL,
 });
-console.log("mainApiHttpLink", import.meta.env.VITE_MAIN_API_URL)
+
 const manageApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_MANAGE_API_URL,
 });
-console.log("manageApiHttpLink", import.meta.env.VITE_MANAGE_API_URL)
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -75,8 +74,6 @@ const client = new ApolloClient({
   cache
 });
 
-const publicUrl = import.meta.env.VITE_PUBLIC_URL;
-console.log("publicUrl", publicUrl);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
