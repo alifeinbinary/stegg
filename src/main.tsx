@@ -11,15 +11,15 @@ import router from './routes.tsx';
 const readApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_READ_API_URL,
 });
-
+console.log("readApiHttpLink", readApiHttpLink)
 const mainApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_MAIN_API_URL,
 });
-
+console.log("mainApiHttpLink", mainApiHttpLink)
 const manageApiHttpLink = createHttpLink({
   uri: import.meta.env.VITE_MANAGE_API_URL,
 });
-
+console.log("manageApiHttpLink", manageApiHttpLink)
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {

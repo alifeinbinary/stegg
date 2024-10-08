@@ -19,7 +19,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_BINARYFEEDIMAGE } from "../api/api";
 
 interface FmFileResponse {
-    file: any;
+    file: File;
     data: {
         id: string;
         createdOn: string;

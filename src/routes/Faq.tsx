@@ -19,8 +19,6 @@
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { json, LoaderFunction } from "react-router-dom";
-
 /**
  * The Faq component displays the frequently asked questions.
  *
@@ -105,10 +103,6 @@ const Faq: React.FC = () => {
             </div>
         </section>
     )
-}
-
-export const faqLoader: LoaderFunction = async () => {
-    return json({});
 }
 
 export default Faq

@@ -93,7 +93,7 @@ const Menu: React.FC = () => {
                         path.style.transition = 'fill 1s ease-in-out';
                         path.style.fill = randomColour;
                     }
-                    letters?.forEach((letter, _index) => {
+                    letters?.forEach((letter) => {
                         let randomLetterColourIndex = Math.floor(Math.random() * colourList.length);
                         while (randomLetterColourIndex === randomColourIndex) {
                             randomLetterColourIndex = Math.floor(Math.random() * colourList.length);
@@ -125,7 +125,7 @@ const Menu: React.FC = () => {
                 }
             };
         }
-    }, [theme]);
+    }, [colourList, theme]);
 
     return (
         <div>

@@ -17,6 +17,10 @@
 
 import { json, LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
 
+export const rootLoader: LoaderFunction = async () => {
+    return json({});
+};
+
 const appLoader: LoaderFunction = async () => {
     return json({});
 };
@@ -36,6 +40,14 @@ export const instructionsLoader: LoaderFunction = async () => {
 };
 
 export const aboutLoader: LoaderFunction = async () => {
+    return json({});
+};
+
+export const errorLoader: LoaderFunction = async () => {
+    return json({});
+};
+
+export const faqLoader: LoaderFunction = async () => {
     return json({});
 };
 

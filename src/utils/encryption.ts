@@ -54,7 +54,9 @@ function handleDecrypt(
             setDecryptedText(originalText);
             decryptionSuccessful = true;
         }
-    } catch (error) {}
+    } catch (error) {
+        throw new Error(`Error decrypting: ${error}`);
+    }
 
     // Only update the UI if decryption was successful
     if (decryptionSuccessful) {

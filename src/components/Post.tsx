@@ -66,7 +66,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                 encryptionEnabled: false,
             });
         }
-    }, [id, image, author, postState, setPostState]);
+    }, [id, image, author, postState, setPostState, width, height]);
 
     // const handleSaveVisibility = () => {
     //     if (postState?.encryptionEnabled) {

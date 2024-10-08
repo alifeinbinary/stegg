@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json, LoaderFunction, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 /**
  * The main component for the root route.
@@ -32,10 +32,6 @@ const Root = () => {
             <Outlet />
         </>
     );
-}
-
-export const rootLoader: LoaderFunction = async () => {
-    return json({});
 }
 
 export default Root;

@@ -78,9 +78,7 @@ const PostPage: React.FC = () => {
     if (error) {
         return <div>Error: {error.message}</div>;
     }
-    if (data) {
 
-    }
     if (data && data.getBinaryImagePost && data.getBinaryImagePost.data) {
         const { id, entryId, author, posted, image, width, height, key } = data.getBinaryImagePost.data;
         return (

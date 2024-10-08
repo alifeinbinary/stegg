@@ -101,9 +101,9 @@ const DebugConsole = () => {
 
     // Keeping it fresh in the console
     useEffect(() => {
-        if (!DEBUG) {
-            console.clear();
-        }
+        // if (!DEBUG) {
+        //     console.clear();
+        // }
 
         // Debug console
         const items = {

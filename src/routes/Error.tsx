@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json, LoaderFunction, useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router-dom";
 
 interface RouteError {
     statusText?: string;
@@ -35,9 +35,5 @@ const Error = () => {
         </div>
     );
 };
-
-export const errorLoader: LoaderFunction = async () => {
-    return json({});
-}
 
 export default Error;
