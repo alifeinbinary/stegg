@@ -1,0 +1,2 @@
+import{r as t}from"./index-B2axro8o.js";const m=()=>{const[e,a]=t.useState(localStorage.theme==="dark"||!("theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");return t.useEffect(()=>{document.documentElement.classList.toggle("dark",e==="dark")},[e]),{theme:e,toggleTheme:()=>{a(e==="dark"?"light":"dark"),localStorage.theme=e==="dark"?"light":"dark"}}};export{m as u};
+//# sourceMappingURL=useTheme-B4o-m3JJ.js.map
