@@ -2,9 +2,9 @@ import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 import viteCompression from "vite-plugin-compression";
+import { ViteMinifyPlugin } from "vite-plugin-minify";
 import Sitemap from "vite-plugin-sitemap";
 import { purgeCss } from "vite-plugin-tailwind-purgecss";
-
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -23,6 +23,7 @@ export default defineConfig({
             filename: "./dist/stats.html",
             open: true,
         }),
+        ViteMinifyPlugin({}),
     ],
     base: "/",
     build: {
@@ -38,5 +39,8 @@ export default defineConfig({
         },
         minify: "esbuild",
         cssCodeSplit: true,
+    },
+    server: {
+        hmr: true,
     },
 });

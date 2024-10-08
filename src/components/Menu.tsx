@@ -141,12 +141,12 @@ const Menu: React.FC = () => {
                                 <span>g</span>
                                 <span>g</span>
                             </div></Link>
-                        <p id="tagline" className='tagline text-xs font-medium'>make something</p>
+                        <p id="tagline" className='tagline text-xs font-medium'>{t('make-something')}</p>
                     </span>
                 </Navbar>
                 <menu className='flex items-end list-none'>
-                    <Link to={"/about"}>
-                        <Navbar className='block py-3 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent mr-2 xs:mr-0 dark:bg-transparent'>
+                    <Link to={"/about/instructions/"}>
+                        <Navbar className='block py-3 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent mr-2 xs:mr-0 dark:bg-transparent transition duration-500 ease-in-out'>
                             {t('menu.about')}
                         </Navbar>
                     </Link>
@@ -157,7 +157,7 @@ const Menu: React.FC = () => {
                             <Dropdown.Item aria-label='French' onClick={() => changeLanguage('fr')}>French 🇫🇷</Dropdown.Item>
                         </Dropdown>
                     </Navbar.Link>
-                    <Navbar.Link aria-label='Change Theme'>
+                    <Navbar.Link aria-label='Change Theme' className='transition duration-500 ease-in-out'>
                         <DarkThemeToggle onClick={toggleTheme} defaultValue={theme} theme={customToggleTheme} className='text-2xl' />
                     </Navbar.Link>
                 </menu>

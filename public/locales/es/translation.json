@@ -1,90 +1,95 @@
 {
-  "menu": {
-    "home": "Inicio",
-    "about": "Acerca de esta app",
-    "faq": "Preguntas frecuentes"
-  },
-  "title": "stegg",
-  "description": {
-    "intro": "Esta es una aplicación full-stack de React escrita en Typescript.",
-    "howitworks": "Cómo funciona:",
-    "paragraph1": "Esta aplicación toma el texto ingresado en el campo <b>Cifrar</b> y lo escribe en los metadatos de un archivo PNG recién creado, generado a partir del <b>Canvas</b>. La imagen del canvas representa el mensaje como datos binarios: los nodos rellenos representan 1's y los nodos delineados representan 0's. Si alguien tuviera suficiente paciencia, podría traducir el mensaje de nuevo a texto simplemente interpretando la imagen como valores unicode. Es por eso que hay un <FontAwesomeIcon icon={faLock} className='px-1' /> botón que determina si el mensaje está incrustado con cifrado AES de 128 bits o como texto plano.",
-    "paragraph2": "Una vez que hagas clic en <b>Descargar</b> o <b>Publicar</b>, el archivo se descargará en tu dispositivo o se publicará en el <b>Feed</b>, respectivamente. Cualquiera con quien compartas la imagen podrá extraer y descifrar el texto arrastrando el archivo PNG a la zona <b>Descifrar</b> e ingresando la clave que les diste, si está cifrado. Del mismo modo, podrás descifrar las publicaciones para las cuales poseas la contraseña.",
-    "paragraph3": "Me doy cuenta de que nadie pidió esto, solo lo hice como una forma divertida de enviar mensajes secretos a las personas que visitan mi sitio <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> y pensé que sería un proyecto divertido para compartir como código abierto para aquellos que quieran aprender sobre la tecnología utilizada."
-  },
-  "technology1": "<li>Typescript</li><li>React</li><li>Canvas HTML</li><li>Criptografía en el navegador</li><li>Generación y consumo de imágenes</li>",
-  "technology2": "<li>Incorporación de metadatos en archivos</li><li>Operaciones CRUD hacia una API sin servidor en AWS usando GraphQL</li><li>Almacenamiento de archivos en AWS S3 gestionado por un trabajo cron</li><li>Pruebas con Jest</li><li>Internationalización</li>",
-  "review": "¿Es esto como Twitter para robots? ¿Por qué alguien haría esto???",
-  "byline": "Una recién jubilada, ex recepcionista a tiempo parcial y reciente abuela de gemelos a quienes les mostré esto en el ferry",
-  "createdwith": "Creado con",
-  "forkthisproject": "Dale una estrella al proyecto en ",
-  "likemywork": "¿Te gusta mi trabajo?",
-  "hireme": "Contrátame",
-  "encrypt": {
-    "title": "Crear",
-    "modal": {
-      "title": "Cómo usar esta aplicación",
-      "step1": "Escribe tu mensaje, haz clic para cifrar si lo deseas, y guarda/compártelo: solo aquellos con la contraseña podrán acceder.",
-      "caveatstitle": "Advertencias",
-      "step2": "Suelta la imagen aquí y usa la contraseña proporcionada para decodificar el mensaje.",
-      "caveatstext": "Como medida de seguridad, algunos sistemas operativos, especialmente iOS, eliminan los metadatos de las imágenes para evitar que el código malicioso se ejecute en tu teléfono. Esto significa que las imágenes que pases a un tercero no podrán ser descifradas si han sido enviadas desde tu iPhone.",
-      "securitytitle": "Descargo de responsabilidad de seguridad",
-      "securitytext": "Como medida de seguridad, algunos sistemas operativos, especialmente iOS, eliminan los metadatos de las imágenes para evitar que el código malicioso se ejecute en tu teléfono. Esto significa que las imágenes que pases a un tercero no podrán ser descifradas si han sido enviadas desde tu iPhone."
+    "menu": {
+        "home": "Inicio",
+        "about": "Acerca de esta app",
+        "faq": "Preguntas frecuentes"
     },
-    "placeholder": "Escribe tus pensamientos"
-  },
-  "decrypt": {
-    "title": "Descifrar",
-    "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Haz clic para subir</span> o arrastra y suelta para extraer el mensaje</p><p className='text-xs text-gray-500 dark:text-gray-400'>Solo formato PNG</p>"
-  },
-  "downloadimagebutton": {
-    "tooltip": {
-      "title": "Descargar imagen",
-      "hint": "Ingresa un mensaje antes de guardar en el disco"
+    "title": "stegg",
+    "description": {
+        "intro": "Esta es una aplicación full-stack de React escrita en Typescript.",
+        "howitworks": "Cómo funciona:",
+        "paragraph1": "Esta aplicación toma el texto ingresado en el campo <b>Cifrar</b> y lo escribe en los metadatos de un archivo PNG recién creado, generado a partir del <b>Canvas</b>. La imagen del canvas representa el mensaje como datos binarios: los nodos rellenos representan 1's y los nodos delineados representan 0's. Si alguien tuviera suficiente paciencia, podría traducir el mensaje de nuevo a texto simplemente interpretando la imagen como valores unicode. Es por eso que hay un <FontAwesomeIcon icon={faLock} className='px-1' /> botón que determina si el mensaje está incrustado con cifrado AES de 128 bits o como texto plano.",
+        "paragraph2": "Una vez que hagas clic en <b>Descargar</b> o <b>Publicar</b>, el archivo se descargará en tu dispositivo o se publicará en el <b>Feed</b>, respectivamente. Cualquiera con quien compartas la imagen podrá extraer y descifrar el texto arrastrando el archivo PNG a la zona <b>Descifrar</b> e ingresando la clave que les diste, si está cifrado. Del mismo modo, podrás descifrar las publicaciones para las cuales poseas la contraseña.",
+        "paragraph3": "Me doy cuenta de que nadie pidió esto, solo lo hice como una forma divertida de enviar mensajes secretos a las personas que visitan mi sitio <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> y pensé que sería un proyecto divertido para compartir como código abierto para aquellos que quieran aprender sobre la tecnología utilizada."
     },
-    "label": "Descargar"
-  },
-  "nodesize": {
-    "label": "Tamaño del nodo"
-  },
-  "password": {
-    "hint": "Introduce una clave secreta",
-    "enable": "Habilitar cifrado",
-    "tooltip": {
-      "content": "Habilitar cifrado AES de 128 bits"
+    "technology1": "<li>Typescript</li><li>React</li><li>Canvas HTML</li><li>Criptografía en el navegador</li><li>Generación y consumo de imágenes</li>",
+    "technology2": "<li>Incorporación de metadatos en archivos</li><li>Operaciones CRUD hacia una API sin servidor en AWS usando GraphQL</li><li>Almacenamiento de archivos en AWS S3 gestionado por un trabajo cron</li><li>Pruebas con Jest</li><li>Internationalización</li>",
+    "review": "¿Es esto como Twitter para robots? ¿Por qué alguien haría esto???",
+    "byline": "Una recién jubilada, ex recepcionista a tiempo parcial y reciente abuela de gemelos a quienes les mostré esto en el ferry",
+    "createdwith": "Creado con",
+    "forkthisproject": "Dale una estrella al proyecto en ",
+    "likemywork": "¿Te gusta mi trabajo?",
+    "hireme": "Contrátame",
+    "encrypt": {
+        "title": "Crear",
+        "modal": {
+            "title": "Cómo usar esta aplicación",
+            "step1": "Escribe tu mensaje, haz clic para cifrar si lo deseas, y guarda/compártelo: solo aquellos con la contraseña podrán acceder.",
+            "caveatstitle": "Advertencias",
+            "step2": "Suelta la imagen aquí y usa la contraseña proporcionada para decodificar el mensaje.",
+            "caveatstext": "Como medida de seguridad, algunos sistemas operativos, especialmente iOS, eliminan los metadatos de las imágenes para evitar que el código malicioso se ejecute en tu teléfono. Esto significa que las imágenes que pases a un tercero no podrán ser descifradas si han sido enviadas desde tu iPhone.",
+            "securitytitle": "Descargo de responsabilidad de seguridad",
+            "securitytext": "Como medida de seguridad, algunos sistemas operativos, especialmente iOS, eliminan los metadatos de las imágenes para evitar que el código malicioso se ejecute en tu teléfono. Esto significa que las imágenes que pases a un tercero no podrán ser descifradas si han sido enviadas desde tu iPhone."
+        },
+        "placeholder": "Escribe tus pensamientos"
+    },
+    "decrypt": {
+        "title": "Descifrar",
+        "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Haz clic para subir</span> o arrastra y suelta para extraer el mensaje</p><p className='text-xs text-gray-500 dark:text-gray-400'>Solo formato PNG</p>"
+    },
+    "downloadimagebutton": {
+        "tooltip": {
+            "title": "Descargar imagen",
+            "hint": "Ingresa un mensaje antes de guardar en el disco"
+        },
+        "label": "Descargar"
+    },
+    "nodesize": {
+        "label": "Tamaño del nodo"
+    },
+    "password": {
+        "hint": "Introduce una clave secreta",
+        "enable": "Habilitar cifrado",
+        "tooltip": {
+            "content": "Habilitar cifrado AES de 128 bits"
+        }
+    },
+    "post": {
+        "posted": "Publicado"
+    },
+    "postimagebutton": {
+        "toast": {
+            "processing": "Procesando imagen...",
+            "embedding": "Incorporando metadatos...",
+            "size": "Determinando el tamaño de la imagen...",
+            "presignedpayload": "Obteniendo la carga útil del post firmado...",
+            "uploading": "Subiendo al bucket S3...",
+            "createimage": "Creando imagen binaria del feed...",
+            "createimagepost": "Creando post de imagen binaria...",
+            "publishing": "Post de imagen binaria creado.",
+            "success": "¡Imagen subida con éxito!",
+            "noencryption": "Cifrado deshabilitado. Solo los mensajes cifrados pueden ser publicados.",
+            "nocanvasorinput": "No hay imagen para subir."
+        },
+        "tooltip": {
+            "posttofeed": "Publicar imagen en el feed",
+            "entermessage": "Por favor, ingresa un mensaje y una contraseña antes de publicar"
+        },
+        "label": "Publicar"
+    },
+    "feed": {
+        "title": "Stegg públicos",
+        "loadmore": "Cargar más"
+    },
+    "footer": {
+        "rights": "Todos los derechos reservados",
+        "license": "Publicado bajo la"
+    },
+    "instructions": "Instrucciones",
+    "how-it-works": "Cómo functiona",
+    "make-something": "crear algo",
+    "acknowledgements": {
+        "title": "Agradecimientos",
+        "paragraph1": "Esta aplicación no habría sido posible sin las siguientes bibliotecas y proyectos de código abierto:"
     }
-  },
-  "post": {
-    "posted": "Publicado"
-  },
-  "postimagebutton": {
-    "toast": {
-      "processing": "Procesando imagen...",
-      "embedding": "Incorporando metadatos...",
-      "size": "Determinando el tamaño de la imagen...",
-      "presignedpayload": "Obteniendo la carga útil del post firmado...",
-      "uploading": "Subiendo al bucket S3...",
-      "createimage": "Creando imagen binaria del feed...",
-      "createimagepost": "Creando post de imagen binaria...",
-      "publishing": "Post de imagen binaria creado.",
-      "success": "¡Imagen subida con éxito!",
-      "noencryption": "Cifrado deshabilitado. Solo los mensajes cifrados pueden ser publicados.",
-      "nocanvasorinput": "No hay imagen para subir."
-    },
-    "tooltip": {
-      "posttofeed": "Publicar imagen en el feed",
-      "entermessage": "Por favor, ingresa un mensaje y una contraseña antes de publicar"
-    },
-    "label": "Publicar"
-  },
-  "feed": {
-    "title": "Stegg públicos",
-    "loadmore": "Cargar más"
-  },
-  "footer": {
-    "rights": "Todos los derechos reservados",
-    "license": "Publicado bajo la"
-  },
-  "instructions": "Instrucciones",
-  "how-it-works": "Cómo functiona"
 }

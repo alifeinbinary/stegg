@@ -20,7 +20,9 @@ import { json, LoaderFunction } from "react-router-dom";
 const Instructions: React.FC = () => {
     return (
         <div>
-            <h1>Instructions</h1>
+            <h1 className="mb-4 mt-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white w-2/3">Instructions</h1>
+
+            <p className="mb-6 font-light text-gray-500 lg:text-lg dark:text-gray-400 w-2/3">Click on the "How it Works" tab to see how to use the image generator.</p>
         </div>
     );
 }

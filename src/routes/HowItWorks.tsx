@@ -15,17 +15,47 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from "react";
 import { faNodeJs, faNpm, faReact, faAws, faFirefoxBrowser } from "@fortawesome/free-brands-svg-icons";
 import { faLock, faAsterisk, faStar, faFontAwesome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Modal } from "flowbite-react";
 import { t } from "i18next";
 import { Trans } from "react-i18next";
 import { json, LoaderFunction } from "react-router-dom";
 
 const HowItWorks: React.FC = () => {
+    const [openModal, setOpenModal] = useState(false);
+
+    const dependencies = {
+        "dependencies": {
+            "@apollo/client": "^3.11.8",
+            "@fortawesome/free-brands-svg-icons": "^6.6.0",
+            "@fortawesome/free-solid-svg-icons": "^6.6.0",
+            "@fortawesome/react-fontawesome": "^0.2.2",
+            "apollo3-cache-persist": "^0.15.0",
+            "crypto-js": "^4.2.0",
+            "file-saver": "^2.0.5",
+            "flowbite-react": "^0.10.2",
+            "framer-motion": "^11.11.1",
+            "i18next": "^23.15.2",
+            "i18next-browser-languagedetector": "^8.0.0",
+            "i18next-http-backend": "^2.6.2",
+            "jest-environment-jsdom": "^29.7.0",
+            "meta-png": "^1.0.6",
+            "react": "^18.3.1",
+            "react-dom": "^18.3.1",
+            "react-dropzone": "^14.2.9",
+            "react-i18next": "^15.0.2",
+            "react-router-dom": "^6.26.2",
+            "react-toastify": "^10.0.5",
+            "zustand": "^4.5.5"
+        },
+    }
+
     return (
         <div>
-            <p className="mb-4 pt-2 font-bold dark:text-gray-100">{t('description.intro')}</p>
+            <h1 className="mb-4 mt-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white w-2/3">{t('description.intro')}</h1>
             <p className="mb-4 font-base dark:text-gray-100"><b>{t('description.howitworks')}</b> <Trans i18nKey="description.paragraph1" components={{ b: <b />, FontAwesomeIcon: <FontAwesomeIcon icon={faLock} /> }}>This app takes the text input from <b>Encrypt</b> field and writes it to the metadata of a newly created PNG file that is generated from the <b>Canvas</b>. The canvas image depicts the message as binary data: nodes that are filled represent 1's and nodes that are outlined represent 0's. If someone was patient enough, they could translate the message back to text just by interpreting the image as unicode values. That's why there is a <FontAwesomeIcon icon={faLock} className='px-1' /> toggle that deteremines whether the message is embedded with 128-bit AES encryption or as plain text.</Trans></p>
             <p className="mb-4 font-base dark:text-gray-100"><Trans i18nKey="description.paragraph2" components={{ b: <b />, }}>Once you click <b>Save</b> or <b>Post</b>, the file will be downloaded to your device or posted to the <b>Feed</b>, respectively. Whomever you share the image with would be able to extract and decipher the text by dragging the PNG file into the <b>Decrypt</b> zone and entering the passkey you provided them with, if it's encrypted. Likewise, you'll be able to decipher whichever posts you possess the password for.</Trans></p>
             <p className='mb-4 font-base dark:text-gray-100'><Trans i18nKey="description.paragraph3" components={{ b: <b />, a: <a /> }}>I realise that nobody asked for this, I just made it as a fun way to send secret messages to the people who visit my site <a className='text-orange font-medium hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> and thought it would be a fun project to share as open source for those who are wanting to learn about the technology within.</Trans></p>
@@ -71,6 +101,7 @@ const HowItWorks: React.FC = () => {
                         </Trans>
                     </ul>
                 </div>
+                <a className='text-orange text-sm font-medium hover:underline dark:text-orange cursor-pointer' tabIndex={0} onClick={() => setOpenModal(true)}>{t('acknowledgements.title')}</a>
             </div>
             <div className="inline-flex items-center justify-center w-full">
                 <hr className="w-64 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
@@ -112,6 +143,23 @@ const HowItWorks: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal.Header>{t('acknowledgements.title')}</Modal.Header>
+                <Modal.Body>
+                    <div className="space-y-6">
+                        <p className="text-base leading-relaxed text-gray-700 dark:text-gray-200">
+                            {t('acknowledgements.paragraph1')}
+                        </p>
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            <pre>
+                                <code className='dark:bg-gray-800 bg-gray-200 p-1 rounded text-sm'>
+                                    {JSON.stringify(dependencies, null, 2)}
+                                </code>
+                            </pre>
+                        </p>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 };
