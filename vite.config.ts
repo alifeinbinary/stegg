@@ -31,16 +31,13 @@ export default defineConfig({
         sourcemap: true,
         rollupOptions: {
             treeshake: "recommended",
-            output: {
-                manualChunks: {
-                    vendor: ["react", "react-dom"],
-                },
-            },
+            // output: {
+            //     manualChunks: {
+            //         vendor: ["react", "react-dom"],
+            //     },
+            // },
         },
         minify: "esbuild",
         cssCodeSplit: true,
-    },
-    server: {
-        hmr: true,
     },
 });

@@ -23,9 +23,9 @@ concurrency:
 jobs:
     # Single deploy job since we're just deploying
     deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
+        # environment:
+        #     name: github-pages
+        #     url: ${{ steps.deployment.outputs.page_url }}
         env:
             VITE_MAIN_API_URL: ${{ secrets.VITE_MAIN_API_URL }}
             VITE_MANAGE_API_URL: ${{ secrets.VITE_MANAGE_API_URL }}
