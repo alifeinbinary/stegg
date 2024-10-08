@@ -74,6 +74,8 @@ const client = new ApolloClient({
   cache
 });
 
+const publicUrl = import.meta.env.VITE_PUBLIC_URL;
+console.log("publicUrl", publicUrl);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
