@@ -114,7 +114,7 @@ const Feed: FC = (): ReactElement => {
     return (
         <div id="feed">
             <div className="flex-inline items-center justify-center lg:py-8 px-12 max-w-screen-lg mx-auto w-full xs:px-1 md:px-4 pb-1 pt-8">
-                <h4 className="h4 sm:hidden mb-2 text-left text-2xl font-bold dark:text-white xs:hidden">
+                <h4 className="h4 sm:hidden mb-2 text-left text-2xl font-bold text-white xs:hidden">
                     {t("feed.title")}
                 </h4>
                 {posts.map((post) => (

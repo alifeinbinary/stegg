@@ -1,4 +1,4 @@
-# Binary Translator
+# Stegg
 
 This is a front-end React application written in Typescript.
 
@@ -18,10 +18,13 @@ This project is published under the GPLv3 license.
 - Cryptography in the browser
 - Image generation and consumption
 - Embedding metadata in files
+- React router
+- Internationalisation
+- API with AWS Lambda
 
 ## Demo
 
-You can play with a [demo](https://alifeinbinary.github.io/binary-translate/) here.
+You can play with a [demo](https://alifeinbinary.github.io/stegg/) here.
 
 ## Getting started
 

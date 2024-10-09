@@ -142,7 +142,7 @@ const Decrypt: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setS
     const { getRootProps, getInputProps, acceptedFiles } = useDropzone({ onDrop, noClick: true, noKeyboard: true, accept: { 'image/png': ['.png'] } })
     return (
         <div className='w-full h-full pt-2 sm:pt-0 xs:pt-0'>
-            <h4 className="mb-2 h4 text-2xl sm:hidden xs:hidden text-left font-bold dark:text-white">{t('decrypt.title')}</h4>
+            <h4 className="mb-2 h4 text-2xl sm:hidden xs:hidden text-left font-bold text-white">{t('decrypt.title')}</h4>
             <div {...getRootProps()} className="flex items-center justify-center w-full h-[17em] xs:h-32 mb-4 sm:mb-0 xs:mb-0">
                 <label onChange={() => onDrop([...acceptedFiles])} tabIndex={0} htmlFor="dropzone-file" className="flex transition ease-in-out duration-300 flex-col items-center justify-center w-full h-full px-2 border-2 border-gray-300 border-dashed rounded-lg xs:rounded-none xs:rounded-b-lg cursor-pointer bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
                     <div className="flex flex-col items-center justify-center text-center">
