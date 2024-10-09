@@ -2,7 +2,7 @@
     "name": "stegg",
     "private": true,
     "version": "1.0.0",
-    "homepage": ".",
+    "homepage": "https://stegg.alifeinbinary.com/",
     "type": "module",
     "scripts": {
         "dev": "vite",

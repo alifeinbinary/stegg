@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
-import viteCompression from "vite-plugin-compression";
+// import viteCompression from "vite-plugin-compression";
 import { ViteMinifyPlugin } from "vite-plugin-minify";
 import Sitemap from "vite-plugin-sitemap";
 import { purgeCss } from "vite-plugin-tailwind-purgecss";
@@ -18,7 +18,7 @@ export default defineConfig({
             },
         }),
         purgeCss(),
-        viteCompression({ algorithm: "brotliCompress" }),
+        // viteCompression({ algorithm: "brotliCompress" }),
         visualizer({
             filename: "./dist/stats.html",
             open: true,
