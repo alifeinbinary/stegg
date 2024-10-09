@@ -7,7 +7,6 @@ import Sitemap from "vite-plugin-sitemap";
 import { purgeCss } from "vite-plugin-tailwind-purgecss";
 // https://vitejs.dev/config/
 
-const mode = process.env.NODE_ENV;
 export default defineConfig({
     plugins: [
         react(),
@@ -27,7 +26,7 @@ export default defineConfig({
         }),
         ViteMinifyPlugin({}),
     ],
-    base: mode === "production" ? "https://stegg.alifeinbinary.com/" : "/",
+    base: "/",
     build: {
         assetsDir: "public",
         sourcemap: true,
