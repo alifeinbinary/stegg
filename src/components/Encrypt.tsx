@@ -89,7 +89,7 @@ const Encrypt: React.FC = () => {
                 </div>
             </span>
             {/* <!-- Main modal --> */}
-            <Modal show={openModal} onClose={() => setOpenModal(false)}>
+            <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
                 <Modal.Header>{t("encrypt.modal.title")}</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">

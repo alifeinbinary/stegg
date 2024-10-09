@@ -20,15 +20,15 @@
 //   verbose: true,
 // };
 module.exports = {
-  testEnvironment: "jsdom",
-  resetMocks: true,
-  transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
-  },
+    testEnvironment: "jsdom",
+    resetMocks: true,
+    transform: {
+        "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+    },
 
-  setupFilesAfterEnv: ["@testing-library/jest-dom"],
+    setupFilesAfterEnv: ["@testing-library/jest-dom"],
 
-  moduleNameMapper: {
-    "\\.css$": "identity-obj-proxy",
-  },
+    moduleNameMapper: {
+        "\\.css$": "identity-obj-proxy",
+    },
 };
