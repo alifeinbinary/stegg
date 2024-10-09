@@ -31,7 +31,6 @@ jobs:
             VITE_MANAGE_API_URL: ${{ secrets.VITE_MANAGE_API_URL }}
             VITE_READ_API_URL: ${{ secrets.VITE_READ_API_URL }}
             VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
-            VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
