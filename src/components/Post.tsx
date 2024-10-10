@@ -20,7 +20,7 @@ import { faUser, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getMetadata } from "meta-png";
 import Password from "./Password";
 import { usePostState } from "../utils/stores";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState, useRef, useLayoutEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "flowbite-react/components/Spinner";
@@ -28,7 +28,7 @@ import { saveAs } from "file-saver";
 import { Link, useNavigate } from 'react-router-dom';
 import { Clipboard } from "flowbite-react/components/Clipboard";
 import { PostProps } from "../types";
-
+import { AnimatePresence, motion } from 'framer-motion';
 /**
  * A single post in the feed, displaying the image and allowing the user to input a password to decrypt the image.
  * 
@@ -48,6 +48,9 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
     const postState = usePostState((state) => state.posts[id]);
     const setPostState = usePostState((state) => state.setPostState);
     const navigate = useNavigate();
+    const [contentHeight, setContentHeight] = useState<string | number>('auto');
+    const imageRef = useRef<HTMLDivElement>(null);
+    const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
 
     // Initialize the state for this post if it doesn't exist
     useEffect(() => {
@@ -68,12 +71,66 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
         }
     }, [id, image, author, postState, setPostState, width, height]);
 
-    // const handleSaveVisibility = () => {
-    //     if (postState?.encryptionEnabled) {
-    //         return !(postState.password && postState.input);
-    //     }
-    //     return !postState?.input.length;
-    // };
+    useLayoutEffect(() => {
+        if (imageRef.current) {
+            const updateContentHeight = () => {
+                const newHeight = imageRef.current?.scrollHeight;
+                if (newHeight) {
+                    setContentHeight(newHeight);
+                }
+            };
+
+            updateContentHeight();
+
+            window.addEventListener('resize', updateContentHeight);
+
+            return () => {
+                window.removeEventListener('resize', updateContentHeight);
+            };
+        }
+    }, [imageRef]);
+
+    useEffect(() => {
+        if (imageRef.current || postState?.decryptedText) {
+            const updateContentHeight = () => {
+                const newHeight = imageRef.current?.scrollHeight;
+                if (newHeight) {
+                    setContentHeight(newHeight);
+                }
+            };
+
+            updateContentHeight();
+        }
+
+    }, [imageRef, postState?.decryptedText]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (imageRef.current) {
+                const { width, height } = imageRef.current.getBoundingClientRect();
+                setDimensions({ width, height });
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [imageRef]);
+
+    useEffect(() => {
+        if (dimensions.width !== 0 && dimensions.height !== 0) {
+            const updateContentHeight = () => {
+                const newHeight = imageRef.current?.scrollHeight;
+                if (newHeight) {
+                    setContentHeight(newHeight);
+                }
+            };
+
+            updateContentHeight();
+        }
+    }, [dimensions, imageRef]);
 
     const handleImageDownload = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -158,18 +215,39 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
             </div>
             <div>
                 <div className="min-h-max">
-                    <div className="flex items-center justify-center pt-5 pb-3 px-7 xs:px-4 xs:pt-5 xs:pb-0 bg-gray-50 xs:min-h-[140px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
-                        {!postState?.image ? <Spinner color="gray" aria-label="Loading" /> : null}
-                        {postState?.decryptedText ? (
-                            <p className="flex items-center justify-center break-words text-wrap text-xl text-left w-full font-medium text-gray-900 dark:text-white flex-shrink pb-10 min-h-[415px]" style={{ overflowWrap: "anywhere" }}>
-                                {postState.decryptedText}
-                            </p>
-                        ) : (
-                            <Suspense fallback={<Spinner color="gray" aria-label="Loading" />}>
-                                <img className="remove-watermark" src={postState?.image} alt={"Binary image " + entryId} width={postState?.width} height={postState?.height} />
-                            </Suspense>
-                        )}
-                    </div>
+                    <motion.div
+                        initial={{ height: 'auto' }}
+                        animate={{ height: contentHeight }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        style={{
+                            overflow: 'hidden',
+                            transitionProperty: 'height',
+                            transitionDuration: '0.5s',
+                            transitionTimingFunction: 'ease-in-out',
+                        }}
+                    >
+                        <AnimatePresence mode='wait'>
+                            <motion.div
+                                key={location.pathname}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <div ref={imageRef} className="flex items-center justify-center pt-5 pb-3 px-7 xs:px-4 xs:pt-5 xs:pb-0 bg-gray-50 xs:min-h-[140px] h-full dark:bg-slate-900 group-hover/image:dark:bg-slate-700 rounded-tr-lg transition-colors duration-300 peer/image">
+                                    {!postState?.image ? <Spinner color="gray" aria-label="Loading" /> : null}
+                                    {postState?.decryptedText ? (
+                                        <p className="flex items-center justify-center break-words text-wrap text-xl text-left w-full font-medium text-gray-900 dark:text-white flex-shrink pb-10 min-h-[415px]" style={{ overflowWrap: "anywhere" }}>
+                                            {postState.decryptedText}
+                                        </p>
+                                    ) : (
+                                        <Suspense fallback={<Spinner color="gray" aria-label="Loading" />}>
+                                            <img className="remove-watermark" src={postState?.image} alt={"Binary image " + entryId} width={postState?.width} height={postState?.height} />
+                                        </Suspense>
+                                    )}
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </motion.div>
                 </div>
                 <div className="flex justify-between">
                     <div className="max-w-56 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-bl-lg">
@@ -179,16 +257,6 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                                     <FontAwesomeIcon icon={faDownload} />
                                 </button>
                             </div>
-                            {/* <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
-                                <button aria-label="Send image by email" title="Send image by email" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-seablue hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
-                                    <FontAwesomeIcon icon={faShare} />
-                                </button>
-                            </div> */}
-                            {/* <div className="flex-1 flex items-center p-3 dark:text-white text-lg text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 transition duration-350 ease-in-out">
-                                <button aria-label="Delete post" className="inline-flex h-9 w-9 items-center transition ease-in-out duration-300 cursor-pointer px-3 py-2.5 text-sm font-medium text-center rounded-lg bg-gray-200 hover:ring-transparent text-gray-900 hover:bg-orange hover:text-white focus:ring-blue-200 focus:ring-4" onClick={() => toast.info("Image downloaded.")} disabled={handleSaveVisibility()}>
-                                    <FontAwesomeIcon icon={faTrashCan} />
-                                </button>
-                            </div> */}
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-center width-auto max-w-72 bg-gray-50 dark:bg-slate-900 group-hover/image:dark:bg-slate-700 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">

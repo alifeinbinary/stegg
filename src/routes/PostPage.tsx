@@ -15,8 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState, useEffect, useRef } from 'react'
-import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect } from 'react'
 import { useParams, useLocation } from "react-router-dom";
 import { PostProps } from "../types";
 import { useGetBinaryImagePost } from "../hooks/useGetBinaryImagePost";
@@ -30,34 +29,8 @@ const PostPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const location = useLocation();
-    const [contentHeight, setContentHeight] = useState<string | number>('auto');
-    const [isHeightTransitionDone, setIsHeightTransitionDone] = useState(false);
-    const [isContentVisible, setIsContentVisible] = useState(true);
-    const contentWrapperRef = useRef<HTMLDivElement>(null);
-
-    const spring = {
-        type: "spring",
-        damping: 10,
-        stiffness: 50
-    }
 
     useEffect(() => {
-        const contentElement = contentWrapperRef.current;
-        if (contentElement) {
-            // Reset state to hide content and prepare for height animation
-            setIsContentVisible(true);
-            setIsHeightTransitionDone(false);
-
-            // Measure new content height without showing it
-            const height = contentElement.scrollHeight;
-            setContentHeight(`${height}px`);
-
-            // Once height animation completes, show content
-            setTimeout(() => {
-                setIsHeightTransitionDone(true); // Height animation done, now show content
-                setIsContentVisible(true); // Trigger the fade-in
-            }); // Match this duration to the height animation timing
-        }
         const fetchData = async () => {
             try {
                 const result = await getBinaryImagePost(postId);
@@ -83,29 +56,7 @@ const PostPage: React.FC = () => {
         const { id, entryId, author, posted, image, width, height, key } = data.getBinaryImagePost.data;
         return (
             <div>
-                <motion.div
-                    initial={{ height: 0, opacity: 0, visibility: 'visible' }}
-                    animate={{ height: contentHeight, opacity: 1 }}
-                    style={{ height: contentHeight }} // Animate height change
-                    transition={spring}
-                    exit={{ opacity: 0, visibility: 'hidden' }}
-                >
-                    <AnimatePresence mode='wait'>
-                        <motion.div
-                            key={location.pathname}
-                            ref={contentWrapperRef}
-                            initial={{ opacity: 0 }} // Start hidden and off-layout
-                            animate={
-                                isHeightTransitionDone && isContentVisible
-                                    ? { opacity: 1 } // Only after height transition, show content
-                                    : {}
-                            }
-                            transition={{ duration: 1, ease: 'easeInOut', delay: 0.5 }}
-                        >
-                            {isContentVisible ? <Post key={key} id={id} entryId={entryId} author={author} posted={posted} image={image} width={width} height={height} /> : null}
-                        </motion.div>
-                    </AnimatePresence>
-                </motion.div>
+                <Post key={key} id={id} entryId={entryId} author={author} posted={posted} image={image} width={width} height={height} />
             </div>
         );
     }
