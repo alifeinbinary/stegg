@@ -97,7 +97,7 @@ function trimImageFromCanvas(
         trimmedCtx.fillStyle = "#ffeedd";
         trimmedCtx.fillText(
             "Decode this image at stegg.alifeinbinary.com",
-            trimmedWidth - 700,
+            trimmedWidth - 750,
             trimmedHeight + 42,
         );
     }
@@ -309,7 +309,7 @@ async function createPngWithMetadata(
     encryptedText: string,
     input: string,
     toastId: Id,
-): Promise<CreatePngWithMetadataResult | undefined> {
+): Promise<CreatePngWithMetadataResult> {
     const message = encryptionEnabled ? encryptedText : input;
 
     /**
@@ -385,7 +385,7 @@ async function createPngWithMetadata(
         if (action === "download") {
             handleBlobInfo("Trimming and scaling canvas", 0.14);
 
-            const trimmedCanvas = await trimImageFromCanvas(canvas, false);
+            const trimmedCanvas = await trimImageFromCanvas(canvas, true);
             const scaledCanvas = await scaleCanvas(trimmedCanvas, key, action);
 
             const { payloadImage, filename } =
@@ -393,7 +393,7 @@ async function createPngWithMetadata(
 
             handleBlobInfo("Saving image to disk", 1.0);
             saveToDisk(payloadImage, filename);
-            return;
+            return { payloadImage, filename, outputWidth: 0, outputHeight: 0 };
         } else if (action === "post") {
             handleBlobInfo("Scaling canvas", 0.14);
 
