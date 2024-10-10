@@ -99,6 +99,20 @@ const clearContx = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
     contx?.clearRect(0, 0, canv.width, canv.height);
 };
 
+function memoise<T extends (...args: any[]) => any>(fn: T) {
+    const cache: { [key: string]: any } = {};
+
+    return ((...args: Parameters<T>) => {
+        const key = JSON.stringify(args);
+        if (cache[key]) {
+            return cache[key];
+        }
+        const result = fn(...args);
+        cache[key] = result;
+        return result;
+    }) as T;
+}
+
 /**
  * Draws a binary image on a canvas.
  *
@@ -151,6 +165,8 @@ function plot(
     contx.imageSmoothingQuality = "high";
 
     clearContx(canvasRef);
+
+    const memoisedDoLoop = memoise(doLoop);
 
     let iter = 0;
     let sizeMultiplier = 87;
@@ -241,7 +257,7 @@ function plot(
         seedOffset = 10;
         lineHeight = 60;
         columnDivider = 8;
-        doLoop(
+        memoisedDoLoop(
             contx,
             sizeModifier,
             sizeMultiplier,
@@ -257,7 +273,7 @@ function plot(
         seedOffset = 10;
         lineHeight = 90;
         columnDivider = 4;
-        doLoop(
+        memoisedDoLoop(
             contx,
             sizeModifier,
             sizeMultiplier,
