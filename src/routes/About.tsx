@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Navbar } from 'flowbite-react/components/Navbar';
@@ -35,34 +35,55 @@ const About: React.FC = () => {
     const { t } = useTranslation();
     const location = useLocation();
     const [contentHeight, setContentHeight] = useState<string | number>('auto');
-    const [isHeightTransitionDone, setIsHeightTransitionDone] = useState(false);
-    const [isContentVisible, setIsContentVisible] = useState(true);
-    const contentWrapperRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
+
+    useLayoutEffect(() => {
+        if (contentRef.current) {
+            const updateContentHeight = () => {
+                const newHeight = contentRef.current?.scrollHeight;
+                if (newHeight) {
+                    setContentHeight(newHeight);
+                }
+            };
+
+            updateContentHeight();
+
+            window.addEventListener('resize', updateContentHeight);
+
+            return () => {
+                window.removeEventListener('resize', updateContentHeight);
+            };
+        }
+    }, [contentRef, location.pathname]);
 
     useEffect(() => {
-        const contentElement = contentWrapperRef.current;
-        if (contentElement) {
-            // Reset state to hide content and prepare for height animation
-            setIsContentVisible(false);
-            setIsHeightTransitionDone(false);
+        const handleResize = () => {
+            if (contentRef.current) {
+                const { width, height } = contentRef.current.getBoundingClientRect();
+                setDimensions({ width, height });
+            }
+        };
 
-            // Measure new content height without showing it
-            const height = contentElement.scrollHeight;
-            setContentHeight(`${height}px`);
+        window.addEventListener('resize', handleResize);
 
-            // Once height animation completes, show content
-            setTimeout(() => {
-                setIsHeightTransitionDone(true); // Height animation done, now show content
-                setIsContentVisible(true); // Trigger the fade-in
-            }); // Match this duration to the height animation timing
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [contentRef]);
+
+    useEffect(() => {
+        if (dimensions.width !== 0 && dimensions.height !== 0) {
+            const updateContentHeight = () => {
+                const newHeight = contentRef.current?.scrollHeight;
+                if (newHeight) {
+                    setContentHeight(newHeight);
+                }
+            };
+
+            updateContentHeight();
         }
-    }, [location.pathname]);
-
-    const spring = {
-        type: "spring",
-        damping: 10,
-        stiffness: 50
-    }
+    }, [dimensions, contentRef]);
 
     return (
         <div>
@@ -76,25 +97,26 @@ const About: React.FC = () => {
             </Navbar>
             <div>
                 <motion.div
-                    initial={{ height: 0, opacity: 0, visibility: 'visible' }}
-                    animate={{ height: contentHeight, opacity: 1 }}
-                    style={{ height: contentHeight }} // Animate height change
-                    transition={spring}
-                    exit={{ opacity: 0, visibility: 'hidden' }}
+                    initial={{ height: 'auto' }}
+                    animate={{ height: contentHeight }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                    style={{
+                        overflow: 'hidden',
+                        transitionProperty: 'height',
+                        transitionDuration: '0.5s',
+                        transitionTimingFunction: 'ease-in-out',
+                    }}
                 >
                     <AnimatePresence mode='wait'>
                         <motion.div
                             key={location.pathname}
-                            ref={contentWrapperRef}
-                            initial={{ opacity: 0 }} // Start hidden and off-layout
-                            animate={
-                                isHeightTransitionDone && isContentVisible
-                                    ? { opacity: 1 } // Only after height transition, show content
-                                    : {}
-                            }
-                            transition={{ duration: 1, ease: 'easeInOut', delay: 0.5 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
                         >
-                            {isContentVisible ? <Outlet /> : null}
+                            <div ref={contentRef} className='pb-8'>
+                                <Outlet />
+                            </div>
                         </motion.div>
                     </AnimatePresence>
                 </motion.div>
