@@ -55,7 +55,8 @@ function handleDecrypt(
             decryptionSuccessful = true;
         }
     } catch (error) {
-        throw new Error(`Error decrypting: ${error}`);
+        console.debug(error);
+        // throw new Error(`Error decrypting: ${error}`);
     }
 
     // Only update the UI if decryption was successful
