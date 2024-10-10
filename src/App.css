@@ -64,6 +64,7 @@
     /* // used to control the opacity of the progress trail */
     --toastify-color-progress-bgo: 0.2;
 }
+
 ol[role="tree"] {
     display: none;
 }

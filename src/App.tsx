@@ -17,6 +17,7 @@
 
 import { lazy, Suspense } from "react";
 import { Flowbite, Spinner } from "flowbite-react";
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 
 const Header = lazy(() => import("./components/Header"));
