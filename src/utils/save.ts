@@ -179,28 +179,6 @@ async function scaleCanvas(
         };
     });
 }
-// For refactoring
-// function createCanvas(width: number, height: number): HTMLCanvasElement {
-//     const canvas = document.createElement("canvas");
-//     canvas.width = width;
-//     canvas.height = height;
-//     return canvas;
-// }
-
-// function drawImage(
-//     ctx: CanvasRenderingContext2D,
-//     img: HTMLImageElement,
-//     imgWidth: number,
-//     imgHeight: number,
-//     displayWidth: number,
-//     displayHeight: number,
-// ) {
-//     const posX = (displayWidth - imgWidth) / 2;
-//     const posY = (displayHeight - imgHeight) / 2;
-//     ctx.imageSmoothingEnabled = true;
-//     ctx.imageSmoothingQuality = "high";
-//     ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
-// }
 
 /**
  * Saves a blob to disk with the given filename.
@@ -323,7 +301,7 @@ function getCanvasBlob(canvas: HTMLCanvasElement): Promise<Blob> {
  * @returns {Promise<{ payloadImage: Blob; filename: string }>} A promise that
  * resolves with a blob and a filename.
  */
-function createPngWithMetadata(
+async function createPngWithMetadata(
     canvas: HTMLCanvasElement,
     key: string,
     action: string,
@@ -331,20 +309,14 @@ function createPngWithMetadata(
     encryptedText: string,
     input: string,
     toastId: Id,
-): Promise<{
-    payloadImage: Blob;
-    filename: string;
-    outputWidth: number;
-    outputHeight: number;
-}> {
+): Promise<CreatePngWithMetadataResult | undefined> {
     const message = encryptionEnabled ? encryptedText : input;
-    // const fileAndFunction = `save.createPngWithMetadata[${action}]: `;
 
     /**
-     * Update the toast message with the given error message and set the type
-     * to "error". Returns the error message as an Error object.
-     * @param {string} errMsg The error message to display in the toast.
-     * @returns {Error} The error message as an Error object.
+     * Handles an error while generating a PNG blob by updating the toast
+     * with the error message and returning the error.
+     * @param {string} errMsg The error message.
+     * @returns {Error} The error with the message.
      */
     const handleBlobError = (errMsg: string) => {
         toast.update(toastId, {
@@ -357,47 +329,41 @@ function createPngWithMetadata(
     };
 
     /**
-     * Update the toast message with the given text and progress value.
-     * @param {string} infoMsg The text to display in the toast.
-     * @param {number} progress The progress value to display in the toast.
+     * A function that takes an information message and a progress value,
+     * and updates the toast with the message and progress.
+     *
+     * This function is used to update the toast when creating a PNG blob.
+     *
+     * @param {string} infoMsg The message to display in the toast.
+     * @param {number} progress The progress of the PNG blob creation, between 0 and 1.
      */
     const handleBlobInfo = (infoMsg: string, progress: number) => {
         toast.update(toastId, {
             render: infoMsg,
             type: "info",
-            isLoading: false,
-            autoClose: 2000,
-            progress: progress,
+            isLoading: true,
+            progress,
         });
     };
 
     /**
-     * Adds metadata to the blob and resolves with an object containing the
-     * modified blob and a filename.
-     * @param {Blob} blob The blob to modify.
-     * @returns {Promise<{ payloadImage: Blob; filename: string }>} A promise
-     * that resolves with an object containing the modified blob and a
-     * filename.
+     * A function that takes a canvas, adds metadata to the PNG, and
+     * resolves with a CreatePngWithMetadataResult.
+     *
+     * This function calls handleBlobInfo to update the toast with
+     * the progress of creating the PNG, and handleBlobError if there
+     * is an error.
+     *
+     * @param {HTMLCanvasElement} canvas The canvas to add metadata to.
+     * @returns {Promise<CreatePngWithMetadataResult>} A promise that
+     * resolves with a CreatePngWithMetadataResult.
      */
-    const handleMetadataAndResolve = async (
-        canvas: HTMLCanvasElement,
-    ): Promise<CreatePngWithMetadataResult> => {
-        const fileAndFunction = "save.handleMetadataAndResolve: ";
-
-        if (!(canvas instanceof HTMLCanvasElement))
-            throw handleBlobError("Canvas is not a canvas");
-
-        handleBlobInfo("Adding metadata to image", 0.18);
+    const handleMetadataAndResolve = async (canvas: HTMLCanvasElement) => {
+        handleBlobInfo("Adding metadata to PNG", 0.18);
         const payloadImage = await addMetadataToPng(
             canvas,
             message,
             encryptionEnabled,
-        );
-
-        console.debug(
-            fileAndFunction + "canvasDimensions",
-            canvas.width,
-            canvas.height,
         );
 
         if (!(payloadImage instanceof Blob))
@@ -415,53 +381,32 @@ function createPngWithMetadata(
         };
     };
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            if (action === "download") {
-                handleBlobInfo("Trimming and scaling canvas", 0.14);
+    try {
+        if (action === "download") {
+            handleBlobInfo("Trimming and scaling canvas", 0.14);
 
-                const trimmedCanvas = await trimImageFromCanvas(canvas, false);
-                const scaledCanvas = await scaleCanvas(
-                    trimmedCanvas,
-                    key,
-                    action,
-                );
+            const trimmedCanvas = await trimImageFromCanvas(canvas, false);
+            const scaledCanvas = await scaleCanvas(trimmedCanvas, key, action);
 
-                const { payloadImage, filename } =
-                    await handleMetadataAndResolve(scaledCanvas);
-                handleBlobInfo("Saving image to disk", 1.0);
+            const { payloadImage, filename } =
+                await handleMetadataAndResolve(scaledCanvas);
 
-                saveToDisk(payloadImage, filename);
-            } else if (action === "post") {
-                handleBlobInfo("Scaling canvas", 0.14);
+            handleBlobInfo("Saving image to disk", 1.0);
+            saveToDisk(payloadImage, filename);
+            return;
+        } else if (action === "post") {
+            handleBlobInfo("Scaling canvas", 0.14);
 
-                const trimmedCanvas = await trimImageFromCanvas(canvas, true);
-                const scaledCanvas = await scaleCanvas(
-                    trimmedCanvas,
-                    key,
-                    action,
-                );
-                console.debug(
-                    "save.createPngWithMetadata: scaledCanvas",
-                    scaledCanvas,
-                );
-                const { payloadImage, filename, outputWidth, outputHeight } =
-                    await handleMetadataAndResolve(scaledCanvas);
+            const trimmedCanvas = await trimImageFromCanvas(canvas, true);
+            const scaledCanvas = await scaleCanvas(trimmedCanvas, key, action);
 
-                handleBlobInfo("Returning payload for post", 0.22);
-                resolve({
-                    payloadImage,
-                    filename,
-                    outputWidth: outputWidth,
-                    outputHeight: outputHeight,
-                });
-            } else {
-                throw handleBlobError("Invalid action");
-            }
-        } catch (error) {
-            reject(error);
+            return await handleMetadataAndResolve(scaledCanvas);
+        } else {
+            throw handleBlobError("Invalid action");
         }
-    });
+    } catch (error: any) {
+        throw handleBlobError(error.message);
+    }
 }
 
 export { createPngWithMetadata, displayDimensions, saveToDisk };
