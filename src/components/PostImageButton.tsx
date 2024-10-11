@@ -24,7 +24,7 @@ import { useCreateBinaryImagePost } from "../hooks/useCreateBinaryImagePost";
 import { useGetPreSignedPostPayload } from "../hooks/useGetPreSignedPostPayload";
 import { clearContx } from "../utils/translate";
 import { createPngWithMetadata } from "../utils/save";
-import { useImageState } from "../utils/stores";
+import { useImageState } from "../stores/stores";
 import { toast } from "react-toastify";
 import { uploadFileToS3 } from "../api/uploadFileToS3";
 import { useTranslation } from "react-i18next";

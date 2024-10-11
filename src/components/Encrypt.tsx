@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Button, List, Modal } from "flowbite-react";
 import { useRef, useState } from "react";
-import { useImageState } from "../utils/stores";
+import { useImageState } from "../stores/stores";
 import { clearContx } from "../utils/translate";
 import DownloadImageButton from "./DownloadImageButton";
 import Slider from "./NodeSize";

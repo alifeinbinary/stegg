@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown, Tooltip } from "flowbite-react";
 import { useTranslation } from "react-i18next";
 import { displayDimensions, createPngWithMetadata } from "../utils/save";
-import { useImageState } from "../utils/stores";
+import { useImageState } from "../stores/stores";
 import { clearContx } from "../utils/translate";
 import { toast } from "react-toastify";
 import { customDropdownTheme } from "../utils/customTheme";

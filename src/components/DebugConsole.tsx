@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 // import { faTerminal } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { Message } from "console-feed/lib/definitions/Component";
-import { useAppState, useImageState } from "../utils/stores";
+import { useAppState, useImageState } from "../stores/stores";
 // import '../App.css';
 
 /**

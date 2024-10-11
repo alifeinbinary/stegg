@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getMetadata } from "meta-png";
 import Password from "./Password";
-import { usePostState } from "../utils/stores";
+import { usePostState } from "../stores/stores";
 import { Suspense, useEffect, useState, useRef, useLayoutEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
 import { useTranslation } from "react-i18next";

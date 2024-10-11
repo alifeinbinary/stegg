@@ -21,7 +21,7 @@ import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { Slide, ToastContainer } from "react-toastify"
 // import { Decrypt } from './Decrypt';
 // import { TextArea } from './Encrypt';
-import { useImageState } from '../utils/stores';
+import { useImageState } from '../stores/stores';
 import { Spinner } from 'flowbite-react/components/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrow } from '@fortawesome/free-solid-svg-icons';

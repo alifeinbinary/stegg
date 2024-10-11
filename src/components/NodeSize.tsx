@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useImageState } from '../utils/stores';
+import { useImageState } from '../stores/stores';
 import { useTranslation } from 'react-i18next';
 
 /**
