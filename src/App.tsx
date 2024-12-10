@@ -23,7 +23,7 @@ import "./App.css";
 const Header = lazy(() => import("./components/Header"));
 const Translate = lazy(() => import("./components/Translate"));
 const Feed = lazy(() => import("./components/Feed"));
-const DebugConsole = lazy(() => import("./components/DebugConsole"));
+// const DebugConsole = lazy(() => import("./components/DebugConsole"));
 const Footer = lazy(() => import("./components/Footer"));
 
 /**
@@ -64,9 +64,9 @@ function App() {
             </Suspense>
 
             {/* Debug console */}
-            <Suspense fallback={<span className="w-full h-16 flex items-center justify-center"><Spinner /></span>}>
-              <DebugConsole />
-            </Suspense>
+            {/* <Suspense fallback={<span className="w-full h-16 flex items-center justify-center"><Spinner /></span>}> */}
+            {/* <DebugConsole /> */}
+            {/* </Suspense> */}
           </div>
         </div>
         {/* Footer */}
