@@ -84,3 +84,34 @@ export const customToggleTheme: CustomFlowbiteTheme["darkThemeToggle"] = {
 export const lockTooltip: CustomFlowbiteTheme["tooltip"] = {
     target: "flex",
 };
+
+export const CustomTabsTheme: CustomFlowbiteTheme["tabs"] = {
+    base: "flex flex-col gap-0",
+    tablist: {
+        base: "flex text-center",
+        variant: {
+            fullWidth:
+                "grid w-full grid-flow-col rounded-none text-sm font-medium shadow dark:text-gray-400 border-b border-gray-200 dark:border-gray-700",
+        },
+        tabitem: {
+            base: "flex items-center justify-center rounded-t-lg p-4 text-sm font-medium first:ml-0 focus:outline-none focus:ring-0 focus:ring-cyan-300 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 rounded-t-lg",
+            variant: {
+                fullWidth: {
+                    base: "ml-0 flex w-full rounded-none first:ml-0 rounded-t-lg text-2xl bg-neutral-200 dark:bg-gray-800",
+                    active: {
+                        on: "active border-orange dark:border-cyan-600 border-2 border-b-0 p-4 dark:bg-gray-700 text-neutral-500 dark:text-cyan-500",
+                        off: "dark:bg-gray-800 text-neutral-300 transition-color duration-300 border-transparent border-b-2 hover:text-neutral-100 dark:hover:text-neutral-100 ",
+                    },
+                },
+            },
+            icon: "mr-2 h-5 w-5",
+        },
+    },
+    tabitemcontainer: {
+        base: "",
+        variant: {
+            fullWidth: "",
+        },
+    },
+    tabpanel: "py-0",
+};

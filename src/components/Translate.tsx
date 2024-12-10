@@ -26,6 +26,9 @@ import { Spinner } from 'flowbite-react/components/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrow } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../hooks/useTheme';
+import { Tabs } from 'flowbite-react';
+import { CustomTabsTheme } from "../utils/customTheme"
+import { crackedEgg, wholeEgg } from '../utils/svgs';
 
 const Decrypt = lazy(() => import('./Decrypt'));
 const Encrypt = lazy(() => import('./Encrypt'));
