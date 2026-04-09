@@ -15,12 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useCallback, useRef, lazy, Suspense } from 'react'
+import { useEffect, useCallback, useRef, lazy, Suspense, useState } from 'react'
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { Slide, ToastContainer } from "react-toastify"
-// import { Decrypt } from './Decrypt';
-// import { TextArea } from './Encrypt';
 import { useImageState } from '../stores/stores';
 import { Spinner } from 'flowbite-react/components/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -65,12 +63,15 @@ const Translate: React.FC = () => {
         canvasHeight, setCanvasHeight,
         canvasWidth, setCanvasWidth,
         size,
-        password, setPassword,
+        password,
+        decryptPassword, setDecryptPassword,
         encryptionEnabled, setEncryptionEnabled,
         stringToDecrypt, setStringToDecrypt,
         encryptedText, setEncryptedText,
         setDecryptedText
     } = useImageState();
+
+    const [isBouncing, setIsBouncing] = useState(false);
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -167,7 +168,26 @@ const Translate: React.FC = () => {
         <section id="translate" className="px-6 sm:px-2 xs:px-1">
             <div className="pt-8 pb-1 md:px-4 sm:px-0 mx-auto max-w-screen-xl lg:py-8 lg:px-6">
                 <div className='max-w-5xl mx-auto'>
-                    <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
+                    <div className='text-center max-w-xl mx-auto mb-8'>
+                        <h2 className='text-4xl font-extrabold tracking-tight text-gray-100 dark:text-white'>What's a stegg?</h2>
+                        <p className='mt-4 text-white text-lg font-medium'>Just like an egg contains DNA information that's protected by a shell, a stegg is an image with a secret message hidden inside that's protected by encryption. You can find the message if you know where to look but even then you'll need the password to crack it open.</p>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        <Tabs aria-label="Create or decode a stegg" variant="fullWidth" theme={CustomTabsTheme}>
+                            <Tabs.Item title="Lay a stegg" icon={wholeEgg}>
+                                <Suspense fallback={<Spinner />}>
+                                    <Encrypt />
+                                </Suspense>
+                            </Tabs.Item>
+                            <Tabs.Item title="Fry a stegg" icon={crackedEgg}>
+                                <Suspense fallback={<Spinner />}>
+                                    <Decrypt setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} decryptPassword={decryptPassword} setDecryptPassword={setDecryptPassword} setDecryptedText={setDecryptedText} />
+                                </Suspense>
+                            </Tabs.Item>
+                        </Tabs>
+                    </div>
+                    {/* <div className='grid grid-cols-4 sm:grid-cols-4 xs:grid-cols-1 gap-4 sm:gap-0 xs:gap-0'>
                         <div className='col-span-3 md:col-span-3 sm:col-span-3 xs:col-span-1'>
                             <Suspense fallback={<Spinner />}>
                                 <Encrypt />
@@ -178,8 +198,8 @@ const Translate: React.FC = () => {
                                 <Decrypt setInput={setInput} setEncryptionEnabled={setEncryptionEnabled} setStringToDecrypt={setStringToDecrypt} password={password} setPassword={setPassword} setDecryptedText={setDecryptedText} />
                             </Suspense>
                         </div>
-                    </div>
-                    <h4 className="transition duration-500 mb-2 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white"><FontAwesomeIcon icon={faCrow} inverse /></h4>
+                    </div> */}
+                    <h4 className="transition duration-500 h4 sm:hidden xs:hidden text-2xl text-left font-bold dark:text-white"><FontAwesomeIcon icon={faCrow} inverse bounce={isBouncing} onMouseOver={() => setIsBouncing(true)} onMouseOut={() => setIsBouncing(false)} className='w-12 h-12' /></h4>
                     <canvas id="canvas" ref={canvasRef} height={canvasHeight} width={canvasWidth} className='w-full rounded-lg xs:mt-4 sm:mt-4 bg-slate-100 dark:bg-slate-700 min-h-4' />
                 </div>
             </div>
