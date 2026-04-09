@@ -16,27 +16,27 @@ body {
     }
 
     input[type="range"]::-webkit-slider-runnable-track {
-        @apply rounded-full bg-seablue/25;
+        @apply bg-seablue/25 rounded-full;
     }
 
     input[type="range"]::-moz-range-track {
-        @apply rounded-full bg-seablue/25;
+        @apply bg-seablue/25 rounded-full;
     }
 
     input[type="range"]::-ms-track {
-        @apply rounded-full bg-seablue/25;
+        @apply bg-seablue/25 rounded-full;
     }
 
     input[type="range"]::-moz-range-progress {
-        @apply rounded-full bg-seablue/25;
+        @apply bg-seablue/25 rounded-full;
     }
 
     input[type="range"]::-moz-range-thumb {
-        @apply h-4 w-4 rounded-full bg-seablue;
+        @apply bg-seablue h-4 w-4 rounded-full;
     }
 
     input[type="range"]::-webkit-slider-thumb {
-        @apply h-4 w-4 rounded-full bg-seablue;
+        @apply bg-seablue h-4 w-4 rounded-full;
     }
 }
 

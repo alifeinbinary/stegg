@@ -24,7 +24,7 @@ import { useImageState } from "../stores/stores";
 import { clearContx } from "../utils/translate";
 import DownloadImageButton from "./DownloadImageButton";
 import Slider from "./NodeSize";
-import EncryptPassword from "./EncryptPassword";
+import { EncryptPassword } from "./EncryptPassword";
 import PostImageButton from "./PostImageButton";
 import { useTranslation, Trans } from "react-i18next";
 

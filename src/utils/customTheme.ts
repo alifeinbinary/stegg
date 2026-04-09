@@ -15,7 +15,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { CustomFlowbiteTheme } from "flowbite-react/components/Flowbite";
+import { CustomFlowbiteTheme } from "flowbite-react";
 
 export const customDropdownTheme: CustomFlowbiteTheme["dropdown"] = {
     arrowIcon: "ml-2 h-4 w-4",

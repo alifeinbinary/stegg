@@ -15,14 +15,14 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json, LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
+import { LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
 
 export const rootLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 const appLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 export const postPageLoader: LoaderFunction = async ({
@@ -32,23 +32,23 @@ export const postPageLoader: LoaderFunction = async ({
 };
 
 export const howItWorksLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 export const instructionsLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 export const aboutLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 export const errorLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 export const faqLoader: LoaderFunction = async () => {
-    return json({});
+    return {};
 };
 
 export { appLoader };
