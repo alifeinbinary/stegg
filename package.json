@@ -14,9 +14,10 @@
     },
     "dependencies": {
         "@apollo/client": "^3.13.9",
-        "@fortawesome/free-brands-svg-icons": "^7.2.0",
-        "@fortawesome/free-solid-svg-icons": "^7.2.0",
-        "@fortawesome/react-fontawesome": "^3.3.0",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
+        "@fortawesome/react-fontawesome": "^0.2.2",
         "apollo3-cache-persist": "^0.15.0",
         "crypto-js": "^4.2.0",
         "fabric": "^7.2.0",
@@ -38,6 +39,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.29.0",
+        "esbuild": "^0.25.0",
         "@babel/preset-env": "^7.29.2",
         "@babel/preset-react": "^7.28.5",
         "@babel/preset-typescript": "^7.28.5",

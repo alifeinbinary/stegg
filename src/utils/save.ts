@@ -240,7 +240,7 @@ async function addMetadataToPng(
         "Encrypted",
         encryptionEnabled.toString(),
     );
-    return Promise.resolve(new Blob([withBoolean]));
+    return Promise.resolve(new Blob([new Uint8Array(withBoolean)]));
 }
 
 /**

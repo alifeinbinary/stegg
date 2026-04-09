@@ -42,7 +42,7 @@ import { lockTooltip } from '../utils/customTheme';
  * @return {JSX.Element} - The component.
  */
 
-const EncryptPassword: React.FC<PasswordProps> = ({ password, setPassword, setEncryptionEnabled, encryptionEnabled, setOutput, setDecryptedText, decryptedText, setStringToDecrypt, stringToDecrypt, setEncryptedText }: PasswordProps): JSX.Element => {
+const EncryptPassword: React.FC<PasswordProps> = ({ password, setPassword, setEncryptionEnabled, encryptionEnabled, setOutput, setDecryptedText, decryptedText, setStringToDecrypt, stringToDecrypt, setEncryptedText }: PasswordProps) => {
 
     const { t } = useTranslation();
 

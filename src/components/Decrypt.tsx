@@ -65,7 +65,7 @@ import { Trans } from "react-i18next"
  * @param {React.Dispatch<React.SetStateAction<string>>} props.setInput - The function to set the input text.
  * @return {JSX.Element} - The component.
  */
-const Decrypt: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setStringToDecrypt, decryptPassword, setDecryptPassword, setDecryptedText }: DropzoneProps): JSX.Element => {
+const Decrypt: React.FC<DropzoneProps> = ({ setInput, setEncryptionEnabled, setStringToDecrypt, decryptPassword, setDecryptPassword, setDecryptedText }: DropzoneProps) => {
 
     const [imageLoaded, setImageLoaded] = useState(false);
     const [encryptionState, setEncryptionState] = useState(false);

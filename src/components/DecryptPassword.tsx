@@ -48,7 +48,7 @@ interface DecryptPasswordProps {
  * @param {React.Dispatch<React.SetStateAction<string>>} props.setEncryptedText - The function to set the encrypted text.
  * @return {JSX.Element} - The component.
  */
-export const DecryptPassword: React.FC<DecryptPasswordProps> = ({ decryptPassword, setDecryptPassword, encryptionEnabled, setDecryptedText }: DecryptPasswordProps): JSX.Element => {
+export const DecryptPassword: React.FC<DecryptPasswordProps> = ({ decryptPassword, setDecryptPassword, encryptionEnabled, setDecryptedText }: DecryptPasswordProps) => {
 
     const { t } = useTranslation();
 

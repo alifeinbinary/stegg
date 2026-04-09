@@ -18,7 +18,10 @@
 import { Canvas as Fabric } from "fabric";
 import { Dispatch, MutableRefObject } from "react";
 import { create } from "zustand";
-import { Message } from "../../../console-feed/lib/definitions/Component";
+interface Message {
+    method?: string;
+    data?: unknown[];
+}
 
 // Define the store
 interface AppState {
