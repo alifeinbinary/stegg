@@ -17,7 +17,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faEgg } from "@fortawesome/free-solid-svg-icons";
 import { Tooltip } from "flowbite-react/components/Tooltip";
 import { useCreateBinaryFeedImage } from "../hooks/useCreateBinaryFeedImage";
 import { useCreateBinaryImagePost } from "../hooks/useCreateBinaryImagePost";
@@ -233,7 +233,7 @@ const PostImageButton: React.FC = () => {
                 <button onClick={(e) => {
                     handlePost(e)
                 }} disabled={!password.length || !input.length} className={`flex p-2 h-full w-24 ml-1 items-center justify-center transition ease-in-out duration-300 rounded text-base ${handlePostVisibility() ? 'cursor-not-allowed text-gray-600 bg-gray-200/[0.5] focus:ring-0 hover:ring-transparent' : 'text-white bg-sagegreen/[0.8] hover:bg-sagegreen/[1.0] focus:ring-blue-200 focus:ring-4'}`}>
-                    {t("postimagebutton.label")} <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 pl-2" aria-hidden="true" />
+                    {t("postimagebutton.label")} <FontAwesomeIcon icon={faEgg} className="w-4 h-4 pl-2" aria-hidden="true" />
                 </button>
             </Tooltip>
         </div>
