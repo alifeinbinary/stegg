@@ -15,18 +15,18 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// import { Message } from "console-feed/lib/definitions/Component";
 import { Canvas as Fabric } from "fabric";
 import { Dispatch, MutableRefObject } from "react";
 import { create } from "zustand";
+import { Message } from "../../../console-feed/lib/definitions/Component";
 
 // Define the store
 interface AppState {
     debugMode: boolean;
     setDebugMode: (value: boolean) => void;
 
-    // logs: Message[];
-    // setLogs: (value: Message[]) => void;
+    logs: Message[];
+    setLogs: (value: Message[]) => void;
 }
 
 interface PostState {
@@ -73,6 +73,9 @@ interface ImageState {
     password: string;
     setPassword: (value: string) => void;
 
+    decryptPassword: string;
+    setDecryptPassword: (value: string) => void;
+
     encryptedText: string;
     setEncryptedText: (value: string) => void;
 
@@ -90,8 +93,8 @@ export const useAppState = create<AppState>((set) => ({
     debugMode: false,
     setDebugMode: (value: boolean) => set({ debugMode: value }),
 
-    // logs: [],
-    // setLogs: (value: Message[]) => set({ logs: value }),
+    logs: [],
+    setLogs: (value: Message[]) => set({ logs: value }),
 }));
 
 export const usePostState = create<PostStore>((set) => ({
@@ -132,6 +135,9 @@ export const useImageState = create<ImageState>((set) => ({
 
     password: "",
     setPassword: (value: string) => set({ password: value }),
+
+    decryptPassword: "",
+    setDecryptPassword: (value: string) => set({ decryptPassword: value }),
 
     encryptedText: "",
     setEncryptedText: (value: string) => set({ encryptedText: value }),
