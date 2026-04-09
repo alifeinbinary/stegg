@@ -1,95 +1,135 @@
 {
-  "menu": {
-    "home": "Accueil",
-    "about": "À propos de cette app",
-    "faq": "FAQ"
-  },
-  "title": "stegg",
-  "description": {
-    "intro": "Ceci est une application full-stack React écrite en Typescript.",
-    "howitworks": "Comment ça fonctionne :",
-    "paragraph1": "Cette application prend le texte saisi dans le champ <b>Chiffrer</b> et l'écrit dans les métadonnées d'un fichier PNG nouvellement créé, généré à partir de la <b>Canvas</b>. L'image du canvas représente le message sous forme de données binaires : les nœuds remplis représentent des 1 et les nœuds délimités représentent des 0. Si quelqu'un était assez patient, il pourrait traduire le message en texte simplement en interprétant l'image comme des valeurs unicode. C'est pourquoi il y a un <FontAwesomeIcon icon={faLock} className='px-1' /> bouton qui détermine si le message est intégré avec un cryptage AES 128 bits ou en tant que texte brut.",
-    "paragraph2": "Une fois que vous cliquez sur <b>Télécharger</b> ou <b>Poster</b>, le fichier sera téléchargé sur votre appareil ou posté dans le <b>Feed</b>, respectivement. Toute personne avec qui vous partagez l'image pourra extraire et déchiffrer le texte en glissant le fichier PNG dans la zone <b>Déchiffrer</b> et en entrant la clé que vous leur avez fournie, si c'est crypté. De la même manière, vous pourrez déchiffrer tous les messages pour lesquels vous avez le mot de passe.",
-    "paragraph3": "Je me rends compte que personne n'a demandé cela, je l'ai juste fait comme un moyen amusant d'envoyer des messages secrets aux gens qui visitent mon site <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> et j'ai pensé que ce serait un projet amusant à partager en open source pour ceux qui souhaitent en apprendre davantage sur la technologie utilisée."
-  },
-  "technology1": "<li>Typescript</li><li>React</li><li>Canvas HTML</li><li>Cryptographie dans le navigateur</li><li>Génération et consommation d'images</li>",
-  "technology2": "<li>Incorporation de métadonnées dans les fichiers</li><li>Opérations CRUD vers une API sans serveur sur AWS à l'aide de GraphQL</li><li>Stockage de fichiers sur AWS S3 géré par une tâche cron</li><li>Tests Jest</li><li>Internationalisation</li>",
-  "review": "Est-ce comme Twitter pour robots ? Pourquoi quelqu'un ferait-il cela ???",
-  "byline": "Une nouvelle retraitée, ancienne réceptionniste à temps partiel et grand-mère récente de jumeaux à qui j'ai montré cela sur le ferry",
-  "createdwith": "Créé avec",
-  "forkthisproject": "Donnez une étoile au projet à ",
-  "likemywork": "Aimez mon travail ?",
-  "hireme": "Engagez-moi",
-  "encrypt": {
-    "title": "Créer",
-    "modal": {
-      "title": "Comment utiliser cette application",
-      "step1": "Tapez votre message, cliquez pour chiffrer si souhaité, puis sauvegardez/partagez - seuls ceux avec le mot de passe pourront y accéder.",
-      "caveatstitle": "Mises en garde",
-      "step2": "Déposez l'image ici et utilisez le mot de passe fourni pour décoder le message.",
-      "caveatstext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone.",
-      "securitytitle": "Avertissement de sécurité",
-      "securitytext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone."
+    "menu": {
+        "home": "Accueil",
+        "about": "À propos de cette app",
+        "faq": "FAQ"
     },
-    "placeholder": "Tapez vos pensées"
-  },
-  "decrypt": {
-    "title": "Déchiffrer",
-    "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Cliquez pour télécharger</span> ou glissez-déposez pour extraire le message</p><p className='text-xs text-gray-500 dark:text-gray-400'>Format PNG uniquement</p>"
-  },
-  "downloadimagebutton": {
-    "tooltip": {
-      "title": "Télécharger l'image",
-      "hint": "Entrez un message avant de sauvegarder sur le disque"
+    "title": "stegg",
+    "description": {
+        "intro": "Ceci est une application full-stack React écrite en Typescript.",
+        "howitworks": "Comment ça fonctionne :",
+        "paragraph1": "Cette application prend le texte saisi dans le champ <b>Chiffrer</b> et l'écrit dans les métadonnées d'un fichier PNG nouvellement créé, généré à partir de la <b>Canvas</b>. L'image du canvas représente le message sous forme de données binaires : les nœuds remplis représentent des 1 et les nœuds délimités représentent des 0. Si quelqu'un était assez patient, il pourrait traduire le message en texte simplement en interprétant l'image comme des valeurs unicode. C'est pourquoi il y a un <FontAwesomeIcon icon={faLock} className='px-1' /> bouton qui détermine si le message est intégré avec un cryptage AES 128 bits ou en tant que texte brut.",
+        "paragraph2": "Une fois que vous cliquez sur <b>Télécharger</b> ou <b>Poster</b>, le fichier sera téléchargé sur votre appareil ou posté dans le <b>Feed</b>, respectivement. Toute personne avec qui vous partagez l'image pourra extraire et déchiffrer le texte en glissant le fichier PNG dans la zone <b>Déchiffrer</b> et en entrant la clé que vous leur avez fournie, si c'est crypté. De la même manière, vous pourrez déchiffrer tous les messages pour lesquels vous avez le mot de passe.",
+        "paragraph3": "Je me rends compte que personne n'a demandé cela, je l'ai juste fait comme un moyen amusant d'envoyer des messages secrets aux gens qui visitent mon site <a className='text-orange hover:underline dark:text-orange' href='https://www.alifeinbinary.com'>alifeinbinary.com</a> et j'ai pensé que ce serait un projet amusant à partager en open source pour ceux qui souhaitent en apprendre davantage sur la technologie utilisée."
     },
-    "label": "Télécharger"
-  },
-  "nodesize": {
-    "label": "Taille du nœud"
-  },
-  "password": {
-    "hint": "Entrez une clé secrète",
-    "enable": "Activer le chiffrement",
-    "tooltip": {
-      "content": "Activer le chiffrement AES 128 bits"
+    "technology1": "<li>Typescript</li><li>React</li><li>Canvas HTML</li><li>Cryptographie dans le navigateur</li><li>Génération et consommation d'images</li>",
+    "technology2": "<li>Incorporation de métadonnées dans les fichiers</li><li>Opérations CRUD vers une API sans serveur sur AWS à l'aide de GraphQL</li><li>Stockage de fichiers sur AWS S3 géré par une tâche cron</li><li>Tests Jest</li><li>Internationalisation</li>",
+    "review": "Est-ce comme Twitter pour robots ? Pourquoi quelqu'un ferait-il cela ???",
+    "byline": "Une nouvelle retraitée, ancienne réceptionniste à temps partiel et grand-mère récente de jumeaux à qui j'ai montré cela sur le ferry",
+    "createdwith": "Créé avec",
+    "forkthisproject": "Donnez une étoile au projet à ",
+    "likemywork": "Aimez mon travail ?",
+    "hireme": "Engagez-moi",
+    "encrypt": {
+        "title": "Créer",
+        "modal": {
+            "title": "Comment utiliser cette application",
+            "step1": "Tapez votre message, cliquez pour chiffrer si souhaité, puis sauvegardez/partagez - seuls ceux avec le mot de passe pourront y accéder.",
+            "caveatstitle": "Mises en garde",
+            "step2": "Déposez l'image ici et utilisez le mot de passe fourni pour décoder le message.",
+            "caveatstext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone.",
+            "securitytitle": "Avertissement de sécurité",
+            "securitytext": "Par mesure de sécurité, certains systèmes d'exploitation, notamment iOS, suppriment les métadonnées des images pour empêcher l'exécution de code malveillant sur votre téléphone. Cela signifie que les images que vous transférez à une tierce partie ne pourront pas être déchiffrées si elles ont été envoyées depuis votre iPhone."
+        },
+        "placeholder": "Tapez vos pensées"
+    },
+    "decrypt": {
+        "title": "Déchiffrer",
+        "description": "<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'><span className='font-semibold'>Cliquez pour télécharger</span> ou glissez-déposez pour extraire le message</p><p className='text-xs text-gray-500 dark:text-gray-400'>Format PNG uniquement</p>"
+    },
+    "downloadimagebutton": {
+        "tooltip": {
+            "title": "Télécharger l'image",
+            "hint": "Entrez un message avant de sauvegarder sur le disque"
+        },
+        "label": "Télécharger"
+    },
+    "nodesize": {
+        "label": "Taille du nœud"
+    },
+    "password": {
+        "hint": "Entrez une clé secrète",
+        "enable": "Activer le chiffrement",
+        "tooltip": {
+            "content": "Activer le chiffrement AES 128 bits"
+        }
+    },
+    "post": {
+        "posted": "Posté"
+    },
+    "postimagebutton": {
+        "toast": {
+            "processing": "Traitement de l'image...",
+            "embedding": "Incorporation des métadonnées...",
+            "size": "Détermination de la taille de l'image...",
+            "presignedpayload": "Récupération de la charge utile de post signé...",
+            "uploading": "Téléchargement dans le bucket S3...",
+            "createimage": "Création de l'image binaire du feed...",
+            "createimagepost": "Création du post d'image binaire...",
+            "publishing": "Post d'image binaire créé.",
+            "success": "Image téléchargée avec succès !",
+            "noencryption": "Chiffrement désactivé. Seuls les messages chiffrés peuvent être postés.",
+            "nocanvasorinput": "Aucune image à télécharger."
+        },
+        "tooltip": {
+            "posttofeed": "Poster l'image sur le feed",
+            "entermessage": "Veuillez entrer un message et un mot de passe avant de poster"
+        },
+        "label": "Poster"
+    },
+    "feed": {
+        "title": "Stegg publiques",
+        "loadmore": "Charger plus",
+        "loading": "Chargement...",
+        "errorTitle": "Oh zut !",
+        "errorMessage": "Une erreur s'est produite lors du chargement des publications.",
+        "description": "Voici les steggs que d'autres utilisateurs ont créés.",
+        "showing": "Affichage de",
+        "of": "sur",
+        "entries": "entrées"
+    },
+    "footer": {
+        "rights": "Tous droits réservés",
+        "license": "Publié sous la"
+    },
+    "instructions": "Instructions",
+    "instructionsPage": {
+        "creating": "Création",
+        "typeYourMessage": "Tapez votre message",
+        "typeYourMessageDesc": "En utilisant le champ <b>Créer</b>, vous pouvez taper le message que vous souhaitez cacher dans l'image que vous êtes sur le point de créer.",
+        "choosePassword": "Choisissez un mot de passe",
+        "choosePasswordDesc": "Si vous souhaitez sécuriser le message intégré dans l'image avec un chiffrement puissant, activez l'icône de cadenas et tapez un mot de passe. Vous devrez partager ce mot de passe avec d'autres personnes si vous voulez qu'elles puissent décoder le message, alors assurez-vous de vous en souvenir.",
+        "saveImage": "Enregistrer l'image",
+        "saveImageDesc": "C'est le meilleur moment pour enregistrer l'image dans sa meilleure qualité. L'image sera enregistrée sur votre ordinateur ou appareil sous forme de fichier .png après avoir sélectionné les dimensions de l'image dans le menu déroulant.",
+        "postOptional": "Publier (optionnel)",
+        "postOptionalDesc": "Vous pouvez partager l'image publiquement en cliquant sur le bouton Publier. Vous pouvez choisir d'entrer un nom ou un pseudonyme qui sera affiché à côté de l'image ou le laisser vide pour publier anonymement.",
+        "postOptionalDesc2": "Cliquez sur le bouton \"copier le lien\" sur votre publication nouvellement créée dans le feed et partagez-le avec des tiers ainsi que le mot de passe.",
+        "decoding": "Décodage",
+        "dragAndDrop": "Glisser-déposer",
+        "dragAndDropDesc": "Vous pouvez déposer un stegg qui vous a été transmis dans le champ <b>Déchiffrer</b>.",
+        "enterPassword": "Entrez un mot de passe",
+        "enterPasswordDesc": "Si votre stegg est valide, vous remarquerez que l'icône de déverrouillage sous le champ <b>Créer</b> s'active en devenant verte. Vous pouvez maintenant entrer le mot de passe qui vous a été donné par le créateur du stegg dans le champ mot de passe. Si votre mot de passe est correct, le message secret sera révélé dans la zone de texte <b>Créer</b>.",
+        "decodingPublicSteggs": "Décoder les steggs publics",
+        "decodingPublicSteggsDesc": "Il en va de même pour tous les steggs publics dans le feed. Cliquez simplement sur l'icône de déverrouillage sous le stegg et entrez le mot de passe. Si le mot de passe est correct, le message secret sera révélé à la place de l'image.",
+        "fyi": "À savoir :",
+        "fyiText": "Toutes les données d'image et les enregistrements de base de données associés à un stegg public sont supprimés 1 semaine après sa date de publication originale.",
+        "steganography": "Stéganographie",
+        "steganographyPronunciation": "sté·ga·no·gra·phie",
+        "steganographyDefinition": "la pratique de cacher des informations secrètes dans un message, une image ou un autre support non secret de telle manière que l'existence même de l'information secrète n'est pas apparente",
+        "steganographySource": "— Dictionnaire Merriam-Webster"
+    },
+    "how-it-works": "Comment ça marche",
+    "make-something": "créer quelque chose",
+    "acknowledgements": {
+        "title": "Remerciements",
+        "paragraph1": "Cette application n'aurait pas été possible sans les projets et bibliothèques open source suivants:"
+    },
+    "error": {
+        "oops": "Oups !",
+        "notFound": "Nous n'avons pas pu trouver le stegg que vous recherchez. Il a soit expiré (nous supprimons les steggs après une semaine), soit l'URL était mal formée."
+    },
+    "whatsAStegg": {
+        "title": "Qu'est-ce qu'un stegg ?",
+        "description": "Tout comme un œuf contient des informations ADN protégées par une coquille, un stegg est une image avec un message secret caché à l'intérieur, protégé par un chiffrement. Vous pouvez trouver le message si vous savez où chercher, mais même alors, vous aurez besoin du mot de passe pour le décrypter."
     }
-  },
-  "post": {
-    "posted": "Posté"
-  },
-  "postimagebutton": {
-    "toast": {
-      "processing": "Traitement de l'image...",
-      "embedding": "Incorporation des métadonnées...",
-      "size": "Détermination de la taille de l'image...",
-      "presignedpayload": "Récupération de la charge utile de post signé...",
-      "uploading": "Téléchargement dans le bucket S3...",
-      "createimage": "Création de l'image binaire du feed...",
-      "createimagepost": "Création du post d'image binaire...",
-      "publishing": "Post d'image binaire créé.",
-      "success": "Image téléchargée avec succès !",
-      "noencryption": "Chiffrement désactivé. Seuls les messages chiffrés peuvent être postés.",
-      "nocanvasorinput": "Aucune image à télécharger."
-    },
-    "tooltip": {
-      "posttofeed": "Poster l'image sur le feed",
-      "entermessage": "Veuillez entrer un message et un mot de passe avant de poster"
-    },
-    "label": "Poster"
-  },
-  "feed": {
-    "title": "Stegg publiques ",
-    "loadmore": "Charger plus"
-  },
-  "footer": {
-    "rights": "Tous droits réservés",
-    "license": "Publié sous la"
-  },
-  "instructions": "Instructions",
-  "how-it-works": "Comment ça marche",
-  "make-something": "créer quelque chose",
-  "acknowledgements": {
-    "title": "Remerciements",
-    "paragraph1": "Cette application n'aurait pas été possible sans les projets et bibliothèques open source suivants:"
-  }
 }

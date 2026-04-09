@@ -16,6 +16,7 @@
  */
 
 import { useEffect, useCallback, useRef, lazy, Suspense, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { convertBinary, plot } from '../utils/translate';
 import { handleEncrypt, handleDecrypt } from '../utils/encryption';
 import { Slide, ToastContainer } from "react-toastify"
@@ -55,6 +56,7 @@ const Encrypt = lazy(() => import('./Encrypt'));
  * function, which is used to resize the canvas when more data is added.
  */
 const Translate: React.FC = () => {
+    const { t } = useTranslation();
     const { theme } = useTheme();
     const {
         setCanvasRef,
@@ -84,9 +86,7 @@ const Translate: React.FC = () => {
         const contx = canv.getContext('2d');
 
         if (contx) {
-            if (canvasHeight === canvasHeight) {
-                plot(output, canvasRef, size, encryptionEnabled);
-            }
+            plot(output, canvasRef, size, encryptionEnabled);
             if ((output.length > 64 && encryptionEnabled) ||
                 (output.length > 128 && !encryptionEnabled)) {
                 setCanvasHeight(Math.ceil(output.length / 8) * (40 + size));
@@ -169,8 +169,8 @@ const Translate: React.FC = () => {
             <div className="pt-8 pb-1 md:px-4 sm:px-0 mx-auto max-w-screen-xl lg:py-8 lg:px-6">
                 <div className='max-w-5xl mx-auto'>
                     <div className='text-center max-w-xl mx-auto mb-8'>
-                        <h2 className='text-4xl font-extrabold tracking-tight text-gray-100 dark:text-white'>What's a stegg?</h2>
-                        <p className='mt-4 text-white text-lg font-medium'>Just like an egg contains DNA information that's protected by a shell, a stegg is an image with a secret message hidden inside that's protected by encryption. You can find the message if you know where to look but even then you'll need the password to crack it open.</p>
+                        <h2 className='text-4xl font-extrabold tracking-tight text-gray-100 dark:text-white'>{t('whatsAStegg.title')}</h2>
+                        <p className='mt-4 text-white text-lg font-medium'>{t('whatsAStegg.description')}</p>
                     </div>
 
                     <div className="overflow-x-auto">

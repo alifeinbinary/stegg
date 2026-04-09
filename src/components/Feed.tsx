@@ -101,13 +101,13 @@ const Feed: FC = (): ReactElement => {
     if (loading) return (
         <div className="flex-inline items-center justify-center lg:py-8 px-12 max-w-screen-lg mx-auto w-full xs:px-1 md:px-4 pb-1 pt-8">
             <Post id="loading" entryId="" author="" posted={new Date()} image={""} key={undefined} width={1084} height={506} />
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t('feed.loading')}</span>
         </div>
     );
     if (error) return (
         <Alert color="failure">
             <FontAwesomeIcon icon={faInfo} />
-            <span className="font-medium">Oh dang!</span> There was an error loading more posts.
+            <span className="font-medium">{t('feed.errorTitle')}</span> {t('feed.errorMessage')}
         </Alert>
     );
 
@@ -117,7 +117,7 @@ const Feed: FC = (): ReactElement => {
                 <h4 className="h4 sm:hidden mb-2 text-left text-2xl font-bold text-white xs:hidden">
                     {t("feed.title")}
                 </h4>
-                <p className="text-medium text-gray-100 dark:text-gray-300 mb-4">These are steggs that other users have laid.</p>
+                <p className="text-medium text-gray-100 dark:text-gray-300 mb-4">{t('feed.description')}</p>
                 {posts.map((post) => (
                     <Suspense key={post.key} fallback={<span className="w-full xs:h-[386px] sm:h-[430px] md:h-[645px] lg:h-[778px] flex items-center justify-center"><Spinner /></span>}>
                         <Post key={post.key} entryId={post.entryId} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />
@@ -125,7 +125,7 @@ const Feed: FC = (): ReactElement => {
                 ))}
                 <div className="flex flex-col items-center">
                     <span className="text-sm text-gray-100 dark:text-gray-300">
-                        Showing <span className="font-bold text-gray-100 dark:text-white">{posts.length}</span> of <span className="font-bold text-gray-100 dark:text-white">{meta?.totalCount}</span> Entries
+                        {t('feed.showing')} <span className="font-bold text-gray-100 dark:text-white">{posts.length}</span> {t('feed.of')} <span className="font-bold text-gray-100 dark:text-white">{meta?.totalCount}</span> {t('feed.entries')}
                     </span>
                     <div className="inline-flex mt-2 mb-4 xs:mt-0">
                         {meta && meta.hasMoreItems && meta.cursor !== null && (

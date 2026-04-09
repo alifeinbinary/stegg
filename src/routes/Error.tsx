@@ -16,6 +16,7 @@
  */
 
 import { useRouteError } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface RouteError {
     statusText?: string;
@@ -23,12 +24,13 @@ interface RouteError {
 }
 
 const Error = () => {
+    const { t } = useTranslation();
     const error = useRouteError() as RouteError;
 
     return (
         <div>
-            <h1>Oops!</h1>
-            <p>We couldn't find the steg you are looking for. It's either expired (we delete stegs after one week) or the URL was malformed.</p>
+            <h1>{t('error.oops')}</h1>
+            <p>{t('error.notFound')}</p>
             <p>
                 <i>{error?.statusText || error?.message}</i>
             </p>
