@@ -28,11 +28,13 @@ const Slider: React.FC = () => {
 
     const { t } = useTranslation();
 
-    const [size, setSize] = useImageState(state => [state.size, state.setSize]);
+    const size = useImageState((state) => state.size);
+    const setSize = useImageState((state) => state.setSize);
 
     function handleSliderChange(event: React.ChangeEvent<HTMLInputElement>) {
         setSize(Math.floor(Number(event.target.value)));
     }
+
     return (
         <div className="relative lg:w-60 md:w-40 sm:w-48 mb-6 mx-3">
             <label htmlFor="labels-range-input" className="xs:sr-only text-left block mb-0 text-xs font-medium text-gray-900 dark:text-white">{t('nodesize.label')}</label>
