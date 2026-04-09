@@ -28,7 +28,7 @@ export default defineConfig({
             //     },
             // },
         },
-        minify: "esbuild",
+        minify: "oxc",
         cssCodeSplit: true,
     },
     base: "/",
