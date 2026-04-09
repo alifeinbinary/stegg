@@ -24,7 +24,7 @@ import { useImageState } from "../stores/stores";
 import { clearContx } from "../utils/translate";
 import DownloadImageButton from "./DownloadImageButton";
 import Slider from "./NodeSize";
-import { Password } from "./Password";
+import EncryptPassword from "./EncryptPassword";
 import PostImageButton from "./PostImageButton";
 import { useTranslation, Trans } from "react-i18next";
 
@@ -66,13 +66,10 @@ const Encrypt: React.FC = () => {
 
     return (
         <div className="w-full">
-            <span className="flex flex-row justify-between pt-2 text-white">
+            <span className="flex flex-row justify-between pt-0 text-white">
                 <div className="grid w-full grid-cols-2 xs:grid-cols-2">
-                    <h4 className="h4 sm:visible md:visible lg:visible mb-2 text-left text-2xl font-bold xs:invisible dark:text-white">
-                        {t("encrypt.title")}
-                    </h4>
-                    <p className="col-span-1 flex flex-row-reverse text-right font-medium xs:mr-0 xs:pb-2 xs:text-right">
-                        {/* <!-- Modal toggle --> */}
+                    {/* <p className="col-span-1 flex flex-row-reverse text-right font-medium xs:mr-0 xs:pb-2 xs:text-right">
+                        <!-- Modal toggle -->
                         <Button
                             onClick={() => setOpenModal(true)}
                             theme={buttonTheme}
@@ -85,7 +82,7 @@ const Encrypt: React.FC = () => {
                                 className="tranistion-colors ml-1 text-lg text-seablue duration-300 ease-linear hover:text-white"
                             />
                         </Button>
-                    </p>
+                    </p> */}
                 </div>
             </span>
             {/* <!-- Main modal --> */}
@@ -135,7 +132,7 @@ const Encrypt: React.FC = () => {
                 </Modal.Footer> */}
             </Modal>
             <form className="h-full min-h-48">
-                <div className="sm:mb-0 sm:rounded-none sm:rounded-t-lg mb-4 min-h-48 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-slate-900 xs:mb-0 xs:rounded-none xs:rounded-t-lg">
+                <div className="sm:mb-0 mb-4 min-h-48 w-full rounded-b-lg bg-gray-50 dark:border-gray-600 dark:bg-slate-900 xs:mb-0">
                     <div className="flex items-center justify-between border-b px-3 py-2 dark:border-slate-700">
                         <div className="sm:divide-x sm:rtl:divide-x-reverse flex flex-wrap items-center divide-gray-200 dark:divide-gray-600">
                             <div className="sm:ps-4 flex flex-wrap items-center space-x-1 rtl:space-x-reverse">
@@ -144,7 +141,7 @@ const Encrypt: React.FC = () => {
                         </div>
                         <Slider />
                         <div className="sm:w-56 flex">
-                            <Password
+                            <EncryptPassword
                                 password={password}
                                 setPassword={setPassword}
                                 setEncryptedText={setEncryptedText}
@@ -179,7 +176,19 @@ const Encrypt: React.FC = () => {
                             required
                         ></textarea>
                     </div>
-                    <div className="flex items-center justify-end border-b px-3 py-2 dark:border-gray-600">
+                    <div className="flex items-center justify-between px-3 py-2 dark:border-gray-600">
+                        <Button
+                            onClick={() => setOpenModal(true)}
+                            theme={buttonTheme}
+                            color={"primary"}
+                            type="button"
+                            aria-label={t("encrypt.modal.title")}
+                        >
+                            <FontAwesomeIcon
+                                icon={faCircleInfo}
+                                className="tranistion-colors ml-1 text-lg text-seablue duration-300 ease-linear hover:text-white"
+                            />
+                        </Button>
                         <div className="sm:divide-x sm:rtl:divide-x-reverse flex flex-wrap items-center divide-gray-200 dark:divide-gray-600">
                             <div className="sm:ps-4 flex flex-wrap items-center space-x-1 rtl:space-x-reverse">
                                 <PostImageButton />

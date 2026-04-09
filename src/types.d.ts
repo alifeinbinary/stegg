@@ -21,8 +21,8 @@ export interface DropzoneProps {
     setInput: (input: string) => void;
     setEncryptionEnabled: (enabled: boolean) => void;
     setStringToDecrypt: (text: string) => void;
-    password: string;
-    setPassword: (password: string) => void;
+    decryptPassword: string;
+    setDecryptPassword: (password: string) => void;
     setDecryptedText: (text: string) => void;
 }
 

@@ -117,6 +117,7 @@ const Feed: FC = (): ReactElement => {
                 <h4 className="h4 sm:hidden mb-2 text-left text-2xl font-bold text-white xs:hidden">
                     {t("feed.title")}
                 </h4>
+                <p className="text-medium text-gray-100 dark:text-gray-300 mb-4">These are steggs that other users have laid.</p>
                 {posts.map((post) => (
                     <Suspense key={post.key} fallback={<span className="w-full xs:h-[386px] sm:h-[430px] md:h-[645px] lg:h-[778px] flex items-center justify-center"><Spinner /></span>}>
                         <Post key={post.key} entryId={post.entryId} id={post.id} author={post.author} posted={post.posted} image={post.image} width={post.width} height={post.height} />

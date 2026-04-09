@@ -18,7 +18,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { getMetadata } from "meta-png";
-import Password from "./Password";
+import { EncryptPassword } from "./EncryptPassword";
 import { usePostState } from "../stores/stores";
 import { Suspense, useEffect, useState, useRef, useLayoutEffect } from "react";
 import { handleDecrypt } from "../utils/encryption";
@@ -29,6 +29,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Clipboard } from "flowbite-react/components/Clipboard";
 import { PostProps } from "../types";
 import { AnimatePresence, motion } from 'framer-motion';
+
 /**
  * A single post in the feed, displaying the image and allowing the user to input a password to decrypt the image.
  * 
@@ -180,7 +181,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
     );
 
     return (
-        <div className="transition duration-350 ease-out pb-4" id={entryId} key={id}>
+        <div className="pb-4" id={entryId} key={id}>
             <div className="flex flex-shrink-0 pb-0">
                 <div className="flex items-top bg-gray-50 dark:bg-slate-900 p-4 xs:pb-0 rounded-t-lg">
                     <div className="px-3 xs:px-0">
@@ -216,19 +217,20 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
             <div>
                 <div className="min-h-max">
                     <motion.div
+                        key={entryId}
                         initial={{ height: 'auto' }}
                         animate={{ height: contentHeight }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         style={{
                             overflow: 'hidden',
                             transitionProperty: 'height',
-                            transitionDuration: '0.5s',
+                            transitionDuration: '0.3s',
                             transitionTimingFunction: 'ease-in-out',
                         }}
                     >
                         <AnimatePresence mode='wait'>
                             <motion.div
-                                key={location.pathname}
+                                key={entryId}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.5 }}
@@ -262,7 +264,7 @@ const Post: React.FC<PostProps> = ({ id, entryId, author, posted, image, width, 
                         </div>
                     </div>
                     <div className="w-full flex items-center justify-center width-auto max-w-72 bg-gray-50 dark:bg-slate-900 px-3 py-2 rounded-b-lg xs:rounded-b-lg xs:rounded-br-lg">
-                        <Password
+                        <EncryptPassword
                             password={postState?.password || ""}
                             setPassword={(value) => setPostState(id, { password: value })}
                             encryptionEnabled={postState?.encryptionEnabled || false}
